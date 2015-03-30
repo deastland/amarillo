@@ -15,8 +15,6 @@ public class Unit extends Thing {
 
 	// Hull systems
 	Map<String, Integer> hull = new HashMap<>();
-	Integer cargo = 0;
-	Integer excess = 0;
 	
 	// Power systems
 	Map<String, Integer> warp = new HashMap<>();
@@ -31,19 +29,17 @@ public class Unit extends Thing {
 	Integer lab = 0;
 	Integer probe = 0;
 	Integer shuttle = 0;
+	Integer cargo = 0;
 	
 	// Control
-	Integer bridge = 0;
-	Integer fbridge = 0;
-	Integer ebridge = 0;
-	Integer auxcon = 0;
-	Integer security = 0;
+	Map<String, Integer> bridge = new HashMap<>();
 	
 	// Integral Systems
 	//
 	// Dam con, sensors, scanners
 	Integer scanner = 0;
 	Integer sensor = 0;
+	Integer excess = 0;
 	
 	// Weapon systems
 	
@@ -53,14 +49,20 @@ public class Unit extends Thing {
 	// On spool-up, set initial value for all members.
 	public Unit() {
 		// Init hull values
-		hull.put("forward", 0);
-		hull.put("aft", 0);
-		hull.put("center", 0);
+		hull.put("forward", null);
+		hull.put("aft", null);
+		hull.put("center", null);
 		
 		// Init warp values
-		warp.put("right", 0);
-		warp.put("left", 0);
-		warp.put("center", 0);
+		warp.put("right", null);
+		warp.put("left", null);
+		warp.put("center", null);
+		
+		bridge.put("bridge", null);
+		bridge.put("flag", null);
+		bridge.put("emer", null);
+		bridge.put("auxcon", null);
+		bridge.put("security", null);
 	}
 	
 	public void setShields(Integer[] shields) {
@@ -79,28 +81,37 @@ public class Unit extends Thing {
 		this.shields[shieldNumber - 1] = value;
 	}
 
-	public Integer getFhull() {
-		return fhull;
+	public Integer getForwardHull() {
+		Integer returnValue = null;
+		returnValue = this.hull.get("forward");
+		
+		return returnValue;
 	}
 
-	public void setFhull(Integer fhull) {
-		this.fhull = fhull;
+	public void setForwardHull(Integer fhull) {
+		this.hull.put("forward", fhull);
 	}
 
-	public Integer getAhull() {
-		return ahull;
+	public Integer getAftHull() {
+		Integer returnValue = null;
+		returnValue = this.hull.get("aft");
+		
+		return returnValue;
 	}
 
-	public void setAhull(Integer ahull) {
-		this.ahull = ahull;
+	public void setAftHull(Integer ahull) {
+		this.hull.put("forward", ahull);
 	}
 
-	public Integer getChull() {
-		return chull;
+	public Integer getCenterHull() {
+		Integer returnValue = null;
+		returnValue = this.hull.get("center");
+		
+		return returnValue;
 	}
 
-	public void setChull(Integer chull) {
-		this.chull = chull;
+	public void setCenterHull(Integer chull) {
+		this.hull.put("center", chull);
 	}
 
 	public Integer getCargo() {
@@ -119,28 +130,28 @@ public class Unit extends Thing {
 		this.excess = excess;
 	}
 
-	public Integer getRwarp() {
-		return rwarp;
+	public Integer getRightWarp() {
+		return warp.get("right");
 	}
 
-	public void setRwarp(Integer rwarp) {
-		this.rwarp = rwarp;
+	public void setRightWarp(Integer rwarp) {
+		this.warp.put("right", rwarp);
 	}
 
-	public Integer getLwarp() {
-		return lwarp;
+	public Integer getLeftWarp() {
+		return warp.get("left");
 	}
 
-	public void setLwarp(Integer lwarp) {
-		this.lwarp = lwarp;
+	public void setLeftWarp(Integer lwarp) {
+		this.warp.put("left", lwarp);
 	}
 
-	public Integer getCwarp() {
-		return cwarp;
+	public Integer getCenterWarp() {
+		return warp.get("center");
 	}
 
-	public void setCwarp(Integer cwarp) {
-		this.cwarp = cwarp;
+	public void setCenterWarp(Integer cwarp) {
+		this.warp.put("center", cwarp);
 	}
 
 	public Integer getImpulse() {
@@ -216,43 +227,43 @@ public class Unit extends Thing {
 	}
 
 	public Integer getBridge() {
-		return bridge;
+		return this.bridge.get("bridge");
 	}
 
 	public void setBridge(Integer bridge) {
-		this.bridge = bridge;
+		this.bridge.put("bridge", bridge);
 	}
 
-	public Integer getFbridge() {
-		return fbridge;
+	public Integer getFlag() {
+		return this.bridge.get("flag");
 	}
 
-	public void setFbridge(Integer fbridge) {
-		this.fbridge = fbridge;
+	public void Flag(Integer flag) {
+		this.bridge.put("flag", flag);
 	}
 
-	public Integer getEbridge() {
-		return ebridge;
+	public Integer getEmer() {
+		return this.bridge.get("emer");
 	}
 
-	public void setEbridge(Integer ebridge) {
-		this.ebridge = ebridge;
+	public void setEmer(Integer emer) {
+		this.bridge.put("emer", emer);
 	}
 
 	public Integer getAuxcon() {
-		return auxcon;
+		return this.bridge.get("auxcon");
 	}
 
 	public void setAuxcon(Integer auxcon) {
-		this.auxcon = auxcon;
+		this.bridge.put("auxcon", auxcon);
 	}
 
 	public Integer getSecurity() {
-		return security;
+		return this.bridge.get("security");
 	}
 
 	public void setSecurity(Integer security) {
-		this.security = security;
+		this.bridge.put("security", security);
 	}
 
 	public Integer getScanner() {

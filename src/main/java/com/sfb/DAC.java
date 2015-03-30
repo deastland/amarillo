@@ -170,7 +170,7 @@ public class DAC {
 		
 		// DAC line12
 		DACItem line12Item1 = new DACItem("auxcon", true);
-		DACItem line12Item2 = new DACItem("ebridge", true);
+		DACItem line12Item2 = new DACItem("emer", true);
 		DACItem line12Item3 = new DACItem("scanner", true);
 		DACItem line12Item4 = new DACItem("probe", true);
 		DACItem line12Item5 = new DACItem("fhull", true);
