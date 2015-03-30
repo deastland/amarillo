@@ -121,12 +121,57 @@ public class DAC {
 	DACItem line9Item6 = new DACItem("drone", true);
 	DACItem line9Item7 = new DACItem("rwarp", false);
 	DACItem line9Item8 = new DACItem("impulse", false);
-	DACItem line9Item9 = new DACItem("", false);
-	DACItem line9Item10 = new DACItem("", false);
-	DACItem line9Item11 = new DACItem("", false);
-	DACItem line9Item12 = new DACItem("", false);
+	DACItem line9Item9 = new DACItem("lwarp", false);
+	DACItem line9Item10 = new DACItem("tractor", false);
+	DACItem line9Item11 = new DACItem("probe", false);
+	DACItem line9Item12 = new DACItem("weapon", false);
 	DACItem line9Item13 = new DACItem("excess", false);
 
+	// DAC line10
+	DACItem line10Item1 = new DACItem("phaser", true);
+	DACItem line10Item2 = new DACItem("tractor", true);
+	DACItem line10Item3 = new DACItem("lwarp", false);
+	DACItem line10Item4 = new DACItem("impulse", false);
+	DACItem line10Item5 = new DACItem("ahull", false);
+	DACItem line10Item6 = new DACItem("fhull", false);
+	DACItem line10Item7 = new DACItem("rwarp", false);
+	DACItem line10Item8 = new DACItem("apr", false);
+	DACItem line10Item9 = new DACItem("lab", false);
+	DACItem line10Item10 = new DACItem("trans", false);
+	DACItem line10Item11 = new DACItem("probe", false);
+	DACItem line10Item12 = new DACItem("cwarp", false);
+	DACItem line10Item13 = new DACItem("excess", false);
+	
+	// DAC line11
+	DACItem line11Item1 = new DACItem("torp", true);
+	DACItem line11Item2 = new DACItem("phaser", true);
+	DACItem line11Item3 = new DACItem("impulse", false);
+	DACItem line11Item4 = new DACItem("rwarp", false);
+	DACItem line11Item5 = new DACItem("lwarp", false);
+	DACItem line11Item6 = new DACItem("fhull", false);
+	DACItem line11Item7 = new DACItem("tractor", false);
+	DACItem line11Item8 = new DACItem("damcon", true);
+	DACItem line11Item9 = new DACItem("cwarp", false);
+	DACItem line11Item10 = new DACItem("lab", false);
+	DACItem line11Item11 = new DACItem("battery", false);
+	DACItem line11Item12 = new DACItem("phaser", false);
+	DACItem line11Item13 = new DACItem("excess", false);
+	
+	// DAC line12
+	DACItem line12Item1 = new DACItem("auxcon", true);
+	DACItem line12Item2 = new DACItem("ebridge", true);
+	DACItem line12Item3 = new DACItem("scanner", true);
+	DACItem line12Item4 = new DACItem("probe", true);
+	DACItem line12Item5 = new DACItem("fhull", true);
+	DACItem line12Item6 = new DACItem("rwarp", false);
+	DACItem line12Item7 = new DACItem("trans", false);
+	DACItem line12Item8 = new DACItem("shuttle", false);
+	DACItem line12Item9 = new DACItem("tractor", false);
+	DACItem line12Item10 = new DACItem("lab", false);
+	DACItem line12Item11 = new DACItem("ahull", false);
+	DACItem line12Item12 = new DACItem("lwarp", false);
+	DACItem line12Item13 = new DACItem("excess", false);
+	
 	DACItem[][] dacTable = new DACItem[][]{
 		{line2Item1, line2Item2, line2Item3, line2Item4, line2Item5, line2Item6, line2Item7, line2Item8, line2Item9, line2Item10, line2Item11, line2Item12, line2Item13},
 		{line3Item1, line3Item2, line3Item3, line3Item4, line3Item5, line3Item6, line3Item7, line3Item8, line3Item9, line3Item10, line3Item11, line3Item12, line3Item13},
@@ -136,10 +181,9 @@ public class DAC {
 		{line7Item1, line7Item2, line7Item3, line7Item4, line7Item5, line7Item6, line7Item7, line7Item8, line7Item9, line7Item10, line7Item11, line7Item12, line7Item13},
 		{line8Item1, line8Item2, line8Item3, line8Item4, line8Item5, line8Item6, line8Item7, line8Item8, line8Item9, line8Item10, line8Item11, line8Item12, line8Item13},
 		{line9Item1, line9Item2, line9Item3, line9Item4, line9Item5, line9Item6, line9Item7, line9Item8, line9Item9, line9Item10, line9Item11, line9Item12, line9Item13},
-		{},
-		{},
-		{},
-		{}
+		{line10Item1, line10Item2, line10Item3, line10Item4, line10Item5, line10Item6, line10Item7, line10Item8, line10Item9, line10Item10, line10Item11, line10Item12, line10Item13},
+		{line11Item1, line11Item2, line11Item3, line11Item4, line11Item5, line11Item6, line11Item7, line11Item8, line11Item9, line11Item10, line11Item11, line11Item12, line11Item13},
+		{line12Item1, line12Item2, line12Item3, line12Item4, line12Item5, line12Item6, line12Item7, line12Item8, line12Item9, line12Item10, line12Item11, line12Item12, line12Item13}
 	};
 	
 	private class DACItem {
