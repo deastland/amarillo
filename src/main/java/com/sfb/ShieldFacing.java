@@ -1,3 +1,4 @@
+package com.sfb;
 
 public enum ShieldFacing {
 	PLACEHOLDER,

@@ -1,8 +1,9 @@
+package com.sfb;
 
 public class Thing {
 	// will eventually be "Marker"
 	
-	private Location location;
+	private Location location = new Location(0,0);
 	// Facing is a value representing
 	// a direction that the thing is facing, relative
 	// to the hex map. (1 is "due north" and 4 is "due south).
@@ -13,7 +14,7 @@ public class Thing {
 	//  17     9
 	//     13
 	//
-	private int facing;
+	private int facing = 1;
 	
 	public Thing() {}
 

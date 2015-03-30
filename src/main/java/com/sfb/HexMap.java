@@ -1,3 +1,5 @@
+package com.sfb;
+
 public class HexMap {
 	
 	// Shield facings from a position

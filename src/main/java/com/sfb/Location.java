@@ -1,3 +1,4 @@
+package com.sfb;
 
 public class Location {
 	private int x;
