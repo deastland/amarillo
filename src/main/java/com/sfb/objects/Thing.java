@@ -1,4 +1,6 @@
-package com.sfb;
+package com.sfb.objects;
+
+import com.sfb.Location;
 
 public class Thing {
 	// will eventually be "Marker"

@@ -1,5 +1,7 @@
 package com.sfb;
 
+import com.sfb.objects.Thing;
+
 public class HexMap {
 	
 	// Shield facings from a position

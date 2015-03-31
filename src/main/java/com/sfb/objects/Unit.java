@@ -1,4 +1,4 @@
-package com.sfb;
+package com.sfb.objects;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,14 +15,11 @@ public class Unit extends Thing {
 
 	// Hull systems
 	Map<String, Integer> hull = new HashMap<>();
+	Map<String, Integer> currentHull = new HashMap<>();
 	
 	// Power systems
-	Map<String, Integer> warp = new HashMap<>();
-	Integer impulse = 0;
-	Integer apr = 0;
-	Integer awr = 0;
-	Integer battery = 0;
-	
+	PowerSystems powerSystems = new PowerSystems();
+
 	// Misc systems
 	Integer tractor = 0;
 	Integer trans = 0;
@@ -44,7 +41,14 @@ public class Unit extends Thing {
 	// Weapon systems
 	
 	// Traits
+	Integer[] turnMode = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+
+	// "Real-time" data
+	Integer sideslipCount = 0;
+	Integer turnCount = 0;
 	Integer speed = 0;
+
 	
 	// On spool-up, set initial value for all members.
 	public Unit() {
@@ -53,11 +57,10 @@ public class Unit extends Thing {
 		hull.put("aft", null);
 		hull.put("center", null);
 		
-		// Init warp values
-		warp.put("right", null);
-		warp.put("left", null);
-		warp.put("center", null);
+		currentHull.putAll(hull);
 		
+		// Init warp values
+
 		// Init control space values
 		bridge.put("bridge", null);
 		bridge.put("flag", null);
@@ -129,62 +132,6 @@ public class Unit extends Thing {
 
 	public void setExcess(Integer excess) {
 		this.excess = excess;
-	}
-
-	public Integer getRightWarp() {
-		return warp.get("right");
-	}
-
-	public void setRightWarp(Integer rwarp) {
-		this.warp.put("right", rwarp);
-	}
-
-	public Integer getLeftWarp() {
-		return warp.get("left");
-	}
-
-	public void setLeftWarp(Integer lwarp) {
-		this.warp.put("left", lwarp);
-	}
-
-	public Integer getCenterWarp() {
-		return warp.get("center");
-	}
-
-	public void setCenterWarp(Integer cwarp) {
-		this.warp.put("center", cwarp);
-	}
-
-	public Integer getImpulse() {
-		return impulse;
-	}
-
-	public void setImpulse(Integer impulse) {
-		this.impulse = impulse;
-	}
-
-	public Integer getApr() {
-		return apr;
-	}
-
-	public void setApr(Integer apr) {
-		this.apr = apr;
-	}
-
-	public Integer getAwr() {
-		return awr;
-	}
-
-	public void setAwr(Integer awr) {
-		this.awr = awr;
-	}
-
-	public Integer getBattery() {
-		return battery;
-	}
-
-	public void setBattery(Integer battery) {
-		this.battery = battery;
 	}
 
 	public Integer getTractor() {
@@ -291,14 +238,6 @@ public class Unit extends Thing {
 		this.hull = hull;
 	}
 
-	public Map<String, Integer> getWarp() {
-		return warp;
-	}
-
-	public void setWarp(Map<String, Integer> warp) {
-		this.warp = warp;
-	}
-
 	public Integer getSpeed() {
 		return speed;
 	}
@@ -310,7 +249,36 @@ public class Unit extends Thing {
 	public void setBridge(Map<String, Integer> bridge) {
 		this.bridge = bridge;
 	}
+	
+	///////////////////////////////////////////////////////
+	///
+	/// Utility Functions
+	///
+	///////////////////////////////////////////////////////
+	
+	// This will take the dammageApplied and subtract it from
+	// the shield. If there is still damage to apply after the
+	// shield has been completely destroyed, it will return the
+	// remaining damage amount. Otherwise it will return zero.
+	public Integer damageShield(Integer shield, Integer damageApplied) {
+		Integer remainingDamage = null;
+		
+		// Get the strength of the shield.
+		int shieldStrength = getShield(shield);
+		
+		int remainingShield = shieldStrength - damageApplied;
 
+		if (remainingShield >= 0) {
+			setShield(shield, remainingShield);
+			remainingDamage = 0;
+		} else {
+			setShield(shield, 0);
+			remainingDamage = -remainingShield;
+		}
+		return remainingDamage;
+	}
+	
+	// Return the JSON string of the Unit object
 	@Override
 	public String toString() {
 		String jsonOutput = null;

@@ -1,5 +1,8 @@
 package com.sfb;
 
+import com.sfb.objects.Thing;
+import com.sfb.objects.Unit;
+
 public class Application {
 
 	public static void main(String[] args) {
