@@ -58,6 +58,7 @@ public class Unit extends Thing {
 		warp.put("left", null);
 		warp.put("center", null);
 		
+		// Init control space values
 		bridge.put("bridge", null);
 		bridge.put("flag", null);
 		bridge.put("emer", null);
@@ -282,6 +283,34 @@ public class Unit extends Thing {
 		this.sensor = sensor;
 	}
 	
+	public Map<String, Integer> getHull() {
+		return hull;
+	}
+
+	public void setHull(Map<String, Integer> hull) {
+		this.hull = hull;
+	}
+
+	public Map<String, Integer> getWarp() {
+		return warp;
+	}
+
+	public void setWarp(Map<String, Integer> warp) {
+		this.warp = warp;
+	}
+
+	public Integer getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(Integer speed) {
+		this.speed = speed;
+	}
+
+	public void setBridge(Map<String, Integer> bridge) {
+		this.bridge = bridge;
+	}
+
 	@Override
 	public String toString() {
 		String jsonOutput = null;
