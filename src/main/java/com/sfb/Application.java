@@ -1,14 +1,14 @@
 package com.sfb;
 
-import com.sfb.objects.Thing;
-import com.sfb.objects.Unit;
+import com.sfb.objects.Marker;
+import com.sfb.objects.Ship;
 
 public class Application {
 
 	public static void main(String[] args) {
 
-		Thing thing1 = new Thing(14,10);
-		Thing thing2 = new Thing(14,9);
+		Marker thing1 = new Marker(14,10);
+		Marker thing2 = new Marker(14,9);
 		
 		int facing = 1;
 		
@@ -19,6 +19,10 @@ public class Application {
 		ShieldFacing shieldFacing = ShieldFacing.values()[HexMap.getAbsoluteShieldFacing(thing1, thing2)];
 
 		int trueBearing = HexMap.getBearing(thing1, thing2);
+		
+		System.out.println("Source: " + thing1.getLocation());
+		System.out.println("Target: " + thing2.getLocation());
+		System.out.println("----------------------------");
 		
 		System.out.println("RelativeBearing: " + HexMap.getRelativeBearing(trueBearing, facing));
 
@@ -58,7 +62,7 @@ public class Application {
 //		System.out.println("Roll: " + roll + " |Result: " + dac.fetchNextHit(roll));
 		
 		
-		System.out.println(new Unit());
+//		System.out.println(new Ship());
 	}
 	
 }

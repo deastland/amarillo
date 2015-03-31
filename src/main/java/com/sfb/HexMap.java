@@ -1,6 +1,6 @@
 package com.sfb;
 
-import com.sfb.objects.Thing;
+import com.sfb.objects.Marker;
 
 public class HexMap {
 	
@@ -23,7 +23,7 @@ public class HexMap {
 	// If inside of 3/5 or 9/11, just get the xDiff
 	// Else, find the location along the 3/5 or 9/11 spine.
 	// Calculate that range, and add the yDiff.
-	public static int getDistance(Thing source, Thing target) {
+	public static int getDistance(Marker source, Marker target) {
 
 		Location sourceLocation = source.getLocation();
 		Location targetLocation = target.getLocation();
@@ -65,7 +65,7 @@ public class HexMap {
 	// Return 1 of 12 numbers. These numbers are the 6 arcs AND 
 	// the 6 spaces between said arcs.
 	
-	public static int getAbsoluteArc(Thing source, Thing target) {
+	public static int getAbsoluteArc(Marker source, Marker target) {
 		
 		Location sourceLocation = source.getLocation();
 		Location targetLocation = target.getLocation();
@@ -152,7 +152,7 @@ public class HexMap {
 	// 10 (shield 5/6 border)
 	// 11 (shield 6)
 	// 12 (shield 6/1 border)
-	public static int getAbsoluteShieldFacing(Thing source, Thing target) {
+	public static int getAbsoluteShieldFacing(Marker source, Marker target) {
 		// Get the locations of the source and target.
 		Location sourceLocation = source.getLocation();
 		Location targetLocation = target.getLocation();
@@ -418,7 +418,7 @@ public class HexMap {
 	}
 	
 	// Return the direction value of 1..24, or 0 for same hex.
-	public static int getBearing(Thing source, Thing target) {
+	public static int getBearing(Marker source, Marker target) {
 		
 		Location sourceLocation = source.getLocation();
 		Location targetLocation = target.getLocation();

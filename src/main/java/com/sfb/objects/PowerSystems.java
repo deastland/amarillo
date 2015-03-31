@@ -133,7 +133,7 @@ public class PowerSystems {
 	// utility
 	/////////
 	
-	public Integer getAvailablePower() {
+	public int getAvailablePower() {
 		
 		return availableLWarp + availableRWarp + availableCWarp + availableImpulse + availableApr + availableAwr;
 	}
@@ -146,6 +146,7 @@ public class PowerSystems {
 		int remainingBattery = this.batteryPower - amount;
 		
 		if (remainingBattery >= 0) {
+			this.batteryPower = remainingBattery;
 			return true;
 		} else {
 			return false;
@@ -168,6 +169,23 @@ public class PowerSystems {
 		reservePower -= amount;
 		return true;
 	}
+	
+	public boolean chargeBattery(int amount) {
+		int finalBatteryPower = this.batteryPower + amount;
+		
+		if (finalBatteryPower > this.availableBattery) {
+			return false;
+		}
+		
+		this.batteryPower = finalBatteryPower;
+		return true;
+	}
+	
+	///////////////////////////////////////////
+	//
+	// DAMAGE SYSTEMS
+	//
+	///////////////////////////////////////////
 	
 	// If there is still a battery, destroy one and return true.
 	// Otherwise return false.
