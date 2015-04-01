@@ -1,5 +1,10 @@
 package com.sfb.objects;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sfb.systems.PowerSystems;
+
 public class TestObjects {
 	
 	public static PowerSystems testPowerSystems = getTestPowerSystems();
@@ -8,17 +13,14 @@ public class TestObjects {
 	private static PowerSystems getTestPowerSystems() {
 		PowerSystems ps = new PowerSystems();
 		
-		ps.setLwarp(15);
-		ps.setAvailableLWarp(15);
-		ps.setRwarp(15);
-		ps.setAvailableRWarp(15);
-		ps.setApr(4);
-		ps.setAvailableApr(4);
-		ps.setImpulse(4);
-		ps.setAvailableImpulse(4);
-		ps.setBattery(4);
-		ps.setAvailableBattery(4);
+		Map<String, Integer> powerSettings = new HashMap<>();
+		powerSettings.put("lwarp", 15);
+		powerSettings.put("rwarp", 15);
+		powerSettings.put("apr", 4);
+		powerSettings.put("impulse", 4);
+		powerSettings.put("battery", 4);
 		
+		ps.init(powerSettings);
 		return ps;
 	}
 }

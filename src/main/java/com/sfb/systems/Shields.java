@@ -1,4 +1,4 @@
-package com.sfb.objects;
+package com.sfb.systems;
 
 public class Shields {
 
@@ -18,6 +18,16 @@ public class Shields {
 		return currentShieldValues[shieldNumber - 1] + specificReinforcement[shieldNumber - 1];
 	}
 	
+	// Set the value of a current shield to a fixed number.
+	// NOTE: Not sure if this is a method that should be exposed.
+	public boolean setShieldValue(int shieldNumber, int value) {
+		if (value > shieldValues[shieldNumber - 1]) {
+			return false;
+		}
+		
+		currentShieldValues[shieldNumber - 1] = value;
+		return true;
+	}
 	
 	////////////////////////////////////
 	//
@@ -27,13 +37,18 @@ public class Shields {
 
 	// Initialize shield values. If a proper array isn't passed in,
 	// return false. Otherwise return true.
-	public boolean initialize(int[] values) {
+	public boolean init(int[] values) {
 		if (values.length != 6) {
 			return false;
 		}
 		
+		// Set the shields to the specified initial values (and set all as active).
 		System.arraycopy(values, 0, shieldValues, 0, values.length);
 		System.arraycopy(values, 0, currentShieldValues, 0, values.length);
+		
+		// All shields start active
+		shieldActive = new boolean[] {true, true, true, true, true, true};
+		
 		return true;
 	}
 	
@@ -46,6 +61,10 @@ public class Shields {
 	// If a shield has a positive strength value, add the reinforcement and return true.
 	// Otherwise return false.
 	public boolean reinforceShield(int shieldNumber, int amount) {
+		if (!shieldActive[shieldNumber - 1]) {
+			return false;
+		}
+			
 		if (currentShieldValues[shieldNumber - 1]  == 0) {
 			return false;
 		}

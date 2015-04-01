@@ -62,7 +62,7 @@ public class Application {
 //		System.out.println("Roll: " + roll + " |Result: " + dac.fetchNextHit(roll));
 		
 		
-//		System.out.println(new Ship());
+		System.out.println(new Ship());
 	}
 	
 }

@@ -1,7 +1,6 @@
 package com.sfb.objects;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -9,35 +8,37 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
+import com.sfb.systems.ControlSpaces;
+import com.sfb.systems.HullBoxes;
+import com.sfb.systems.OperationsSystems;
+import com.sfb.systems.PowerSystems;
+import com.sfb.systems.Shields;
+import com.sfb.systems.SpecialFunctions;
+
 public class Ship extends Marker {
 
 	Shields shields;
 
 	// Hull systems
-	Map<String, Integer> hull = new HashMap<>();
-	Map<String, Integer> currentHull = new HashMap<>();
-	
-	// Power systems
+	HullBoxes hullBoxes = new HullBoxes();
+
+	// Power systems (warp, impulse, ap/wr, battery)
 	PowerSystems powerSystems = new PowerSystems();
 
-	// Misc systems
-	Integer tractor = 0;
-	Integer trans = 0;
-	Integer lab = 0;
+	// Control systems (bridge, flag, aux, emer, security)
+	ControlSpaces controlSpaces = new ControlSpaces();
+	
+	// Special functions
+	SpecialFunctions specialFunctions = new SpecialFunctions();
+	
+	// Operations systems
+	OperationsSystems operationsSystems = new OperationsSystems();
+	
+	
+	
 	Integer probe = 0;
 	Integer shuttle = 0;
-	Integer cargo = 0;
-	
-	// Control
-	Map<String, Integer> bridge = new HashMap<>();
-	
-	// Integral Systems
-	//
-	// Dam con, sensors, scanners
-	Integer scanner = 0;
-	Integer sensor = 0;
-	Integer excess = 0;
-	
+
 	// Weapon systems
 	
 	// Traits
@@ -49,114 +50,112 @@ public class Ship extends Marker {
 	Integer turnCount = 0;
 	
 	// On spool-up, set initial value for all members.
-	public Ship() {
-		// Init hull values
-		hull.put("forward", null);
-		hull.put("aft", null);
-		hull.put("center", null);
-		
-		currentHull.putAll(hull);
-		
-		// Init warp values
-
-		// Init control space values
-		bridge.put("bridge", null);
-		bridge.put("flag", null);
-		bridge.put("emer", null);
-		bridge.put("auxcon", null);
-		bridge.put("security", null);
+	public Ship() {	}
+	
+	/// SHIELDS ///
+	public void initShields(int[] shields) {
+		this.shields.init(shields);
 	}
 	
-	public void setShields(Integer[] shields) {
-		this.shields = shields;
+	public int getShield(Integer shieldNumber) {
+		return this.shields.getShieldStrength(shieldNumber);
 	}
 	
-	public Integer[] getShields() {
-		return this.shields;
+	// Applies damage to given shield. If any damage remains, return the value.
+	// Otherwise return 0.
+	public int damageShield(Integer shieldNumber, Integer damageApplied) {
+		return this.shields.damageShield(shieldNumber, damageApplied);
 	}
 	
-	public Integer getShield(Integer shieldNumber) {
-		return this.shields[shieldNumber - 1];
+	/// HULL BOXES ///
+	public void initHullBoxes(Map<String, Integer> values) {
+		this.hullBoxes.init(values);
 	}
 	
-	public void setShield(Integer shieldNumber, int value) {
-		this.shields[shieldNumber - 1] = value;
+	public int getForwardHull() {
+		return this.hullBoxes.getAvailableFhull();
 	}
 
-	public Integer getForwardHull() {
-		Integer returnValue = null;
-		returnValue = this.hull.get("forward");
-		
-		return returnValue;
+	public int getAftHull() {
+		return this.hullBoxes.getAvailableAhull();
 	}
 
-	public void setForwardHull(Integer fhull) {
-		this.hull.put("forward", fhull);
+	public int getCenterHull() {
+		return this.hullBoxes.getAvailableChull();
 	}
 
-	public Integer getAftHull() {
-		Integer returnValue = null;
-		returnValue = this.hull.get("aft");
-		
-		return returnValue;
+	public int getCargo() {
+		return this.hullBoxes.getAvailableCargo();
 	}
 
-	public void setAftHull(Integer ahull) {
-		this.hull.put("forward", ahull);
+	/// CONTROL SPACES ///
+	public void initControlSpaces(Map <String, Integer> values) {
+		this.controlSpaces.init(values);
+	}
+	
+	public int getBridge() {
+		return this.controlSpaces.getAvailableBridge();
 	}
 
-	public Integer getCenterHull() {
-		Integer returnValue = null;
-		returnValue = this.hull.get("center");
-		
-		return returnValue;
+	public int getFlag() {
+		return this.controlSpaces.getAvailableFlag();
 	}
 
-	public void setCenterHull(Integer chull) {
-		this.hull.put("center", chull);
+	public int getEmer() {
+		return this.controlSpaces.getAvailableEmer();
 	}
 
-	public Integer getCargo() {
-		return cargo;
+	public int getAuxcon() {
+		return this.controlSpaces.getAvailableAuxcon();
 	}
 
-	public void setCargo(Integer cargo) {
-		this.cargo = cargo;
+	public int getSecurity() {
+		return this.controlSpaces.getAvailableSecurity();
 	}
 
-	public Integer getExcess() {
-		return excess;
+	/// SPECIAL FUNCITONS ///
+	public void initSpecialFunctions(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
+		this.specialFunctions.init(damageControlValues, scannerValues, sensorValues, excessDamageValue);
 	}
-
-	public void setExcess(Integer excess) {
-		this.excess = excess;
+	
+	public int getSensor() {
+		return this.specialFunctions.getSensor();
 	}
-
-	public Integer getTractor() {
-		return tractor;
+	
+	public int getScanner() {
+		return this.specialFunctions.getScanner();
 	}
-
-	public void setTractor(Integer tractor) {
-		this.tractor = tractor;
+	
+	public int getDamageControl() {
+		return this.specialFunctions.getDamageControl();
 	}
-
-	public Integer getTrans() {
-		return trans;
+	
+	public int getExcessDamage() {
+		return this.specialFunctions.getDamageControl();
 	}
-
-	public void setTrans(Integer trans) {
-		this.trans = trans;
+	
+	/// OPERATIONS SYSTEMS ///
+	public void initOperationsSystems(int transValue, int tractorValue, int labValue) {
+		this.operationsSystems.init(transValue, tractorValue, labValue);
 	}
-
-	public Integer getLab() {
-		return lab;
+	
+	public int getTrans() {
+		return this.operationsSystems.getAvailableTrans();
 	}
-
-	public void setLab(Integer lab) {
-		this.lab = lab;
+	
+	public int getTractor() {
+		return this.operationsSystems.getAvailableTractor();
 	}
-
-	public Integer getProbe() {
+	
+	public int getLab() {
+		return this.operationsSystems.getAvailableLab();
+	}
+	
+	
+	
+	
+	
+	public int getProbe() {
 		return probe;
 	}
 
@@ -164,7 +163,7 @@ public class Ship extends Marker {
 		this.probe = probe;
 	}
 
-	public Integer getShuttle() {
+	public int getShuttle() {
 		return shuttle;
 	}
 
@@ -172,101 +171,12 @@ public class Ship extends Marker {
 		this.shuttle = shuttle;
 	}
 
-	public Integer getBridge() {
-		return this.bridge.get("bridge");
-	}
-
-	public void setBridge(Integer bridge) {
-		this.bridge.put("bridge", bridge);
-	}
-
-	public Integer getFlag() {
-		return this.bridge.get("flag");
-	}
-
-	public void Flag(Integer flag) {
-		this.bridge.put("flag", flag);
-	}
-
-	public Integer getEmer() {
-		return this.bridge.get("emer");
-	}
-
-	public void setEmer(Integer emer) {
-		this.bridge.put("emer", emer);
-	}
-
-	public Integer getAuxcon() {
-		return this.bridge.get("auxcon");
-	}
-
-	public void setAuxcon(Integer auxcon) {
-		this.bridge.put("auxcon", auxcon);
-	}
-
-	public Integer getSecurity() {
-		return this.bridge.get("security");
-	}
-
-	public void setSecurity(Integer security) {
-		this.bridge.put("security", security);
-	}
-
-	public Integer getScanner() {
-		return scanner;
-	}
-
-	public void setScanner(Integer scanner) {
-		this.scanner = scanner;
-	}
-
-	public Integer getSensor() {
-		return sensor;
-	}
-
-	public void setSensor(Integer sensor) {
-		this.sensor = sensor;
-	}
-	
-	public Map<String, Integer> getHull() {
-		return hull;
-	}
-
-	public void setHull(Map<String, Integer> hull) {
-		this.hull = hull;
-	}
-
-	public void setBridge(Map<String, Integer> bridge) {
-		this.bridge = bridge;
-	}
 	
 	///////////////////////////////////////////////////////
 	///
 	/// Utility Functions
 	///
 	///////////////////////////////////////////////////////
-	
-	// This will take the dammageApplied and subtract it from
-	// the shield. If there is still damage to apply after the
-	// shield has been completely destroyed, it will return the
-	// remaining damage amount. Otherwise it will return zero.
-	public Integer damageShield(Integer shield, Integer damageApplied) {
-		Integer remainingDamage = null;
-		
-		// Get the strength of the shield.
-		int shieldStrength = getShield(shield);
-		
-		int remainingShield = shieldStrength - damageApplied;
-
-		if (remainingShield >= 0) {
-			setShield(shield, remainingShield);
-			remainingDamage = 0;
-		} else {
-			setShield(shield, 0);
-			remainingDamage = -remainingShield;
-		}
-		return remainingDamage;
-	}
 	
 	// Return the JSON string of the Unit object
 	@Override
