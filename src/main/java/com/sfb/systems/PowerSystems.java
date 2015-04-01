@@ -207,6 +207,16 @@ public class PowerSystems {
 		return availableLwarp + availableRwarp + availableCwarp;
 	}
 	
+	// Get original number of SSD power boxes (cripple calculations)
+	public int getOriginalTotalBoxes() {
+		return availableLwarp + availableRwarp + availableCwarp + availableImpulse + availableApr + availableAwr + availableBattery;
+	}
+	
+	// Get current number of power boxes (cripple calculations)
+	public int getTotalBoxes() {
+		return lwarp + rwarp + cwarp + impulse + apr + awr + battery;
+	}
+	
 	// Removes the specified amount from battery power.
 	// If the power requested doesn't exceed the 
 	// available battery power, return true.

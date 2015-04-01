@@ -32,6 +32,16 @@ public class OperationsSystems {
 		return availableLab;
 	}
 	
+	// Total operations boxes on the SSD (cripple calculations).
+	public int getTotalOriginalBoxes() {
+		return trans + tractor + lab;
+	}
+	
+	// Total current operations boxes (cripple calculations).
+	public int getTotalBoxes() {
+		return availableTrans + availableTractor + availableLab;
+	}
+	
 	/// DAMAGE ///
 	public boolean damageTrans() {
 		if (availableTrans == 0) {

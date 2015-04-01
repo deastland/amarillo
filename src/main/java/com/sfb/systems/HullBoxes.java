@@ -42,6 +42,16 @@ public class HullBoxes {
 		return this.availableCargo;
 	}
 	
+	// Total original hull boxes on SSD (cripple calculations).
+	public int getOriginalTotalBoxes() {
+		return this.ahull + this.cargo + this.chull + this.fhull;
+	}
+	
+	// Total current hull boxes (cripple calculations).
+	public int getTotalBoxes() {
+		return this.availableAhull + this.availableCargo + this.availableChull + this.availableFhull;
+	}
+	
 	//// DAMAGE //////
 	public boolean damageFhull() {
 		if (fhull == 0) {

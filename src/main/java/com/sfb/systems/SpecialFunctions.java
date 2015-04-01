@@ -39,6 +39,10 @@ public class SpecialFunctions {
 		return sensor[availableSensor];
 	}
 	
+	public int getOriginalExcessDamage() {
+		return excessDamage;
+	}
+	
 	public int getExcessDamage() {
 		return availableExcessDamage;
 	}
