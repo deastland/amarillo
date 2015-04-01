@@ -1,4 +1,4 @@
-package com.sfb;
+package com.sfb.properties;
 
 public class Location {
 	private int x;

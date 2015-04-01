@@ -2,6 +2,7 @@ package com.sfb;
 
 import com.sfb.objects.Marker;
 import com.sfb.objects.Ship;
+import com.sfb.properties.FiringArc;
 
 public class Application {
 

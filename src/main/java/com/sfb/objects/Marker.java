@@ -1,6 +1,6 @@
 package com.sfb.objects;
 
-import com.sfb.Location;
+import com.sfb.properties.Location;
 
 // This represents any marker on the map.
 // All markers have a location, if nothing else.

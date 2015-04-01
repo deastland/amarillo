@@ -35,7 +35,7 @@ public class Ship extends Marker {
 	OperationsSystems operationsSystems = new OperationsSystems();
 	
 	
-	
+	////////////////////////////////////////////////////////
 	Integer probe = 0;
 	Integer shuttle = 0;
 
@@ -43,11 +43,13 @@ public class Ship extends Marker {
 	
 	// Traits
 	Integer[] turnMode = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-
+	
 
 	// "Real-time" data
 	Integer sideslipCount = 0;
 	Integer turnCount = 0;
+	/////////////////////////////////////////////////////////
+	
 	
 	// On spool-up, set initial value for all members.
 	public Ship() {	}

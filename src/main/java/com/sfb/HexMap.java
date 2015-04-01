@@ -1,6 +1,7 @@
 package com.sfb;
 
 import com.sfb.objects.Marker;
+import com.sfb.properties.Location;
 
 public class HexMap {
 	

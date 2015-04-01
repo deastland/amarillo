@@ -12,11 +12,15 @@ public class DAC {
 
 	// Constructor: sets up a fresh DAC
 	public DAC() {
-		resetDac();
+		init();
+	}
+	
+	public void reset() {
+		init();
 	}
 	
 	// reset the DAC so that all special items are refreshed.
-	public void resetDac() {
+	public void init() {
 		
 		// DAC line2
 		DACItem line2Item1 = new DACItem("bridge", true);
