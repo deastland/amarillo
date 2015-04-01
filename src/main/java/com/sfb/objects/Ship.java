@@ -233,13 +233,18 @@ public class Ship extends Marker {
 		return cost;
 	}
 	
-	public int getShuttle() {
-		return shuttle;
-	}
+	
+	/// SHUTTLES ///
 
-	public void setShuttle(Integer shuttle) {
-		this.shuttle = shuttle;
-	}
+	//TODO: Shuttle operations
+	
+//	public int getShuttle() {
+//		return shuttle;
+//	}
+//
+//	public void setShuttle(Integer shuttle) {
+//		this.shuttle = shuttle;
+//	}
 
 	
 	///////////////////////////////////////////////////////
