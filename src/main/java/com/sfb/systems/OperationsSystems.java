@@ -1,6 +1,6 @@
 package com.sfb.systems;
 
-public class OperationsSystems {
+public class OperationsSystems implements Systems {
 
 	private int trans;
 	private int tractor;
@@ -33,11 +33,13 @@ public class OperationsSystems {
 	}
 	
 	// Total operations boxes on the SSD (cripple calculations).
-	public int getTotalOriginalBoxes() {
+	@Override
+	public int getOriginalTotalBoxes() {
 		return trans + tractor + lab;
 	}
 	
 	// Total current operations boxes (cripple calculations).
+	@Override
 	public int getTotalBoxes() {
 		return availableTrans + availableTractor + availableLab;
 	}

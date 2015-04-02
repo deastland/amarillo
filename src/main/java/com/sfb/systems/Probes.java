@@ -2,7 +2,7 @@ package com.sfb.systems;
 
 import com.sfb.properties.ProbeArmingType;
 
-public class Probes {
+public class Probes implements Systems {
 
 	private Probe[] probeArray;
 	
@@ -30,10 +30,12 @@ public class Probes {
 		return counter;
 	}
 	
+	@Override
 	public int getOriginalTotalBoxes() {
 		return probeArray.length;
 	}
 	
+	@Override
 	public int getTotalBoxes() {
 		return availableProbes();
 	}

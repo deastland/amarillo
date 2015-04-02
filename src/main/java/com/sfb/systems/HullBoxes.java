@@ -2,7 +2,7 @@ package com.sfb.systems;
 
 import java.util.Map;
 
-public class HullBoxes {
+public class HullBoxes implements Systems {
 	
 	private int fhull;
 	private int ahull;
@@ -43,11 +43,13 @@ public class HullBoxes {
 	}
 	
 	// Total original hull boxes on SSD (cripple calculations).
+	@Override
 	public int getOriginalTotalBoxes() {
 		return this.ahull + this.cargo + this.chull + this.fhull;
 	}
 	
 	// Total current hull boxes (cripple calculations).
+	@Override
 	public int getTotalBoxes() {
 		return this.availableAhull + this.availableCargo + this.availableChull + this.availableFhull;
 	}

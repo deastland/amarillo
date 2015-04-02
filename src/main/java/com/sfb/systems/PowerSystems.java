@@ -2,7 +2,7 @@ package com.sfb.systems;
 
 import java.util.Map;
 
-public class PowerSystems {
+public class PowerSystems implements Systems {
 
 	// Base values for the unit
 	private int lwarp = 0;
@@ -208,11 +208,13 @@ public class PowerSystems {
 	}
 	
 	// Get original number of SSD power boxes (cripple calculations)
+	@Override
 	public int getOriginalTotalBoxes() {
 		return availableLwarp + availableRwarp + availableCwarp + availableImpulse + availableApr + availableAwr + availableBattery;
 	}
 	
 	// Get current number of power boxes (cripple calculations)
+	@Override
 	public int getTotalBoxes() {
 		return lwarp + rwarp + cwarp + impulse + apr + awr + battery;
 	}

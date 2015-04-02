@@ -2,7 +2,7 @@ package com.sfb.systems;
 
 import java.util.Map;
 
-public class ControlSpaces {
+public class ControlSpaces implements Systems {
 	private int bridge;
 	private int flag;
 	private int emer;
@@ -139,5 +139,15 @@ public class ControlSpaces {
 		
 		availableSecurity += amount;
 		return true;
+	}
+
+	@Override
+	public int getOriginalTotalBoxes() {
+		return bridge + flag + emer + auxcon + security;
+	}
+
+	@Override
+	public int getTotalBoxes() {
+		return availableBridge + availableFlag + availableEmer + availableAuxcon + availableSecurity;
 	}
 }

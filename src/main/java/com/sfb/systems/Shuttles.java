@@ -1,6 +1,6 @@
 package com.sfb.systems;
 
-public class Shuttles {
+public class Shuttles implements Systems {
 
 	private int shuttleBoxes;
 	private int availableShuttleBoxes;
@@ -13,10 +13,12 @@ public class Shuttles {
 	
 	//////
 	
+	@Override
 	public int getOriginalTotalBoxes() {
 		return shuttleBoxes;
 	}
 	
+	@Override
 	public int getTotalBoxes() {
 		return availableShuttleBoxes;
 	}

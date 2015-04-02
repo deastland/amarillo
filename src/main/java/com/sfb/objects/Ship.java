@@ -179,9 +179,10 @@ public class Ship extends Marker {
 	// Calculate the total number of boxes on the ship.
 	private int getTotalSSDBoxes() {
 		int totalBoxes = 0;
+		totalBoxes += this.controlSpaces.getOriginalTotalBoxes();
 		totalBoxes += this.powerSystems.getOriginalTotalBoxes();
 		totalBoxes += this.hullBoxes.getOriginalTotalBoxes();
-		totalBoxes += this.operationsSystems.getTotalOriginalBoxes();
+		totalBoxes += this.operationsSystems.getOriginalTotalBoxes();
 		totalBoxes += this.probes.getOriginalTotalBoxes();
 		totalBoxes += this.specialFunctions.getOriginalExcessDamage();
 		totalBoxes += this.shuttles.getOriginalTotalBoxes();
@@ -193,6 +194,7 @@ public class Ship extends Marker {
 	
 	private int getCurrentBoxes() {
 		int totalBoxes = 0;
+		totalBoxes += this.controlSpaces.getTotalBoxes();
 		totalBoxes += this.powerSystems.getTotalBoxes();
 		totalBoxes += this.hullBoxes.getTotalBoxes();
 		totalBoxes += this.operationsSystems.getTotalBoxes();
