@@ -3,7 +3,7 @@ package com.sfb.objects;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sfb.systems.PowerSystems;
+import com.sfb.systemgroups.PowerSystems;
 
 public class TestObjects {
 	

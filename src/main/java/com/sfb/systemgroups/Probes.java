@@ -1,6 +1,9 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
+
+import java.util.Map;
 
 import com.sfb.properties.ProbeArmingType;
+import com.sfb.systems.Probe;
 
 public class Probes implements Systems {
 
@@ -10,7 +13,8 @@ public class Probes implements Systems {
 	
 	// Create probe boxes equal to the number
 	// of probes specified in the argument.
-	public void init(int numberOfProbes) {
+	public void init(Map<String, Integer> values) {
+		int numberOfProbes = values.get("probe") == null ? 0 : values.get("probe");
 		probeArray = new Probe[numberOfProbes];
 		for (int i=0; i < probeArray.length; i++) {
 			probeArray[i] = new Probe();
@@ -18,9 +22,8 @@ public class Probes implements Systems {
 	}
 	
 	// return the number of non-destroyed probe boxes
-	public int availableProbes() {
+	public int availableProbes() { 
 		int counter = 0;
-		
 		for (Probe probe : probeArray) {
 			if (probe.isFunctional()) {
 				counter++;

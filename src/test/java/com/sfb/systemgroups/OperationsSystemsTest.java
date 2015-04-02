@@ -1,4 +1,4 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
 
 import static org.junit.Assert.*;
 

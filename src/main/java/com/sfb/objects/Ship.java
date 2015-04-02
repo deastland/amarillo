@@ -9,13 +9,14 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
 import com.sfb.properties.ProbeArmingType;
-import com.sfb.systems.ControlSpaces;
-import com.sfb.systems.HullBoxes;
-import com.sfb.systems.OperationsSystems;
-import com.sfb.systems.PowerSystems;
-import com.sfb.systems.Probes;
-import com.sfb.systems.Shields;
-import com.sfb.systems.Shuttles;
+import com.sfb.systemgroups.ControlSpaces;
+import com.sfb.systemgroups.HullBoxes;
+import com.sfb.systemgroups.OperationsSystems;
+import com.sfb.systemgroups.PowerSystems;
+import com.sfb.systemgroups.Probes;
+import com.sfb.systemgroups.Shields;
+import com.sfb.systemgroups.Shuttles;
+import com.sfb.systemgroups.Weapons;
 import com.sfb.systems.SpecialFunctions;
 
 public class Ship extends Marker {
@@ -43,12 +44,13 @@ public class Ship extends Marker {
 	// Shuttles
 	Shuttles shuttles = new Shuttles();
 	
+	// Weapons systems
+	Weapons weapons = new Weapons();
+	
 	////////////////////////////////////////////////////////
 	int phaserCapaciter = 0;
 	int availablePhaserCapaciter = 0;
 	int phaserCapaciterPower = 0;
-	
-	// Weapon systems
 	
 	// Traits
 	Integer[] turnMode = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -64,11 +66,16 @@ public class Ship extends Marker {
 	// On spool-up, set initial value for all members.
 	public Ship() {	}
 	
+	// Fill in the values for all the systems.
+	public void initShip(Map<String, Integer> values) {
+		
+	}
+	
 	/// SHIELDS ///
 	
 	// Create shields
-	public void initShields(int[] shields) {
-		this.shields.init(shields);
+	public void initShields(Map<String, Integer> values) {
+		this.shields.init(values);
 	}
 	
 	// Get the strength of a particular shield (including specific reinforcement)
@@ -158,8 +165,8 @@ public class Ship extends Marker {
 	/// OPERATIONS SYSTEMS ///
 	
 	// Create Operations System Boxes
-	public void initOperationsSystems(int transValue, int tractorValue, int labValue) {
-		this.operationsSystems.init(transValue, tractorValue, labValue);
+	public void initOperationsSystems(Map<String, Integer> values) {
+		this.operationsSystems.init(values);
 	}
 	
 	public int getTrans() {
@@ -186,6 +193,7 @@ public class Ship extends Marker {
 		totalBoxes += this.probes.getOriginalTotalBoxes();
 		totalBoxes += this.specialFunctions.getOriginalExcessDamage();
 		totalBoxes += this.shuttles.getOriginalTotalBoxes();
+		totalBoxes += this.weapons.getOriginalTotalBoxes();
 		
 		//TODO: Figure out what other data goes here. (for example, weapons)
 		
@@ -201,6 +209,7 @@ public class Ship extends Marker {
 		totalBoxes += this.probes.getTotalBoxes();
 		totalBoxes += this.specialFunctions.getExcessDamage();
 		totalBoxes += this.shuttles.getTotalBoxes();
+		totalBoxes += this.weapons.getTotalBoxes();
 		
 		//TODO: Derive this from the above method.
 		
@@ -221,8 +230,8 @@ public class Ship extends Marker {
 	/// PROBES ///
 	
 	// Create probe boxes.
-	public void initProbes(int numberOfProbes) {
-		probes.init(numberOfProbes);
+	public void initProbes(Map<String, Integer> values) {
+		probes.init(values);
 	}
 	
 	// Spend a turn arming a probe for information

@@ -1,10 +1,10 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class HullBoxesTest {
+public class ControlSpacesTest {
 
 	@Test
 	public void test() {

@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class ControlSpacesTest {
+public class ProbeTest {
 
 	@Test
 	public void test() {

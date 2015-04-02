@@ -1,4 +1,7 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
+
+import java.util.Map;
+
 
 public class Shuttles implements Systems {
 
@@ -11,7 +14,12 @@ public class Shuttles implements Systems {
 		availableShuttleBoxes = shuttleBoxes = numberOfShuttles;
 	}
 	
-	//////
+	@Override
+	public void init(Map<String, Integer> values) {
+		availableShuttleBoxes = shuttleBoxes = values.get("shuttle") == null ? 0 : values.get("shuttle");
+	}
+	
+	//TODO: Implement shuttle/fighter stuff.
 	
 	@Override
 	public int getOriginalTotalBoxes() {

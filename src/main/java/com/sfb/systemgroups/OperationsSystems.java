@@ -1,4 +1,6 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
+
+import java.util.Map;
 
 public class OperationsSystems implements Systems {
 
@@ -13,10 +15,18 @@ public class OperationsSystems implements Systems {
 	public OperationsSystems() {}
 	
 	// Initialize the operations systems to the SSD values.
-	public void init(int transValue, int tractorValue, int labValue) {
-		availableTrans   = trans   = transValue;
-		availableTractor = tractor = tractorValue;
-		availableLab     = lab     = labValue;
+//	public void init(int transValue, int tractorValue, int labValue) {
+//		availableTrans   = trans   = transValue;
+//		availableTractor = tractor = tractorValue;
+//		availableLab     = lab     = labValue;
+//	}
+	
+	// Initialize the operations systems to the SSD values.
+	@Override
+	public void init(Map<String, Integer> values) {
+		availableTrans   = trans   = values.get("trans")   == null ? 0 : values.get("trans");
+		availableTractor = tractor = values.get("tractor") == null ? 0 : values.get("tractor");
+		availableLab     = lab     = values.get("lab")     == null ? 0 : values.get("lab");
 	}
 	
 	/// FETCH ///

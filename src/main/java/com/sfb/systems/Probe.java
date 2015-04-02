@@ -25,7 +25,7 @@ public class Probe {
 	
 	// Set the arming mode of the probe.
 	// Also resets arming cycle, assuming you aren't allowed to change mid-stream.
-	protected void setProbeType(ProbeArmingType armingType) {
+	public void setProbeType(ProbeArmingType armingType) {
 		this.armingType = armingType;
 		this.armingTurn = 0;
 		this.ready = false;
@@ -34,7 +34,7 @@ public class Probe {
 	// Performs a turn of arming the weapon.
 	// Returns the energy cost to perform the arming.
 	// Returns -1 if there is no more ammo.
-	protected int arm() {
+	public int arm() {
 		if (ammo == 0) {
 			return -1;
 		}
@@ -53,7 +53,7 @@ public class Probe {
 		}
 	}
 	
-	protected boolean fire() {
+	public boolean fire() {
 		if (!ready) {
 			return false;
 		}
@@ -66,23 +66,23 @@ public class Probe {
 	
 	/// GETTERS ////
 	
-	protected int getAvailableAmmo() {
+	public int getAvailableAmmo() {
 		return this.availableAmmo;
 	}
 	
-	protected boolean isReady() {
+	public boolean isReady() {
 		return this.ready;
 	}
 	
-	protected ProbeArmingType getArmingType() {
+	public ProbeArmingType getArmingType() {
 		return this.armingType;
 	}
 	
-	protected int getArmingTurn() {
+	public int getArmingTurn() {
 		return this.armingTurn;
 	}
 	
-	protected boolean isFunctional() {
+	public boolean isFunctional() {
 		return functional;
 	}
 }

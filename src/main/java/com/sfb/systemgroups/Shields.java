@@ -1,6 +1,8 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
 
-public class Shields {
+import java.util.Map;
+
+public class Shields implements Systems {
 
 	// The strength of the various shields.
 	private int[] shieldValues = new int[] {0,0,0,0,0,0};
@@ -35,21 +37,17 @@ public class Shields {
 	//
 	////////////////////////////////////
 
-	// Initialize shield values. If a proper array isn't passed in,
-	// return false. Otherwise return true.
-	public boolean init(int[] values) {
-		if (values.length != 6) {
-			return false;
-		}
-		
-		// Set the shields to the specified initial values (and set all as active).
-		System.arraycopy(values, 0, shieldValues, 0, values.length);
-		System.arraycopy(values, 0, currentShieldValues, 0, values.length);
+	// Initialize shield values.
+	public void init(Map<String, Integer> values) {
+		currentShieldValues[0] = shieldValues[0] = values.get("shield1") == null ? 0 : Integer.valueOf(values.get("shield1"));
+		currentShieldValues[1] = shieldValues[1] = values.get("shield2") == null ? 0 : Integer.valueOf(values.get("shield2"));
+		currentShieldValues[2] = shieldValues[2] = values.get("shield3") == null ? 0 : Integer.valueOf(values.get("shield3"));
+		currentShieldValues[3] = shieldValues[3] = values.get("shield4") == null ? 0 : Integer.valueOf(values.get("shield4"));
+		currentShieldValues[4] = shieldValues[4] = values.get("shield5") == null ? 0 : Integer.valueOf(values.get("shield5"));
+		currentShieldValues[5] = shieldValues[5] = values.get("shield6") == null ? 0 : Integer.valueOf(values.get("shield6"));
 		
 		// All shields start active
 		shieldActive = new boolean[] {true, true, true, true, true, true};
-		
-		return true;
 	}
 	
 	// At the end of the turn, all reinforcement is lost
@@ -131,6 +129,26 @@ public class Shields {
 		
 		currentShieldValues[shieldNumber - 1] += amount;
 		return true;
+	}
+
+	@Override
+	public int getOriginalTotalBoxes() {
+		int totalCount = 0;
+		for (int i=0; i < shieldValues.length; i++) {
+			totalCount += shieldValues[i];
+		}
+		
+		return totalCount;
+	}
+
+	@Override
+	public int getTotalBoxes() {
+		int totalCount = 0;
+		for (int i=0; i < currentShieldValues.length; i++) {
+			totalCount += currentShieldValues[i];
+		}
+		
+		return totalCount;
 	}
 	
 }

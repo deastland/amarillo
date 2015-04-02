@@ -1,11 +1,11 @@
-package com.sfb.systems;
+package com.sfb.systemgroups;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
 import com.sfb.objects.TestObjects;
-import com.sfb.systems.PowerSystems;
+import com.sfb.systemgroups.PowerSystems;
 
 public class PowerSystemsTest {
 
