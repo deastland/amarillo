@@ -13,6 +13,7 @@ public class Probes implements Systems {
 	
 	// Create probe boxes equal to the number
 	// of probes specified in the argument.
+	@Override
 	public void init(Map<String, Integer> values) {
 		int numberOfProbes = values.get("probe") == null ? 0 : values.get("probe");
 		probeArray = new Probe[numberOfProbes];

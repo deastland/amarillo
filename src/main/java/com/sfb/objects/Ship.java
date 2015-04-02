@@ -19,6 +19,15 @@ import com.sfb.systemgroups.Shuttles;
 import com.sfb.systemgroups.Weapons;
 import com.sfb.systems.SpecialFunctions;
 
+/**
+ * 
+ * This object describes an SFB ship. In particular it should represent
+ * the contents of an SSD along with all boxes, ammo, ship traits, etc.
+ * 
+ * @author deastland
+ *
+ * @version 1.0
+ */
 public class Ship extends Marker {
 
 	Shields shields;

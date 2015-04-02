@@ -9,7 +9,18 @@ import com.sfb.weapons.Weapon;
 public class Weapons implements Systems {
 
 	List<Weapon> weapons = new LinkedList<>();
-
+	
+	int phasers;	// Items hit on 'phaser' in the DAC
+	int torps;		// Items hit on 'torp' in the DAC
+	int drones;		// Items hit on 'drone' in the DAC
+	
+	int availablePhasers;	// Items hit on 'phaser' in the DAC
+	int availableTorps;		// Items hit on 'torp' in the DAC
+	int availableDrones;	// Items hit on 'drone' in the DAC
+	
+	// Get all the weapons from the map.
+	// The String will need to be formatted in such a way as to pull all the properties of the weapon.
+	// This could get complicated.
 	@Override
 	public void init(Map<String, Integer> data) {
 		// TODO Auto-generated method stub
@@ -18,14 +29,24 @@ public class Weapons implements Systems {
 
 	@Override
 	public int getOriginalTotalBoxes() {
-		// TODO Auto-generated method stub
-		return 0;
+		return phasers + torps + drones;
 	}
 
 	@Override
 	public int getTotalBoxes() {
-		// TODO Auto-generated method stub
-		return 0;
+		return availablePhasers + availableTorps + availableDrones;
 	}
 
 }
+
+
+/// WORKING ON FORMAT FOR WEAPON STRINGS
+
+//  <weapon>,<type>,<arcs>
+//  phaser,1,5|6|7|8|9								// Phaser 1, L arc
+//  disruptor,30,21|22|23|24|1|2|3|4|5				// Disruptor (range 30), FA arc
+//  photon,30,21|22|23|24|1|2|3|4|5					// Photon, FA arc
+//  drone,B,0										// Drone B Rack, 360 Arc		 ??? MAYBE JUST THE RACK, THEN PASS IN AMMO IN ANOTHER METHOD?
+//  plasma,S,23|24|1|2|3|4|5|6|7|8|9|10|11,1|5|9	// Plasma S Launcher, RP Arc, can launch in directions 1,2, or 3.
+//  esg,7,0											// ESG, max capacitor 7, 360 Arc
+//  fusion,
