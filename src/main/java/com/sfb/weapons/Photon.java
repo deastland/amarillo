@@ -3,7 +3,7 @@ package com.sfb.weapons;
 import com.sfb.DiceRoller;
 import com.sfb.properties.WeaponArmingType;
 
-public class Photon extends HitOrMissWeapon {
+public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 
 	private final static int[] hitChart = 
 		{0,0,5,4,4,3,3,3,3,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
@@ -55,6 +55,7 @@ public class Photon extends HitOrMissWeapon {
 	 * 
 	 * @return True if the weapon is armed. False otherwise.
 	 */
+	@Override
 	public boolean isArmed() {
 
 		return armingTurn == 2;
@@ -65,6 +66,7 @@ public class Photon extends HitOrMissWeapon {
 	 * @param energy The energy being used to hold the weapon
 	 * @return True if the energy is sufficient and the weapon is armed. False otherwise.
 	 */
+	@Override
 	public boolean hold(int energy) {
 		boolean result = false;
 		
@@ -99,15 +101,18 @@ public class Photon extends HitOrMissWeapon {
 		return result;
 	}
 
+	@Override
 	public WeaponArmingType getArmingType() {
 		return armingType;
 	}
 
+	@Override
 	public void setArmingType(WeaponArmingType armingType) {
 		this.armingType = armingType;
 	}
 	
-	public boolean setToOverload() {
+	@Override
+	public boolean setOverload() {
 		// Can't switch from PROXIMITY to OVERLOAD
 		if (armingType == WeaponArmingType.SPECIAL) {
 			return false;
@@ -118,21 +123,33 @@ public class Photon extends HitOrMissWeapon {
 	}
 	
 	public boolean setToProximity() {
-		if (armingTurn > 0) {
-			return false;
-		}
-		
-		armingType = WeaponArmingType.SPECIAL;
-		return true;
+		return setSpecial();
 	}
 	
-	public boolean setToStandard() {
+	@Override
+	public boolean setStandard() {
 		if (armingTurn > 0) {
 			return false;
 		}
 		
 		armingType = WeaponArmingType.STANDARD;
 		return true;
+	}
+	
+	@Override
+	public boolean setSpecial() {
+		if (armingTurn > 0) {
+			return false;
+		}
+		
+		armingType = WeaponArmingType.SPECIAL;
+		return true;
+		
+	}
+
+	@Override
+	public int getArmingTurn() {
+		return armingTurn;
 	}
 
 }
