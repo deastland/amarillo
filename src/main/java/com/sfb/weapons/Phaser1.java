@@ -25,7 +25,7 @@ public class Phaser1 extends VariableDamageWeapon {
 	 * @return The damage done by the weapon at that range.
 	 */
 	@Override
-	public int rollDamage(int range) {
+	public int fire(int range) {
 		DiceRoller diceRoller = new DiceRoller();
 		int roll = diceRoller.rollOneDie();
 		

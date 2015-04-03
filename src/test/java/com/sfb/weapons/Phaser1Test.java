@@ -12,7 +12,7 @@ public class Phaser1Test {
 		
 		int range = 15;
 		
-		int damage = phaser1.rollDamage(range);
+		int damage = phaser1.fire(range);
 		
 		System.out.println("Damage: " + damage);
 		

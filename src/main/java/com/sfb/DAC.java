@@ -1,4 +1,4 @@
-cpackage com.sfb;
+package com.sfb;
 
 
 // This will represent the DAC
@@ -8,6 +8,9 @@ cpackage com.sfb;
 // used once per volley.
 public class DAC {
 
+	//TODO: Determine if the DACItems should be strings (as implemented) or Enum values.
+	
+	
 	DACItem[][] dacTable = new DACItem[][]{};
 
 	// Constructor: sets up a fresh DAC

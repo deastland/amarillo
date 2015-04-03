@@ -7,11 +7,17 @@ public class SpecialFunctions {
 	int[] scanner = {0};				// Array of values representing the scanner track on the SSD.
 	int[] sensor = {0};					// Array of values representing the sensor track on the SSD.
 	int excessDamage = 0;				// Base amount of excess damage on the SSD.
+	
+	int uim = 0;						// Ubitron Interface Module (usually only on Klingon ships)
+	int derfacs = 0;					// DERFACS (usually only on Klingon and Lyran ships)
 
 	int availableDamageControl = 0;		// Pointer to the current DamageControl value. Moves with damage/repair.
 	int availableScanner = 0;			// Pointer to the current scanner value. Moves with damage/repair.
 	int availableSensor = 0;			// Pointer to the current sensor value. Moves with damage/repair.
 	int availableExcessDamage = 0;		// Amount of excess damage remaining.
+	
+	int availableUim = 0;				// Number of UIM systems remaining.
+	int availableDerfacs = 0;			// Number of DERFACS systems remaining.
 	
 	public SpecialFunctions() {}
 	
@@ -24,6 +30,19 @@ public class SpecialFunctions {
 		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
 		availableDamageControl = 0;
 		excessDamage = excessDamageValue;
+	}
+	
+	// Initialize the values for special functions from the SSD, including special Disruptor systems
+	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue, int derfacsValue, int uimValue) {
+		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
+		availableDamageControl = 0;
+		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
+		availableDamageControl = 0;
+		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
+		availableDamageControl = 0;
+		excessDamage = excessDamageValue;
+		availableUim = uim = uimValue;
+		availableDerfacs = derfacs = derfacsValue;
 	}
 	
 	///// FETCH VALUES /////

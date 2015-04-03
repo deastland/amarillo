@@ -7,5 +7,5 @@ public abstract class VariableDamageWeapon extends Weapon{
 	// 2D chart. Vertical is die roll, horizontal is range.
 	private static final int[][] hitChart = {{}};
 	
-	public abstract int rollDamage(int range);
+	public abstract int fire(int range);
 }

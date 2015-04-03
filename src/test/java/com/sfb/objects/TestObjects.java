@@ -4,12 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sfb.systemgroups.PowerSystems;
+import com.sfb.weapons.Photon;
 
 public class TestObjects {
 	
 	public static PowerSystems testPowerSystems = getTestPowerSystems();
 
-	
 	private static PowerSystems getTestPowerSystems() {
 		PowerSystems ps = new PowerSystems();
 		
@@ -23,4 +23,5 @@ public class TestObjects {
 		ps.init(powerSettings);
 		return ps;
 	}
+	
 }
