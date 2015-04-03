@@ -122,7 +122,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		return true;
 	}
 	
-	public boolean setToProximity() {
+	public boolean setProximity() {
 		return setSpecial();
 	}
 	
