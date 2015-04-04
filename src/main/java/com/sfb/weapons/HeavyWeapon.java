@@ -27,20 +27,6 @@ public interface HeavyWeapon {
 	public boolean setSpecial();
 
 	/**
-	 * If the weapon has a second special arming type, set it to this status.
-	 *  
-	 * @return True if the weapon is in a valid state to be switched to this mode, false otherwise.
-	 */
-	public boolean setSpecial2();
-
-	/**
-	 * If the weapon has a third special arming type, set it to this status.
-	 *  
-	 * @return True if the weapon is in a valid state to be switched to this mode, false otherwise.
-	 */
-	public boolean setSpecial3();
-
-	/**
 	 *  Hold the weapon in its armed state.
 	 * 
 	 * @param energy The energy being used to hold the weapon

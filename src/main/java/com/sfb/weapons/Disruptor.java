@@ -1,23 +1,30 @@
 package com.sfb.weapons;
 
-import com.sfb.properties.DisruptorArmingType;
+import com.sfb.DiceRoller;
 import com.sfb.properties.WeaponArmingType;
 
 public class Disruptor extends Weapon implements HeavyWeapon {
 
 	// STANDARD
 	private final static int[] hitChart = 
-		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2};
+		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
 	// OVERLOAD
 	private final static int[] overloadHitChart =
 		{6,5,5,4,4,4,4,4,4};
 	// SPECIAL
 	private final static int[] derfacsHitChart =
-		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3};
+		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2};
 	private final static int[] uimHitChart =
-		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,2,2,2,2,2,2,2,2};
+		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
 	private final static int[] uimOverloadHitChart =
 		{6,5,5,5,5,5,5,5,5};
+	
+	// STANDARD DAMAGE
+	private final static int[] damageChart =
+		{0,5,4,4,4,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1};
+	// OVERLOAD DAMAGE
+	private final static int[] overloadDamageChart =
+		{10,10,8,8,8,6,6,6,6};
 
 	private int maxRange = 0;											// Maximum range this weapon may be fired.
 	private WeaponArmingType armingType = WeaponArmingType.STANDARD;
@@ -31,8 +38,8 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	}
 	
 	// This is the only constructor we want to use.
-	public Disruptor(int range) {
-		this.maxRange = range;
+	public Disruptor(int maxRange) {
+		this.maxRange = maxRange;
 	}
 	
 	@Override
@@ -48,65 +55,19 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	}
 
 	@Override
-	public boolean setSpecial() {
-		this.armingType = WeaponArmingType.SPECIAL;
-		return true;
-	}
-	
-	@Override
-	public boolean setSpecial2() {
-		this.armingType = WeaponArmingType.SPECIAL2;
-		return true;
-	}
-	
-	@Override
-	public boolean setSpecial3() {
-		this.armingType = WeaponArmingType.SPECIAL3;
-		return true;
-	}
-	/**
-	 * Set arming type to DERFACS.
-	 * 
-	 * @return True.
-	 */
-	public boolean setDerfacs() {
-		return setSpecial();
-	}
-	
-	/**
-	 * Set arming type to UIM
-	 * 
-	 * @return True
-	 */
-	public boolean setUim() {
-		return setSpecial2();
-	}
-	
-	/**
-	 * Set arming type to UIM Overload
-	 * 
-	 * @return True
-	 */
-	public boolean setUimOverload() {
-		return setSpecial3();
-	}
-
-	@Override
 	public boolean hold(int energy) {
-		// TODO Auto-generated method stub
+		// Disruptors can't be held.
 		return false;
 	}
 
 	@Override
 	public int getArmingTurn() {
-		// TODO Auto-generated method stub
-		return 0;
+		return armingTurn;
 	}
 
 	@Override
 	public boolean isArmed() {
-		// TODO Auto-generated method stub
-		return false;
+		return armed;
 	}
 
 	@Override
@@ -117,19 +78,238 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
+		armingType = WeaponArmingType.STANDARD;
+		armingEnergy = 0;
+		armingTurn = 0;
+		armed = false;
 
 	}
 
+	/**
+	 * Fire the diruptors using the default targeting system.
+	 * 
+	 * @param range The range to the target.
+	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 */
 	@Override
 	public int fire(int range) {
-		// TODO Auto-generated method stub
-		return 0;
+		// If the dirutptor isn't armed, it can't fire.
+		if (!isArmed()) {
+			return -1;
+		}
+
+		int damage = 0;
+		// Roll to hit.
+		DiceRoller diceRoller = new DiceRoller();
+
+		// Based on arming type, calculate damage (0 on a miss).
+		switch(armingType) {
+		case STANDARD:
+			// Can't fire at range 0.
+			if (range < 1) {
+				return -1;
+			}
+			
+			// Can't fire beyond maximum range for this weapon.
+			if (range > maxRange) {
+				return -1;
+			}
+			
+			// Calculate hit/damage for the range.
+			if (diceRoller.rollOneDie() <= hitChart[range]) {
+				damage = damageChart[range];
+			}
+			break;
+		case OVERLOAD:
+			// Can't fire at targets beyond range 8.
+			if (range > 8) {
+				return -1;
+			}
+			
+			// Calculate hit/damage for the range
+			if (diceRoller.rollOneDie() <= overloadHitChart[range]) {
+				damage = overloadDamageChart[range];
+			}
+			break;
+		default:
+			break;
+		}
+		
+		// Once fired, the weapon is no longer armed.
+		armed = false;
+		armingEnergy = 0;
+		
+		return damage;
+	}
+
+	/**
+	 * Fire the disruptors using the UIM targeting system.
+	 * 
+	 * @param range The range to the target.
+	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 */
+	public int fireUim(int range) {
+		// If the dirutptor isn't armed, it can't fire.
+		if (!isArmed()) {
+			return -1;
+		}
+
+		int damage = 0;
+		// Roll to hit.
+		DiceRoller diceRoller = new DiceRoller();
+
+		// Based on arming type, calculate damage (0 on a miss).
+		switch(armingType) {
+		case STANDARD:
+			// Standard disruptors can't fire at range 0.
+			if (range < 1) {
+				return -1;
+			}
+			
+			// Can't fire beyond maximum range for this weapon.
+			if (range > maxRange) {
+				return -1;
+			}
+			
+			// Calculate hit/damage for the range.
+			if (diceRoller.rollOneDie() <= uimHitChart[range]) {
+				damage = damageChart[range];
+			}
+			break;
+		case OVERLOAD:
+			// Overloads can't fire at targets beyond range 8.
+			if (range > 8) {
+				return -1;
+			}
+			
+			// Calculate hit/damage for the range
+			if (diceRoller.rollOneDie() <= uimOverloadHitChart[range]) {
+				damage = overloadDamageChart[range];
+			}
+			break;
+		default:
+			break;
+		}
+		
+		// Once fired, the weapon is no longer armed.
+		armed = false;
+		armingEnergy = 0;
+		
+		return damage;
+	}
+
+	/**
+	 * Fire the disruptors using the DERFACS targeting system.
+	 * 
+	 * @param range The range to the target.
+	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 */
+	public int fireDerfacs(int range) {
+		// If the dirutptor isn't armed, it can't fire.
+		if (!isArmed()) {
+			return -1;
+		}
+
+		int damage = 0;
+		// Roll to hit.
+		DiceRoller diceRoller = new DiceRoller();
+
+		// Based on arming type, calculate damage (0 on a miss).
+		switch(armingType) {
+		case STANDARD:
+			// Standard disruptors can't fire at range 0.
+			if (range < 1) {
+				return -1;
+			}
+			
+			// Can't fire beyond maximum range for this weapon.
+			if (range > maxRange) {
+				return -1;
+			}
+			
+			// Calculate hit/damage for the range.
+			if (diceRoller.rollOneDie() <= derfacsHitChart[range]) {
+				damage = damageChart[range];
+			}
+			break;
+		case OVERLOAD:
+			// Overloads can't fire at targets beyond range 8.
+			// Also must have 4 arming energy.
+			if (range > 8 || armingEnergy != 4) {
+				return -1;
+			}
+			
+			// Calculate hit/damage for the range
+			if (diceRoller.rollOneDie() <= overloadHitChart[range]) {
+				damage = overloadDamageChart[range];
+			}
+			break;
+		default:
+			break;
+		}
+		
+		// Once fired, the weapon is no longer armed.
+		armed = false;
+		armingEnergy = 0;
+		
+		return damage;
 	}
 
 	@Override
 	public boolean arm(int energy) {
-		// TODO Auto-generated method stub
+		boolean okayToArm= false;
+
+		// Putting 2 more energy into an armed standard 
+		// disruptor will overload it. But otherwise you can
+		// not arm an armed disruptor.
+		if (isArmed()) {
+			if (armingEnergy == 2 && energy == 2) {
+				armingType = WeaponArmingType.OVERLOAD;
+				armingEnergy += energy;
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		// Check what the arming type is for the weapon.
+		// Apply the energy and increment the arming turn if it matches the profile.
+		switch(armingType) {
+		case STANDARD:
+			if (energy == 2) {
+				armingEnergy += energy;
+				armingTurn++;
+				armed = true;
+				okayToArm = true;
+			} else {
+				okayToArm = false;
+			}
+			break;
+		case OVERLOAD:
+			if (energy == 4) {
+				armingEnergy += energy;
+				armingTurn++;
+				armed = true;
+				okayToArm = true;
+			} else {
+				okayToArm = false;
+			}
+			break;
+		case SPECIAL:
+			break;
+		default:
+			break;
+		}
+		
+		return okayToArm;
+	}
+
+	/**
+	 * No special mode for disruptors, just standard and overload.
+	 * @return False.
+	 */
+	@Override
+	public boolean setSpecial() {
 		return false;
 	}
 

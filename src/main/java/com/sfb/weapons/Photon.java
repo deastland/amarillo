@@ -40,12 +40,16 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		// Based on arming type, calculate damage (0 on a miss).
 		switch(armingType) {
 		case STANDARD:
+			// Can't fire at targets below range 2.
+			if (range < 2) {
+				return -1;
+			}
 			if (diceRoller.rollOneDie() <= hitChart[range]) {
 				damage = 8;
 			}
 			break;
 		case OVERLOAD:
-			// Can't fire at targets beyond range 8.
+			// Can't fire at targets above range 8.
 			if (range > 8) {
 				return -1;
 			}
@@ -68,6 +72,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		
 		// Once fired, the weapon is no longer armed.
 		armed = false;
+		armingEnergy = 0;
 		
 		return damage;
 	}
@@ -266,18 +271,6 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	 */
 	public double getArmingEnergy() {
 		return this.armingEnergy;
-	}
-
-	// No second special arming mode for photons.
-	@Override
-	public boolean setSpecial2() {
-		return false;
-	}
-
-	// No third special arming mode for photons.
-	@Override
-	public boolean setSpecial3() {
-		return false;
 	}
 
 }

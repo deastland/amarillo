@@ -66,6 +66,22 @@ public class SpecialFunctions {
 		return availableExcessDamage;
 	}
 	
+	public int getDerfacs() {
+		return availableDerfacs;
+	}
+	
+	public boolean hasDerfacs() {
+		return availableDerfacs != 0;
+	}
+	
+	public int getUim() {
+		return availableUim;
+	}
+	
+	public boolean hasUim() {
+		return availableUim != 0;
+	}
+	
 	
 	///// DAMAGE /////
 	public boolean damageScanner() {

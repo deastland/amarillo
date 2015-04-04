@@ -30,6 +30,7 @@ import com.sfb.systems.SpecialFunctions;
  */
 public class Ship extends Marker {
 
+	// Shield systems
 	Shields shields;
 
 	// Hull systems
@@ -171,6 +172,14 @@ public class Ship extends Marker {
 		return this.specialFunctions.getDamageControl();
 	}
 	
+	public boolean hasDerfacs() {
+		return this.specialFunctions.hasDerfacs();
+	}
+	
+	public boolean hasUim() {
+		return this.specialFunctions.hasUim();
+	}
+	
 	/// OPERATIONS SYSTEMS ///
 	
 	// Create Operations System Boxes
@@ -190,6 +199,46 @@ public class Ship extends Marker {
 		return this.operationsSystems.getAvailableLab();
 	}
 	
+	/// PROBES ///
+	
+	// Create probe boxes.
+	public void initProbes(Map<String, Integer> values) {
+		probes.init(values);
+	}
+	
+	// Spend a turn arming a probe for information
+	// Specify which probe box.
+	// Return cost of arming or -1 if failure to arm.
+	public int armInformationProbe(int probeNumber) {
+		this.probes.setProbeType(probeNumber, ProbeArmingType.INFORMATION);
+		int cost = this.probes.arm(probeNumber);
+		
+		return cost;
+	}
+	
+	/// WEAPONS ///
+	
+	// Create weapons.
+	public void initWeapons(Map<String, Integer> values) {
+		weapons.init(values);
+	}
+	
+	/// SHUTTLES ///
+
+	//TODO: Shuttle operations
+	
+	public void initShuttles(Map<String, Integer> values) {
+		shuttles.init(values);
+	}
+	
+//	public int getShuttle() {
+//		return shuttle;
+//	}
+//
+//	public void setShuttle(Integer shuttle) {
+//		this.shuttle = shuttle;
+//	}
+
 	/// CRIPPLE CALCULATIONS ////
 	
 	// Calculate the total number of boxes on the ship.
@@ -234,23 +283,6 @@ public class Ship extends Marker {
 		}
 		
 		return false;
-	}
-	
-	/// PROBES ///
-	
-	// Create probe boxes.
-	public void initProbes(Map<String, Integer> values) {
-		probes.init(values);
-	}
-	
-	// Spend a turn arming a probe for information
-	// Specify which probe box.
-	// Return cost of arming or -1 if failure to arm.
-	public int armInformationProbe(int probeNumber) {
-		this.probes.setProbeType(probeNumber, ProbeArmingType.INFORMATION);
-		int cost = this.probes.arm(probeNumber);
-		
-		return cost;
 	}
 	
 	
