@@ -25,6 +25,12 @@ public class ShipTest {
 		// Verify ahull
 		assertEquals(7, testShip.getHullBoxes().getAvailableAhull());
 		
+		// Do a point of damage to the FHull
+		testShip.getHullBoxes().damageFhull();
+		
+		// Verify the new smaller fhull total
+		assertEquals(3, testShip.getHullBoxes().getAvailableFhull());
+		
 		// Verify number of chull
 		assertEquals(0, testShip.getHullBoxes().getAvailableChull());
 		

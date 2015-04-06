@@ -61,7 +61,7 @@ public class HullBoxes implements Systems {
 			return false;
 		}
 		
-		fhull--;
+		availableFhull--;
 		return true;
 	}
 	
@@ -70,7 +70,7 @@ public class HullBoxes implements Systems {
 			return false;
 		}
 		
-		ahull--;
+		availableAhull--;
 		return true;
 	}
 	
@@ -79,7 +79,7 @@ public class HullBoxes implements Systems {
 			return false;
 		}
 		
-		chull--;
+		availableChull--;
 		return true;
 	}
 	
@@ -88,7 +88,7 @@ public class HullBoxes implements Systems {
 			return false;
 		}
 		
-		cargo--;
+		availableCargo--;
 		return true;
 	}
 
