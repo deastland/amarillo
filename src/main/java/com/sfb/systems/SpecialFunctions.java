@@ -1,5 +1,7 @@
 package com.sfb.systems;
 
+import java.util.Map;
+
 
 public class SpecialFunctions {
 
@@ -18,7 +20,7 @@ public class SpecialFunctions {
 	
 	int availableUim = 0;				// Number of UIM systems remaining.
 	int availableDerfacs = 0;			// Number of DERFACS systems remaining.
-	
+		
 	public SpecialFunctions() {}
 	
 	// Initialize the values for special functions from the SSD
@@ -26,9 +28,9 @@ public class SpecialFunctions {
 		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
 		availableDamageControl = 0;
 		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
-		availableDamageControl = 0;
+		availableScanner = 0;
 		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
-		availableDamageControl = 0;
+		availableSensor = 0;
 		excessDamage = excessDamageValue;
 	}
 	
@@ -37,12 +39,38 @@ public class SpecialFunctions {
 		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
 		availableDamageControl = 0;
 		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
-		availableDamageControl = 0;
+		availableScanner = 0;
 		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
-		availableDamageControl = 0;
+		availableSensor = 0;
 		excessDamage = excessDamageValue;
 		availableUim = uim = uimValue;
 		availableDerfacs = derfacs = derfacsValue;
+	}
+	
+	public void init(Map<String, Object> values) {
+		// Damage Control Track
+		int[] damageControlValues = values.get("damcon") == null ? new int[] {0} : (int[])values.get("damcon");
+		damageControl = new int[damageControlValues.length];
+		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
+		availableDamageControl = 0;
+		
+		// Scanners Track
+		int[] scannerValues = values.get("scanner") == null ? new int[] {0} : (int[])values.get("scanner");
+		scanner = new int[scannerValues.length];
+		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
+		availableScanner = 0;
+		
+		// Sensors Track
+		int[] sensorValues = values.get("sensor") == null ? new int[] {0} : (int[])values.get("sensor");
+		sensor = new int[sensorValues.length];
+		System.arraycopy(sensorValues, 0, this.scanner, 0, sensorValues.length);
+		availableSensor = 0;
+		
+		// Excess Damage
+		availableExcessDamage = excessDamage = values.get("excess") == null ? 0 : (Integer)values.get("excess");
+		
+		
+		
 	}
 	
 	///// FETCH VALUES /////

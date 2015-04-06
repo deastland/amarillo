@@ -22,7 +22,7 @@ public class Weapons implements Systems {
 	// The String will need to be formatted in such a way as to pull all the properties of the weapon.
 	// This could get complicated.
 	@Override
-	public void init(Map<String, Integer> values) {
+	public void init(Map<String, Object> values) {
 		// TODO Auto-generated method stub
 		
 	}

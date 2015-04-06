@@ -4,14 +4,15 @@ import com.sfb.DiceRoller;
 import com.sfb.properties.WeaponArmingType;
 
 public class Disruptor extends Weapon implements HeavyWeapon {
-
+	
 	// STANDARD
 	private final static int[] hitChart = 
 		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
 	// OVERLOAD
 	private final static int[] overloadHitChart =
 		{6,5,5,4,4,4,4,4,4};
-	// SPECIAL
+	
+	// SPECIAL FIRE MODES
 	private final static int[] derfacsHitChart =
 		{0,5,5,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2};
 	private final static int[] uimHitChart =
@@ -32,14 +33,15 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	private double armingEnergy = 0;									// Amount of total energy stored in the weapon.
 	private boolean armed = false;										// True if the weapon is armed and ready to fire.
 
-	// Default disruptor range is 30.
-	private Disruptor() {
-		this.maxRange = 30;
+	// Default will have range 30
+	public Disruptor() {
+		this(30);
 	}
 	
 	// This is the only constructor we want to use.
 	public Disruptor(int maxRange) {
 		this.maxRange = maxRange;
+		setDacHitLocaiton("torp");
 	}
 	
 	@Override
@@ -72,8 +74,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 
 	@Override
 	public WeaponArmingType getArmingType() {
-		// TODO Auto-generated method stub
-		return null;
+		return armingType;
 	}
 
 	@Override
@@ -311,6 +312,17 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	@Override
 	public boolean setSpecial() {
 		return false;
+	}
+
+	@Override
+	public int energyToArm() {
+		// Standard disruptors require 2 energy to arm.
+		if (armingType == WeaponArmingType.STANDARD) {
+			return 2;
+		// Overloaded disruptors require 4 energy to arm.
+		} else {
+			return 4;
+		}
 	}
 
 }

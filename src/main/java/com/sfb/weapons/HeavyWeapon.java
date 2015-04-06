@@ -63,7 +63,7 @@ public interface HeavyWeapon {
 	/**
 	 * 
 	 * Arm the weapon by applying arming energy to it. Arming 
-	 * success is dependent on the energy provide, the arming type
+	 * success is dependent on the energy provided, the arming type
 	 * (STANDARD, OVERLOAD, SPECIAL), and the number of turns
 	 * the weapon has already been arming.
 	 * 
@@ -71,5 +71,12 @@ public interface HeavyWeapon {
 	 * @return True if this is a legal arming request, false otherwise.
 	 */
 	public boolean arm(int energy);
+	
+	/**
+	 * This will give the minimum energy required for the current arming cycle of this weapon.
+	 * 
+	 * @return The amount of energy required to arm this weapon in its current state.
+	 */
+	public int energyToArm();
 	
 }

@@ -16,12 +16,13 @@ public class HullBoxes implements Systems {
 	
 	// Use a <String, Integer> map to set the initial values.
 	// Acceptable keys are: fhull, ahull, chull, cargo
-	public void init(Map<String, Integer> values) {
+	@Override
+	public void init(Map<String, Object> values) {
 		// If map has matching value, get it. Otherwise set to 0.
-		availableFhull = fhull = values.get("fhull") == null ? 0: values.get("fhull"); 
-		availableAhull = ahull = values.get("ahull") == null ? 0: values.get("ahull"); 
-		availableChull = chull = values.get("chull") == null ? 0: values.get("chull"); 
-		availableCargo = cargo = values.get("cargo") == null ? 0: values.get("cargo"); 
+		availableFhull = fhull = values.get("fhull") == null ? 0: (Integer)values.get("fhull"); 
+		availableAhull = ahull = values.get("ahull") == null ? 0: (Integer)values.get("ahull"); 
+		availableChull = chull = values.get("chull") == null ? 0: (Integer)values.get("chull"); 
+		availableCargo = cargo = values.get("cargo") == null ? 0: (Integer)values.get("cargo"); 
 
 	}
 	

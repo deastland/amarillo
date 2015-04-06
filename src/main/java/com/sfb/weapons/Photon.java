@@ -20,6 +20,10 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	private double armingEnergy = 0;									// Amount of total energy stored in the weapon.
 	private boolean armed = false;										// True if the weapon is armed and ready to fire.
 	
+	public Photon() {
+		setDacHitLocaiton("torp");
+	}
+	
 	/**
 	 * @param range The range to the target of the weapon.
 	 * 
@@ -271,6 +275,27 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	 */
 	public double getArmingEnergy() {
 		return this.armingEnergy;
+	}
+
+	@Override
+	public int energyToArm() {
+		int energyRequired = 0;
+		
+		switch(armingType) {
+		case STANDARD:
+			energyRequired = 2;
+			break;
+		case SPECIAL:
+			energyRequired = 2;
+			break;
+		case OVERLOAD:
+			energyRequired = 4;	// Later, this may change to reflect advanced Photon arming rules
+			break;
+		default:
+			break;
+		}
+		
+		return energyRequired;
 	}
 
 }

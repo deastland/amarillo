@@ -7,12 +7,21 @@ import java.util.Map;
 // are logically grouped together.
 public interface Systems {
 
-	// Initialization of the systems data.
-	public void init(Map<String, Integer> data);
+	/**
+	 * Initialization of the systems data. 
+	 * @param data A mapping containing the system name and an object with the system data.
+	 */
+	public void init(Map<String, Object> data);
 	
-	// Get a count of all the system boxes on the original SSD.
+	/**
+	 * Get the total number of SSD boxes for this system group.
+	 * @return The number of SSD boxes in this group before any damage.
+	 */
 	public int getOriginalTotalBoxes();
 	
-	// Get a count of all currently undamaged systems boxes.
+	/**
+	 * Get the total number of remaining SSD boxes for this system group.
+	 * @return The number of remaining, undamaged SSD boxes in this group.
+	 */
 	public int getTotalBoxes();
 }

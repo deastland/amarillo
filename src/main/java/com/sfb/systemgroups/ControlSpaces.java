@@ -19,13 +19,14 @@ public class ControlSpaces implements Systems {
 	
 	// Given a map of <String, Integer> set the initial values for all control boxes.
 	// Acceptable keys for the map are: bridge, flag, emer, auxcon, security
-	public void init(Map<String, Integer> values) {
+	@Override
+	public void init(Map<String, Object> values) {
 		// If map has matching value, get it. Otherwise set to 0.
-		availableBridge   = bridge   = values.get("bridge")   == null ? 0 : values.get("bridge");
-		availableFlag     = flag     = values.get("flag")     == null ? 0 : values.get("flag");
-		availableEmer     = emer     = values.get("emer")     == null ? 0 : values.get("emer");
-		availableAuxcon   = auxcon   = values.get("auxcon")   == null ? 0 : values.get("auxcon");
-		availableSecurity = security = values.get("security") == null ? 0 : values.get("security");
+		availableBridge   = bridge   = values.get("bridge")   == null ? 0 : (Integer)values.get("bridge");
+		availableFlag     = flag     = values.get("flag")     == null ? 0 : (Integer)values.get("flag");
+		availableEmer     = emer     = values.get("emer")     == null ? 0 : (Integer)values.get("emer");
+		availableAuxcon   = auxcon   = values.get("auxcon")   == null ? 0 : (Integer)values.get("auxcon");
+		availableSecurity = security = values.get("security") == null ? 0 : (Integer)values.get("security");
 	}
 	
 	////// VALUE CALLS /////////

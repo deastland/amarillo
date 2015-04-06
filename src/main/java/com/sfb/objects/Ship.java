@@ -17,6 +17,7 @@ import com.sfb.systemgroups.Probes;
 import com.sfb.systemgroups.Shields;
 import com.sfb.systemgroups.Shuttles;
 import com.sfb.systemgroups.Weapons;
+import com.sfb.systems.Probe;
 import com.sfb.systems.SpecialFunctions;
 
 /**
@@ -31,7 +32,7 @@ import com.sfb.systems.SpecialFunctions;
 public class Ship extends Marker {
 
 	// Shield systems
-	Shields shields;
+	Shields shields = new Shields();
 
 	// Hull systems
 	HullBoxes hullBoxes = new HullBoxes();
@@ -64,12 +65,26 @@ public class Ship extends Marker {
 	
 	// Traits
 	Integer[] turnMode = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
-	
+
+	// Hull Data
+	double movementCost = 0;		// The warp cost for each hex of movement.
+	int hetCost = 0;				//TODO: Is this derived from movementCost?
+	int emCost = 0;					//TODO: Is this derived from movementCost? 
+	boolean agile = false;			// True if the ship is agile, false otherwise.
+	int seekerControlMod = 1;		// Multiply this by the sensor rating to get the number of seeking weapons that can be controlled
+	int sizeClass = 3;				//TODO: SIZE CLASS?
 
 	// "Real-time" data
 	Integer sideslipCount = 0;
 	Integer turnCount = 0;
 	boolean crippled = false;
+	
+	//TODO: Transporter bombs (romulan nuclear mine).
+	//TODO: Boarding parties (minimum crew).
+	//TODO: Crew Units
+	//TODO: Turn Mode Chart (HET & Breakdown tracking)
+	//TODO: Refits (different ships with parent/child relationship?)
+	//TODO: Armor?
 	/////////////////////////////////////////////////////////
 	
 	
@@ -77,14 +92,22 @@ public class Ship extends Marker {
 	public Ship() {	}
 	
 	// Fill in the values for all the systems.
-	public void initShip(Map<String, Integer> values) {
-		
+	public void initShip(Map<String, Object> values) {
+		initShields(values);
+		initHullBoxes(values);
+		initPowerSystems(values);
+		initControlSpaces(values);
+		initSpecialFunctions(values);
+		initOperationsSystems(values);
+		initProbes(values);
+		initShuttles(values);
+		initWeapons(values);
 	}
 	
 	/// SHIELDS ///
 	
 	// Create shields
-	public void initShields(Map<String, Integer> values) {
+	public void initShields(Map<String, Object> values) {
 		this.shields.init(values);
 	}
 	
@@ -102,56 +125,41 @@ public class Ship extends Marker {
 	/// HULL BOXES ///
 	
 	// Create hull boxes
-	public void initHullBoxes(Map<String, Integer> values) {
+	public void initHullBoxes(Map<String, Object> values) {
 		this.hullBoxes.init(values);
 	}
 	
-	public int getForwardHull() {
-		return this.hullBoxes.getAvailableFhull();
+	public HullBoxes getHullBoxes() {
+		return this.hullBoxes;
 	}
 
-	public int getAftHull() {
-		return this.hullBoxes.getAvailableAhull();
+	/// POWER SYSTEMS ///
+	public void initPowerSystems(Map<String, Object> values) {
+		powerSystems.init(values);
 	}
-
-	public int getCenterHull() {
-		return this.hullBoxes.getAvailableChull();
+	
+	public PowerSystems getPowerSysetems() {
+		return powerSystems;
 	}
-
-	public int getCargo() {
-		return this.hullBoxes.getAvailableCargo();
-	}
-
+	
 	/// CONTROL SPACES ///
 	
 	// Create control boxes.
-	public void initControlSpaces(Map <String, Integer> values) {
+	public void initControlSpaces(Map <String, Object> values) {
 		this.controlSpaces.init(values);
 	}
 	
-	public int getBridge() {
-		return this.controlSpaces.getAvailableBridge();
+	public ControlSpaces getControlSpaces() {
+		return this.controlSpaces;
 	}
-
-	public int getFlag() {
-		return this.controlSpaces.getAvailableFlag();
-	}
-
-	public int getEmer() {
-		return this.controlSpaces.getAvailableEmer();
-	}
-
-	public int getAuxcon() {
-		return this.controlSpaces.getAvailableAuxcon();
-	}
-
-	public int getSecurity() {
-		return this.controlSpaces.getAvailableSecurity();
-	}
-
+	
 	/// SPECIAL FUNCITONS ///
 	
 	// Create special function tracks.
+	public void initSpecialFunctions(Map<String, Object> values) {
+		specialFunctions.init(values);
+	}
+	
 	public void initSpecialFunctions(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
 		this.specialFunctions.init(damageControlValues, scannerValues, sensorValues, excessDamageValue);
 	}
@@ -183,7 +191,7 @@ public class Ship extends Marker {
 	/// OPERATIONS SYSTEMS ///
 	
 	// Create Operations System Boxes
-	public void initOperationsSystems(Map<String, Integer> values) {
+	public void initOperationsSystems(Map<String, Object> values) {
 		this.operationsSystems.init(values);
 	}
 	
@@ -202,24 +210,18 @@ public class Ship extends Marker {
 	/// PROBES ///
 	
 	// Create probe boxes.
-	public void initProbes(Map<String, Integer> values) {
+	public void initProbes(Map<String, Object> values) {
 		probes.init(values);
 	}
 	
-	// Spend a turn arming a probe for information
-	// Specify which probe box.
-	// Return cost of arming or -1 if failure to arm.
-	public int armInformationProbe(int probeNumber) {
-		this.probes.setProbeType(probeNumber, ProbeArmingType.INFORMATION);
-		int cost = this.probes.arm(probeNumber);
-		
-		return cost;
+	public Probes getProbes() {
+		return this.probes;
 	}
 	
 	/// WEAPONS ///
 	
 	// Create weapons.
-	public void initWeapons(Map<String, Integer> values) {
+	public void initWeapons(Map<String, Object> values) {
 		weapons.init(values);
 	}
 	
@@ -227,7 +229,7 @@ public class Ship extends Marker {
 
 	//TODO: Shuttle operations
 	
-	public void initShuttles(Map<String, Integer> values) {
+	public void initShuttles(Map<String, Object> values) {
 		shuttles.init(values);
 	}
 	

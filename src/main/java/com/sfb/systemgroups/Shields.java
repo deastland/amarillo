@@ -15,6 +15,8 @@ public class Shields implements Systems {
 	private int[] specificReinforcement = new int[] {0,0,0,0,0,0};
 	private int generalReinforcement = 0;
 	
+	public Shields() {}
+	
 	// Returns the current strength of the specified shield, including specific reinforcement.
 	public int getShieldStrength(int shieldNumber) {
 		return currentShieldValues[shieldNumber - 1] + specificReinforcement[shieldNumber - 1];
@@ -38,13 +40,14 @@ public class Shields implements Systems {
 	////////////////////////////////////
 
 	// Initialize shield values.
-	public void init(Map<String, Integer> values) {
-		currentShieldValues[0] = shieldValues[0] = values.get("shield1") == null ? 0 : Integer.valueOf(values.get("shield1"));
-		currentShieldValues[1] = shieldValues[1] = values.get("shield2") == null ? 0 : Integer.valueOf(values.get("shield2"));
-		currentShieldValues[2] = shieldValues[2] = values.get("shield3") == null ? 0 : Integer.valueOf(values.get("shield3"));
-		currentShieldValues[3] = shieldValues[3] = values.get("shield4") == null ? 0 : Integer.valueOf(values.get("shield4"));
-		currentShieldValues[4] = shieldValues[4] = values.get("shield5") == null ? 0 : Integer.valueOf(values.get("shield5"));
-		currentShieldValues[5] = shieldValues[5] = values.get("shield6") == null ? 0 : Integer.valueOf(values.get("shield6"));
+	@Override
+	public void init(Map<String, Object> values) {
+		currentShieldValues[0] = shieldValues[0] = values.get("shield1") == null ? 0 : (Integer)values.get("shield1");
+		currentShieldValues[1] = shieldValues[1] = values.get("shield2") == null ? 0 : (Integer)values.get("shield2");
+		currentShieldValues[2] = shieldValues[2] = values.get("shield3") == null ? 0 : (Integer)values.get("shield3");
+		currentShieldValues[3] = shieldValues[3] = values.get("shield4") == null ? 0 : (Integer)values.get("shield4");
+		currentShieldValues[4] = shieldValues[4] = values.get("shield5") == null ? 0 : (Integer)values.get("shield5");
+		currentShieldValues[5] = shieldValues[5] = values.get("shield6") == null ? 0 : (Integer)values.get("shield6");
 		
 		// All shields start active
 		shieldActive = new boolean[] {true, true, true, true, true, true};

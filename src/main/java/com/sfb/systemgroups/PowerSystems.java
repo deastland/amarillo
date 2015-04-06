@@ -32,15 +32,16 @@ public class PowerSystems implements Systems {
 	// Pass in mapping of all the power values
 	// The mapping will have String keys and Integer values.
 	// Acceptable keys are: lwarp, rwarp, cwarp, impulse, apr, awr, battery
-	public void init(Map<String, Integer> powerValues) {
+	@Override
+	public void init(Map<String, Object> values) {
 		// If map has matching value, get it. Otherwise set to 0.
-		availableLwarp   = lwarp   = powerValues.get("lwarp")   == null ? 0: powerValues.get("lwarp"); 
-		availableRwarp   = rwarp   = powerValues.get("rwarp")   == null ? 0: powerValues.get("rwarp"); 
-		availableCwarp   = cwarp   = powerValues.get("cwarp")   == null ? 0: powerValues.get("cwarp"); 
-		availableImpulse = impulse = powerValues.get("impulse") == null ? 0: powerValues.get("impulse"); 
-		availableApr     = apr     = powerValues.get("apr")     == null ? 0: powerValues.get("apr"); 
-		availableAwr     = awr     = powerValues.get("awr")     == null ? 0: powerValues.get("awr"); 
-		availableBattery = battery = powerValues.get("battery") == null ? 0: powerValues.get("battery");
+		availableLwarp   = lwarp   = values.get("lwarp")   == null ? 0: (Integer)values.get("lwarp"); 
+		availableRwarp   = rwarp   = values.get("rwarp")   == null ? 0: (Integer)values.get("rwarp"); 
+		availableCwarp   = cwarp   = values.get("cwarp")   == null ? 0: (Integer)values.get("cwarp"); 
+		availableImpulse = impulse = values.get("impulse") == null ? 0: (Integer)values.get("impulse"); 
+		availableApr     = apr     = values.get("apr")     == null ? 0: (Integer)values.get("apr"); 
+		availableAwr     = awr     = values.get("awr")     == null ? 0: (Integer)values.get("awr"); 
+		availableBattery = battery = values.get("battery") == null ? 0: (Integer)values.get("battery");
 
 	}
 	

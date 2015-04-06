@@ -15,8 +15,8 @@ public class Shuttles implements Systems {
 	}
 	
 	@Override
-	public void init(Map<String, Integer> values) {
-		availableShuttleBoxes = shuttleBoxes = values.get("shuttle") == null ? 0 : values.get("shuttle");
+	public void init(Map<String, Object> values) {
+		availableShuttleBoxes = shuttleBoxes = values.get("shuttle") == null ? 0 : (Integer)values.get("shuttle");
 	}
 	
 	//TODO: Implement shuttle/fighter stuff.

@@ -13,12 +13,12 @@ public class TestObjects {
 	private static PowerSystems getTestPowerSystems() {
 		PowerSystems ps = new PowerSystems();
 		
-		Map<String, Integer> powerSettings = new HashMap<>();
-		powerSettings.put("lwarp", 15);
-		powerSettings.put("rwarp", 15);
-		powerSettings.put("apr", 4);
-		powerSettings.put("impulse", 4);
-		powerSettings.put("battery", 4);
+		Map<String, Object> powerSettings = new HashMap<>();
+		powerSettings.put("lwarp", new Integer(15));
+		powerSettings.put("rwarp", new Integer(15));
+		powerSettings.put("apr", new Integer(4));
+		powerSettings.put("impulse", new Integer(4));
+		powerSettings.put("battery", new Integer(4));
 		
 		ps.init(powerSettings);
 		return ps;
