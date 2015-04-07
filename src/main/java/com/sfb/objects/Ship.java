@@ -252,7 +252,7 @@ public class Ship extends Marker {
 	
 	// The ship may be crippled if half or more of its boxes
 	// are destroyed.
-	private boolean isCrippled() {
+	public boolean isCrippled() {
 		if (getCurrentBoxes() >= getTotalSSDBoxes() / 2) {
 			return true;
 		}

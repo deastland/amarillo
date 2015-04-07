@@ -1,10 +1,22 @@
 package com.sfb.weapons;
 
+/**
+ * Parent class for all weapons. Contains common functionality shared by weapons of all types.
+ * 
+ * @author Daniel Eastland
+ *
+ */
 public abstract class Weapon {
 	
-	private String dacHitLocaiton;		// What DAC 'hit' destroys  this weapon //TODO: should this be an enum?
-	private int[] arcs;					// What arcs can the weapon fire into?
+	private String  dacHitLocaiton;		// What DAC 'hit' destroys  this weapon //TODO: should this be an enum?
+	private int[]   arcs;				// The arcs into which the weapon can fire
+	private boolean functional;			// True if the weapon is undamaged, false otherwise.
 	
+	/**
+	 * Determine what value on the DAC ('torp', 'drone', etc.) will damage this weapon.
+	 * 
+	 * @return The DAC string that affects this weapon.
+	 */
 	public String getDacHitLocaiton() {
 		return dacHitLocaiton;
 	}
@@ -55,6 +67,27 @@ public abstract class Weapon {
 		return false;
 	}
 	
+	/**
+	 * Checks to see if the weapon is undamaged.
+	 * @return True if weapon is undamaged, false otherwise.
+	 */
+	public boolean isFunctional() {
+		return functional;
+	}
+	
+	/**
+	 * Apply damage to the weapon, rendering it non-functional.
+	 */
+	public void damage() {
+		functional = false;
+	}
+	
+	/**
+	 * Repair a damaged weapon, rendering it functional again.
+	 */
+	public void repair() {
+		functional = true;
+	}
 	/**
 	 * Fire the weapon at a target and calculate the resultant
 	 * damage, if any.

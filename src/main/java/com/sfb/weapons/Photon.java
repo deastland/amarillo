@@ -1,7 +1,7 @@
 package com.sfb.weapons;
 
-import com.sfb.DiceRoller;
 import com.sfb.properties.WeaponArmingType;
+import com.sfb.utilities.DiceRoller;
 
 public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 

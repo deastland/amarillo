@@ -2,5 +2,5 @@ package com.sfb;
 
 public class Constants {
 
-	double transEnergy = 0.2;
+	public static final double transEnergy = 0.2;	// The energy required to activate a single transporter box.
 }

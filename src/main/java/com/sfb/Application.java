@@ -3,6 +3,8 @@ package com.sfb;
 import com.sfb.objects.Marker;
 import com.sfb.objects.Ship;
 import com.sfb.properties.FiringArc;
+import com.sfb.properties.ShieldFacing;
+import com.sfb.utilities.HexMap;
 
 public class Application {
 

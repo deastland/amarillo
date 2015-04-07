@@ -1,7 +1,7 @@
 package com.sfb.systems;
 
-import com.sfb.DiceRoller;
 import com.sfb.properties.ProbeArmingType;
+import com.sfb.utilities.DiceRoller;
 import com.sfb.weapons.Weapon;
 
 public class Probe extends Weapon {

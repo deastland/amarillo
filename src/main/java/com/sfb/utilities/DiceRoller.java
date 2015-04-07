@@ -1,4 +1,4 @@
-package com.sfb;
+package com.sfb.utilities;
 
 public class DiceRoller {
 

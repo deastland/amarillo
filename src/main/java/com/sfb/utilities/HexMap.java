@@ -1,8 +1,15 @@
-package com.sfb;
+package com.sfb.utilities;
 
 import com.sfb.objects.Marker;
 import com.sfb.properties.Location;
 
+/**
+ * Utility object used to calculate the true bearing and range between two objects on a hex map.
+ * The map utilizes an x:y coordinate system.
+ * 
+ * @author Daniel Eastland
+ *
+ */
 public class HexMap {
 	
 	// Shield facings from a position
