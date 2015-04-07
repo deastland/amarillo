@@ -10,13 +10,17 @@ public class Weapons implements Systems {
 
 	List<Weapon> weapons = new LinkedList<>();
 	
-	int phasers;	// Items hit on 'phaser' in the DAC
-	int torps;		// Items hit on 'torp' in the DAC
-	int drones;		// Items hit on 'drone' in the DAC
+	int phasers;				// Items hit on 'phaser' in the DAC
+	int torps;					// Items hit on 'torp' in the DAC
+	int drones;					// Items hit on 'drone' in the DAC
+	double capacitor;			// Initial size of the phaser capacitor
 	
-	int availablePhasers;	// Items hit on 'phaser' in the DAC
-	int availableTorps;		// Items hit on 'torp' in the DAC
-	int availableDrones;	// Items hit on 'drone' in the DAC
+	int availablePhasers;		// Items hit on 'phaser' in the DAC
+	int availableTorps;			// Items hit on 'torp' in the DAC
+	int availableDrones;		// Items hit on 'drone' in the DAC
+	double availableCapacitor;	// Current size of the phaser capacitor.
+	
+	int capicitorEnergy;		// Energy currently in the phaser capacitor.
 	
 	// Get all the weapons from the map.
 	// The String will need to be formatted in such a way as to pull all the properties of the weapon.

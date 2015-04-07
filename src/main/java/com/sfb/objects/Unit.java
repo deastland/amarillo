@@ -19,6 +19,7 @@ public class Unit extends Marker {
 	//
 	private int facing = 1;
 	private int speed = 0;
+	private int sizeClass = 0;
 	
 	public int getFacing() {
 		return facing;
@@ -56,6 +57,14 @@ public class Unit extends Marker {
 			return trueBearing + adjustUp;
 		}
 		
+	}
+
+	public int getSizeClass() {
+		return sizeClass;
+	}
+
+	public void setSizeClass(int sizeClass) {
+		this.sizeClass = sizeClass;
 	}
 
 }

@@ -8,7 +8,6 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
-import com.sfb.properties.ProbeArmingType;
 import com.sfb.systemgroups.ControlSpaces;
 import com.sfb.systemgroups.HullBoxes;
 import com.sfb.systemgroups.OperationsSystems;
@@ -17,7 +16,7 @@ import com.sfb.systemgroups.Probes;
 import com.sfb.systemgroups.Shields;
 import com.sfb.systemgroups.Shuttles;
 import com.sfb.systemgroups.Weapons;
-import com.sfb.systems.Probe;
+import com.sfb.systems.PerformanceData;
 import com.sfb.systems.SpecialFunctions;
 
 /**
@@ -31,53 +30,27 @@ import com.sfb.systems.SpecialFunctions;
  */
 public class Ship extends Marker {
 
-	// Shield systems
-	Shields shields = new Shields();
-
-	// Hull systems
-	HullBoxes hullBoxes = new HullBoxes();
-
-	// Power systems (warp, impulse, ap/wr, battery)
-	PowerSystems powerSystems = new PowerSystems();
-
-	// Control systems (bridge, flag, aux, emer, security)
-	ControlSpaces controlSpaces = new ControlSpaces();
+	/// All the stuff that goes into a ship ///
 	
-	// Special functions
-	SpecialFunctions specialFunctions = new SpecialFunctions();
-	
-	// Operations systems
-	OperationsSystems operationsSystems = new OperationsSystems();
-	
-	// Probes
-	Probes probes = new Probes();
-	
-	// Shuttles
-	Shuttles shuttles = new Shuttles();
-	
-	// Weapons systems
-	Weapons weapons = new Weapons();
+	Shields           shields           = new Shields();				// Shield systems
+	HullBoxes         hullBoxes         = new HullBoxes();				// Hull boxes
+	PowerSystems      powerSystems      = new PowerSystems();			// Power systems (warp, impulse, apr, awr, battery)
+	ControlSpaces     controlSpaces     = new ControlSpaces();			// Control systems (bridge, flag, aux, emer, security)
+	SpecialFunctions  specialFunctions  = new SpecialFunctions();		// Special functions
+	OperationsSystems operationsSystems = new OperationsSystems();		// Operations Systems
+	Probes            probes            = new Probes();					// Probes
+	Shuttles          shuttles          = new Shuttles();				// Shuttles and shuttle bays.
+	Weapons           weapons           = new Weapons();				// Weapons
+	PerformanceData	  performance		= new PerformanceData();		// Base statistics for the frame.
 	
 	////////////////////////////////////////////////////////
-	int phaserCapaciter = 0;
-	int availablePhaserCapaciter = 0;
-	int phaserCapaciterPower = 0;
-	
 	// Traits
-	Integer[] turnMode = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 	// Hull Data
-	double movementCost = 0;		// The warp cost for each hex of movement.
-	int hetCost = 0;				//TODO: Is this derived from movementCost?
-	int emCost = 0;					//TODO: Is this derived from movementCost? 
-	boolean agile = false;			// True if the ship is agile, false otherwise.
-	int seekerControlMod = 1;		// Multiply this by the sensor rating to get the number of seeking weapons that can be controlled
-	int sizeClass = 3;				//TODO: SIZE CLASS?
-
 	// "Real-time" data
-	Integer sideslipCount = 0;
-	Integer turnCount = 0;
-	boolean crippled = false;
+	Integer sideslipCount = 0;			// Can't sideslip unless this value is 0.
+	Integer turnCount     = 0;			// Turn count must reach turn mode value before the ship can turn.
+	boolean crippled      = false;		// True if the ship is crippled.
 	
 	//TODO: Transporter bombs (romulan nuclear mine).
 	//TODO: Boarding parties (minimum crew).
@@ -160,9 +133,9 @@ public class Ship extends Marker {
 		specialFunctions.init(values);
 	}
 	
-	public void initSpecialFunctions(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
-		this.specialFunctions.init(damageControlValues, scannerValues, sensorValues, excessDamageValue);
-	}
+//	public void initSpecialFunctions(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
+//		this.specialFunctions.init(damageControlValues, scannerValues, sensorValues, excessDamageValue);
+//	}
 	
 	public int getSensor() {
 		return this.specialFunctions.getSensor();

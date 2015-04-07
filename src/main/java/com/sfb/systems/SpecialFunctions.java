@@ -5,48 +5,52 @@ import java.util.Map;
 
 public class SpecialFunctions {
 
-	int[] damageControl = {0};			// Array of values representing the DamCon track on the SSD.
-	int[] scanner = {0};				// Array of values representing the scanner track on the SSD.
-	int[] sensor = {0};					// Array of values representing the sensor track on the SSD.
-	int excessDamage = 0;				// Base amount of excess damage on the SSD.
+	int[] damageControl			= {0};		// Array of values representing the DamCon track on the SSD.
+	int[] scanner				= {0};		// Array of values representing the scanner track on the SSD.
+	int[] sensor				= {0};		// Array of values representing the sensor track on the SSD.
+	int excessDamage			= 0;		// Base amount of excess damage on the SSD.
 	
-	int uim = 0;						// Ubitron Interface Module (usually only on Klingon ships)
-	int derfacs = 0;					// DERFACS (usually only on Klingon and Lyran ships)
+	int uim						= 0;		// Ubitron Interface Module (usually only on Klingon ships)
+	int derfacs					= 0;		// DERFACS (usually only on Klingon and Lyran ships)
 
-	int availableDamageControl = 0;		// Pointer to the current DamageControl value. Moves with damage/repair.
-	int availableScanner = 0;			// Pointer to the current scanner value. Moves with damage/repair.
-	int availableSensor = 0;			// Pointer to the current sensor value. Moves with damage/repair.
-	int availableExcessDamage = 0;		// Amount of excess damage remaining.
+	int availableDamageControl	= 0;		// Pointer to the current DamageControl value. Moves with damage/repair.
+	int availableScanner		= 0;		// Pointer to the current scanner value. Moves with damage/repair.
+	int availableSensor			= 0;		// Pointer to the current sensor value. Moves with damage/repair.
+	int availableExcessDamage	= 0;		// Amount of excess damage remaining.
 	
-	int availableUim = 0;				// Number of UIM systems remaining.
-	int availableDerfacs = 0;			// Number of DERFACS systems remaining.
-		
+	int availableUim			= 0;		// Number of UIM systems remaining.
+	int availableDerfacs		= 0;		// Number of DERFACS systems remaining.
+	
+	int controlModifier			= 1;		// Multiplier for seeker control. Some ships have 2 x sensor rating.
+	int controlUsed				= 0;		// Amount of seeker control currently occupied.
+	
 	public SpecialFunctions() {}
 	
-	// Initialize the values for special functions from the SSD
-	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
-		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
-		availableDamageControl = 0;
-		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
-		availableScanner = 0;
-		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
-		availableSensor = 0;
-		excessDamage = excessDamageValue;
-	}
-	
-	// Initialize the values for special functions from the SSD, including special Disruptor systems
-	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue, int derfacsValue, int uimValue) {
-		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
-		availableDamageControl = 0;
-		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
-		availableScanner = 0;
-		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
-		availableSensor = 0;
-		excessDamage = excessDamageValue;
-		availableUim = uim = uimValue;
-		availableDerfacs = derfacs = derfacsValue;
-	}
-	
+//	// Initialize the values for special functions from the SSD
+//	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
+//		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
+//		availableDamageControl = 0;
+//		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
+//		availableScanner = 0;
+//		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
+//		availableSensor = 0;
+//		excessDamage = excessDamageValue;
+//	}
+//	
+//	// Initialize the values for special functions from the SSD, including special Disruptor systems
+//	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue, int derfacsValue, int uimValue) {
+//		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
+//		availableDamageControl = 0;
+//		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
+//		availableScanner = 0;
+//		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
+//		availableSensor = 0;
+//		excessDamage = excessDamageValue;
+//		availableUim = uim = uimValue;
+//		availableDerfacs = derfacs = derfacsValue;
+//	}
+//	
+
 	public void init(Map<String, Object> values) {
 		// Damage Control Track
 		int[] damageControlValues = values.get("damcon") == null ? new int[] {0} : (int[])values.get("damcon");
@@ -68,9 +72,7 @@ public class SpecialFunctions {
 		
 		// Excess Damage
 		availableExcessDamage = excessDamage = values.get("excess") == null ? 0 : (Integer)values.get("excess");
-		
-		
-		
+
 	}
 	
 	///// FETCH VALUES /////
@@ -108,6 +110,10 @@ public class SpecialFunctions {
 	
 	public boolean hasUim() {
 		return availableUim != 0;
+	}
+	
+	public int getControlLimit() {
+		return availableSensor * controlModifier;
 	}
 	
 	
