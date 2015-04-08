@@ -8,6 +8,7 @@ package com.sfb.weapons;
  */
 public abstract class Weapon {
 	
+	private String  name;				// The name of the weapon ('phaser1', 'disruptor30', 'photon', 'esg', 'droneG', etc.)
 	private String  dacHitLocaiton;		// What DAC 'hit' destroys  this weapon //TODO: should this be an enum?
 	private int[]   arcs;				// The arcs into which the weapon can fire
 	private boolean functional;			// True if the weapon is undamaged, false otherwise.
@@ -96,5 +97,18 @@ public abstract class Weapon {
 	 * @return The amount of damage to be applied to the target.
 	 */
 	public abstract int fire(int range);
+
+	/**
+	 * Get the name of the weapon (Phaser1, Photon, etc.).
+	 * 
+	 * @return The name of the weapon
+	 */
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 }

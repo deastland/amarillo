@@ -74,7 +74,7 @@ public class ShipTest {
 		assertTrue(testShip.getProbes().get(0).arm(1));
 		
 		// Fire fully armed probe.
-		assertEquals(100000, testShip.getProbes().get(0).fire(3));
+		assertEquals(20, testShip.getProbes().get(0).fire(3));
 		
 		
 	}

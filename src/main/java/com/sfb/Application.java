@@ -4,10 +4,12 @@ import com.sfb.objects.Marker;
 import com.sfb.objects.Ship;
 import com.sfb.properties.FiringArc;
 import com.sfb.properties.ShieldFacing;
+import com.sfb.utilities.DAC;
 import com.sfb.utilities.HexMap;
 
 public class Application {
 
+	private static DAC myDac = new DAC();
 	public static void main(String[] args) {
 
 		Marker thing1 = new Marker(14,10);

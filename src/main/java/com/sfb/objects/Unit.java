@@ -21,6 +21,11 @@ public class Unit extends Marker {
 	private int speed = 0;
 	private int sizeClass = 0;
 	
+	private int[] turnMode;
+	
+	private int sideslipCount = 0;			// Can't sideslip unless this value is 1. Reset to 0 with every sideslip.
+	private int turnCount     = 99;			// Turn count must reach turn mode value before the ship can turn. Reset to 0 with every turn.
+
 	public int getFacing() {
 		return facing;
 	}
@@ -66,5 +71,76 @@ public class Unit extends Marker {
 	public void setSizeClass(int sizeClass) {
 		this.sizeClass = sizeClass;
 	}
+	
+	/**
+	 * Return the turn mode for the unit at its current speed.
+	 * 
+	 * @return The number of hexes the ship must move before it can turn.
+	 */
+	public int getTurnMode() {
+		return this.turnMode[speed];
+	}
+	
+	/// MOVEMENT ///
+	
+	public boolean sideslipLeft() {
+		if (sideslipCount == 0) {
+			return false;
+		}
+		//TODO: Work out logic for this. Will need to change ship position to the hex at range 1 in the '21' direction (or hex 6 direction) wthiout changing the ship facing.
+		sideslipCount = 0;
+		return true;
+	}
 
+	public boolean sideslipRight() {
+		if (sideslipCount == 0) {
+			return false;
+		}
+		//TODO: Work out logic for this. Will need to change ship position to the hex at range 1 in the '5' direction (or hex 2 direction) wthiout changing the ship facing.
+		sideslipCount = 0;
+		return true;
+	}
+	
+	public boolean turnLeft() {
+		if (turnCount < turnMode[speed]) {
+			return false;
+		}
+		//TODO: Chagne ship facing and position to match.
+		
+		
+		turnCount = 1;
+		return true;
+	}
+
+	public boolean turnRight() {
+		if (turnCount < turnMode[speed]) {
+			return false;
+		}
+		//TODO: Change ship facing and position to match.
+		
+		
+		turnCount = 1;
+		return true;
+	}
+	
+	public boolean goStraight() {
+		
+		//TODO: Change ship position to match.
+		sideslipCount++;
+		turnCount++;
+		
+		return true;
+	}
+	
+	/**
+	 * Change the facing of the unit without moving it.
+	 * @param absoluteFacing The new facing of the unit with respect to the map.
+	 * @return True if the maneuver is possible, false otherwise.
+	 */
+	public boolean het(int absoluteFacing) {
+		
+		
+		
+		return true;
+	}
 }

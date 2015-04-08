@@ -2,6 +2,12 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+/**
+ * The control spaces of a ship.
+ * 
+ * @author Daniel Eastland
+ *
+ */
 public class ControlSpaces implements Systems {
 	private int bridge;
 	private int flag;
@@ -140,6 +146,14 @@ public class ControlSpaces implements Systems {
 		
 		availableSecurity += amount;
 		return true;
+	}
+	
+	/**
+	 * If a ship is out of undamaged control spaces, it becomes uncontrolled.
+	 * @return True if no control spaces are undamaged, false otherwise.
+	 */
+	public boolean uncontrolled() {
+		return availableBridge + availableFlag + availableEmer + availableAuxcon == 0;
 	}
 
 	@Override

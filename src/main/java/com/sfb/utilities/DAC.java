@@ -234,8 +234,6 @@ public class DAC {
 		private boolean special;	// True if this is an underlined item.
 		private boolean available;	// Default true, set to false when it is a 'special' and has been already hit.
 		
-		public DACItem() {}
-		
 		public DACItem(String system, boolean special) {
 			this.system = system;
 			this.special = special;

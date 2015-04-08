@@ -2,12 +2,11 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
-import com.sfb.properties.ProbeArmingType;
 import com.sfb.systems.Probe;
 
 public class Probes implements Systems {
 
-	private Probe[] probeArray;
+	private Probe[] probeArray = new Probe[] {};
 	
 	public Probes() {}
 	

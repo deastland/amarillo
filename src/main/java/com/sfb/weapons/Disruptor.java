@@ -42,6 +42,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	public Disruptor(int maxRange) {
 		this.maxRange = maxRange;
 		setDacHitLocaiton("torp");
+		setName("Disruptor-" + maxRange);
 	}
 	
 	@Override
@@ -96,6 +97,11 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	public int fire(int range) {
 		// If the dirutptor isn't armed, it can't fire.
 		if (!isArmed()) {
+			return -1;
+		}
+		
+		// If the target is out of range, it can't fire.
+		if (range > maxRange) {
 			return -1;
 		}
 
@@ -155,6 +161,11 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 			return -1;
 		}
 
+		// If the target is out of range, it can't fire.
+		if (range > maxRange) {
+			return -1;
+		}
+
 		int damage = 0;
 		// Roll to hit.
 		DiceRoller diceRoller = new DiceRoller();
@@ -208,6 +219,11 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	public int fireDerfacs(int range) {
 		// If the dirutptor isn't armed, it can't fire.
 		if (!isArmed()) {
+			return -1;
+		}
+
+		// If the target is out of range, it can't fire.
+		if (range > maxRange) {
 			return -1;
 		}
 

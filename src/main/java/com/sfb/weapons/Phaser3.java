@@ -23,6 +23,7 @@ public class Phaser3 extends VariableDamageWeapon {
 	
 	public Phaser3() {
 		setDacHitLocaiton("phaser");
+		setName("Phaser-3");
 	}
 
 	/**

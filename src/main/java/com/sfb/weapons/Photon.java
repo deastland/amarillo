@@ -22,6 +22,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	
 	public Photon() {
 		setDacHitLocaiton("torp");
+		setName("Photon");
 	}
 	
 	/**
