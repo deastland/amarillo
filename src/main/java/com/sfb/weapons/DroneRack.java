@@ -6,6 +6,8 @@ import java.util.List;
 import com.sfb.objects.Drone;
 
 public class DroneRack extends Weapon {
+	
+	private int spaces = 0;								// The number of spaces in the rack (usually 4 or 6)
 
 	private List<Drone> ammo = new ArrayList<>();		// The drones in the rack.		
 	private int addAmmo = 0;							// The number of ADD shots in the drone rack.
