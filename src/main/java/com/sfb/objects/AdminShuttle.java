@@ -8,6 +8,8 @@ public class AdminShuttle extends Shuttle {
 	
 	public AdminShuttle() {
 		phaser.setArcs(new int[] {0});
+		setHull(6);
+		setMaxSpeed(6);
 		
 	}
 

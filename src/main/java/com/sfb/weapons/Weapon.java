@@ -2,16 +2,18 @@ package com.sfb.weapons;
 
 /**
  * Parent class for all weapons. Contains common functionality shared by weapons of all types.
+ * Class is abstract, as you will never instantiate a "Weapon" object; only a Phaser, Disruptor, etc.
  * 
  * @author Daniel Eastland
  *
  */
 public abstract class Weapon {
 	
-	private String  name;				// The name of the weapon ('phaser1', 'disruptor30', 'photon', 'esg', 'droneG', etc.)
+	private String  name;				// The name of the weapon ('phaser1', 'disruptor30', 'photon', 'esg', 'dronea', etc.)
 	private String  dacHitLocaiton;		// What DAC 'hit' destroys  this weapon //TODO: should this be an enum?
-	private int[]   arcs;				// The arcs into which the weapon can fire
+	private int[]   arcs;				// An array of the arcs into which the weapon can fire. All arcs are a number (1 for straight ahead, etc.)
 	private boolean functional;			// True if the weapon is undamaged, false otherwise.
+	private int     lastImpulseFired;	// The last impulse on which this weapon was fired. (Weapons normally can't fire twice within 8 impulses.)
 	
 	/**
 	 * Determine what value on the DAC ('torp', 'drone', etc.) will damage this weapon.
@@ -33,9 +35,9 @@ public abstract class Weapon {
 	}
 	
 	/**
-	 * Specify int which arcs this weapon may fire.
+	 * Specify into which arcs this weapon may fire.
 	 * 
-	 * @return An array of int representing all of the arcs into which this weapon may fire.
+	 * @return An array of ints representing all of the arcs into which this weapon may fire.
 	 */
 	public int[] getArcs() {
 		return arcs;
@@ -89,12 +91,14 @@ public abstract class Weapon {
 	public void repair() {
 		functional = true;
 	}
+
 	/**
-	 * Fire the weapon at a target and calculate the resultant
-	 * damage, if any.
+	 * Fire the weapon, returning the damage done if a hit, 
+	 * 0 if a miss, and -1 if the fire request was not legal.
 	 * 
-	 * @param range The range to the target.
-	 * @return The amount of damage to be applied to the target.
+	 * @param range The range from the shooter to the target
+	 * 
+	 * @return The damage done by the weapon at that range.
 	 */
 	public abstract int fire(int range);
 
@@ -107,8 +111,25 @@ public abstract class Weapon {
 		return name;
 	}
 
+	/**
+	 * Set the name of the weapon.
+	 * @param name The name to be given to the weapon.
+	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Find out when the weapon last fired.
+	 * @return The last impulse this weapon fired.
+	 */
+	public int getLastImpulseFired() {
+		return lastImpulseFired;
+	}
+
+	//TODO: Should this be private only?
+	public void setLastImpulseFired(int lastImpulseFired) {
+		this.lastImpulseFired = lastImpulseFired;
 	}
 
 }

@@ -5,7 +5,7 @@ import com.sfb.objects.Ship;
 import com.sfb.properties.FiringArc;
 import com.sfb.properties.ShieldFacing;
 import com.sfb.utilities.DAC;
-import com.sfb.utilities.HexMap;
+import com.sfb.utilities.HexMapUtils;
 
 public class Application {
 
@@ -17,19 +17,19 @@ public class Application {
 		
 		int facing = 1;
 		
-		int range = HexMap.getDistance(thing1, thing2);
+		int range = HexMapUtils.getDistance(thing1, thing2);
 		
-		FiringArc firingArc = FiringArc.values()[HexMap.getAbsoluteArc(thing1, thing2)];
+		FiringArc firingArc = FiringArc.values()[HexMapUtils.getAbsoluteArc(thing1, thing2)];
 		
-		ShieldFacing shieldFacing = ShieldFacing.values()[HexMap.getAbsoluteShieldFacing(thing1, thing2)];
+		ShieldFacing shieldFacing = ShieldFacing.values()[HexMapUtils.getAbsoluteShieldFacing(thing1, thing2)];
 
-		int trueBearing = HexMap.getBearing(thing1, thing2);
+		int trueBearing = HexMapUtils.getBearing(thing1, thing2);
 		
 		System.out.println("Source: " + thing1.getLocation());
 		System.out.println("Target: " + thing2.getLocation());
 		System.out.println("----------------------------");
 		
-		System.out.println("RelativeBearing: " + HexMap.getRelativeBearing(trueBearing, facing));
+		System.out.println("RelativeBearing: " + HexMapUtils.getRelativeBearing(trueBearing, facing));
 
 		System.out.println("Distance: " + range);
 		System.out.println("ARC: " + firingArc);

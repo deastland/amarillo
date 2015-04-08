@@ -1,19 +1,16 @@
 package com.sfb.objects;
 
-import java.util.concurrent.Phaser;
-
-import com.sfb.weapons.Phaser3;
 
 /**
  * This object represents an base shuttle.
  * @author Daniel Eastland
  *
  */
-public class Shuttle extends Unit {
+public abstract class Shuttle extends Unit {
 	
 	private int maxSpeed 		= 6;	// The maximum speed this shuttle can go
 	private int currentSpeed 	= 6;	// The speed the shuttle is currently travelling
-	private int maxHull			= 6;	// The maximum hull value of the shuttle	
+	private int hull			= 6;	// The maximum hull value of the shuttle	
 	private int currentHull		= 6;	// The number of undamaged hull remaining.
 	
 	public Shuttle() {
@@ -36,12 +33,12 @@ public class Shuttle extends Unit {
 		this.currentSpeed = currentSpeed;
 	}
 	
-	public int getMaxHull() {
-		return maxHull;
+	public int getHull() {
+		return hull;
 	}
 	
-	public void setMaxHull(int maxHull) {
-		this.maxHull = maxHull;
+	public void setHull(int maxHull) {
+		this.hull = maxHull;
 	}
 	
 	public int getCurrentHull() {

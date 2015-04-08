@@ -20,7 +20,7 @@ public class DisruptorTest {
 		assertEquals(disruptor.energyToArm(), 2);
 		
 		// Try to arm with the wrong energy
-		assertFalse(disruptor.arm(4));
+		assertFalse(disruptor.arm(3));
 		
 		// Arm the disruptor.
 		assertTrue(disruptor.arm(2));
@@ -42,13 +42,13 @@ public class DisruptorTest {
 		assertTrue(disruptor.isArmed());
 		
 		// Check that it is STANDARD
-		assertEquals(disruptor.getArmingType(), WeaponArmingType.STANDARD);
+		assertEquals(WeaponArmingType.STANDARD, disruptor.getArmingType());
 		
 		// Arm it again, with 2 more points of energy.
 		assertTrue(disruptor.arm(2));
 		
 		// Verify that the extra 2 energy overloaded it.
-		assertEquals(disruptor.getArmingType(), WeaponArmingType.OVERLOAD);
+		assertEquals(WeaponArmingType.OVERLOAD, disruptor.getArmingType());
 		
 	}
 	

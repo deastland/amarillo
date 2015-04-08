@@ -2,9 +2,9 @@ package com.sfb.objects;
 
 public class Seeker extends Unit {
 	
-	private String type;					// The name of the seeker.
-	private int speed;						// How fast the drone will move.
-	private int warheadDamage;				// How much damage it will do if it impacts.
+	private String  type;					// The name of the seeker.
+	private int     speed;					// How fast the drone will move.
+	private int     warheadDamage;			// How much damage it will do if it impacts.
 	private boolean selfGuiding = false;	// True if the drone is self-guiding, false otherwise.
 	
 	private int endurance;					// The number of impulses (and therefore turns) the drone will last before running out of fuel. //TODO: This may be drone only, as warheadDamage is the endurance of a plasma torp.

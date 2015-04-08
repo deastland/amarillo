@@ -27,11 +27,11 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	private final static int[] overloadDamageChart =
 		{10,10,8,8,8,6,6,6,6};
 
-	private int maxRange = 0;											// Maximum range this weapon may be fired.
-	private WeaponArmingType armingType = WeaponArmingType.STANDARD;
-	private int armingTurn = 0;											// Number of turns the weapon has been arming.
-	private double armingEnergy = 0;									// Amount of total energy stored in the weapon.
-	private boolean armed = false;										// True if the weapon is armed and ready to fire.
+	private int              maxRange		= 0;							// Maximum range this weapon may be fired.
+	private WeaponArmingType armingType		= WeaponArmingType.STANDARD;
+	private int              armingTurn		= 0;							// Number of turns the weapon has been arming.
+	private double           armingEnergy 	= 0;							// Amount of total energy stored in the weapon.
+	private boolean          armed 			= false;						// True if the weapon is armed and ready to fire.
 
 	// Default will have range 30
 	public Disruptor() {
@@ -143,8 +143,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		}
 		
 		// Once fired, the weapon is no longer armed.
-		armed = false;
-		armingEnergy = 0;
+		reset();
 		
 		return damage;
 	}
@@ -204,8 +203,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		}
 		
 		// Once fired, the weapon is no longer armed.
-		armed = false;
-		armingEnergy = 0;
+		reset();
 		
 		return damage;
 	}
@@ -266,59 +264,36 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		}
 		
 		// Once fired, the weapon is no longer armed.
-		armed = false;
-		armingEnergy = 0;
+		reset();
 		
 		return damage;
 	}
 
 	@Override
 	public boolean arm(int energy) {
-		boolean okayToArm= false;
-
 		// Putting 2 more energy into an armed standard 
 		// disruptor will overload it. But otherwise you can
 		// not arm an armed disruptor.
 		if (isArmed()) {
 			if (armingEnergy == 2 && energy == 2) {
-				armingType = WeaponArmingType.OVERLOAD;
-				armingEnergy += energy;
-				return true;
+				setOverload();
 			} else {
 				return false;
 			}
+			// If the weapon is not armed, arm to the proper level for the energy.
+		} else if (energy == 2) {
+			setStandard();
+		} else if (energy == 4) {
+			setOverload();
+		} else {
+			return false;
 		}
-		
-		// Check what the arming type is for the weapon.
-		// Apply the energy and increment the arming turn if it matches the profile.
-		switch(armingType) {
-		case STANDARD:
-			if (energy == 2) {
-				armingEnergy += energy;
-				armingTurn++;
-				armed = true;
-				okayToArm = true;
-			} else {
-				okayToArm = false;
-			}
-			break;
-		case OVERLOAD:
-			if (energy == 4) {
-				armingEnergy += energy;
-				armingTurn++;
-				armed = true;
-				okayToArm = true;
-			} else {
-				okayToArm = false;
-			}
-			break;
-		case SPECIAL:
-			break;
-		default:
-			break;
-		}
-		
-		return okayToArm;
+
+		// If we've made it this far, the weapon is good to arm.
+		armingEnergy += energy;
+		armingTurn++;
+		armed = true;
+		return true;
 	}
 
 	/**

@@ -5,6 +5,8 @@ import com.sfb.utilities.DiceRoller;
 
 public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 
+	// Hit Charts are the chance (on a d6) that the weapon will hit at a given range.
+	// Array index is the range. For example hitChart[3] will return the chance the weapon will hit at range 3.
 	// STANDARD
 	private final static int[] hitChart = 
 		{0,0,5,4,4,3,3,3,3,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
@@ -15,11 +17,14 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	private final static int[] proximityHitChart = 
 		{0,0,0,0,0,0,0,0,0,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3};
 	
-	private WeaponArmingType armingType = WeaponArmingType.STANDARD;
+	private WeaponArmingType armingType = WeaponArmingType.STANDARD;	// By default, photons are armed normally.
 	private int armingTurn = 0;											// Number of turns the weapon has been arming.
 	private double armingEnergy = 0;									// Amount of total energy stored in the weapon.
 	private boolean armed = false;										// True if the weapon is armed and ready to fire.
 	
+	/**
+	 * Constructor for a new Photon object.
+	 */
 	public Photon() {
 		setDacHitLocaiton("torp");
 		setName("Photon");
@@ -45,7 +50,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		// Based on arming type, calculate damage (0 on a miss).
 		switch(armingType) {
 		case STANDARD:
-			// Can't fire at targets below range 2.
+			// Standard photons can't fire at targets below range 2.
 			if (range < 2) {
 				return -1;
 			}
@@ -54,7 +59,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 			}
 			break;
 		case OVERLOAD:
-			// Can't fire at targets above range 8.
+			// Overloaded photons can't fire at targets above range 8.
 			if (range > 8) {
 				return -1;
 			}
@@ -63,7 +68,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 			}
 			break;
 		case SPECIAL:
-			// Can't fire at targets below range 9.
+			// Prox photons can't fire at targets below range 9.
 			if (range < 9) {
 				return -1;
 			}
@@ -76,8 +81,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		}
 		
 		// Once fired, the weapon is no longer armed.
-		armed = false;
-		armingEnergy = 0;
+		reset();
 		
 		return damage;
 	}
@@ -111,6 +115,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 				result = true;
 			// If excess energy is put into holding, add 
 			// it to the total overload torp energy.
+			// This allows gradual arming of overloaded photons.
 			} else if (energy > 2) {
 				armingEnergy = armingEnergy + energy - 2;
 			}
@@ -131,7 +136,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	public boolean arm(int energy) {
 		boolean okayToArm= false;
 
-		// If the photon has already had 2 turns of arming,
+		// If the photon is already armed then
 		// no more arming can be done. Exit with false.
 		if (isArmed()) {
 			return false;
@@ -140,6 +145,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		// Check what the arming type is for the weapon.
 		// Apply the energy and increment the arming turn if it matches the profile.
 		switch(armingType) {
+		// Standard photons (2 energy per turn)
 		case STANDARD:
 			if (energy == 2) {
 				armingEnergy += energy;
@@ -149,6 +155,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 				okayToArm = false;
 			}
 			break;
+		// Overloaded photons (from 2 to 4 energy per turn)
 		case OVERLOAD:
 			if (energy >= 2 && energy <= 4) {
 				armingEnergy += energy;
@@ -158,6 +165,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 				okayToArm = false;
 			}
 			break;
+		// Proximity photons (2 energy per turn)
 		case SPECIAL:
 			if (energy == 2) {
 				armingEnergy += energy;
@@ -171,27 +179,17 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 			break;
 		}
 		
+		// If everythign worked out and this is the second turn
+		// of arming, mark the weapon as armed.
 		if (okayToArm && armingTurn == 2) {
 			armed = true;
 		}
 		
+		// Return success/failure of the attempted arming.
 		return okayToArm;
 		
 	}
 	
-//	/**
-//	 * 
-//	 * Compound method to allow setting a weapon arming type and
-//	 * begin arming it.
-//	 * 
-//	 * @param armingType Set the weapon to this armingType
-//	 * @param energy Apply this energy to arm the weapon.
-//	 * @return True if this is a legal arming request, false otherwise.
-//	 */
-//	public boolean arm(WeaponArmingType armingType, int energy) {
-//		if ()
-//	}
-
 	@Override
 	public WeaponArmingType getArmingType() {
 		return armingType;
@@ -211,8 +209,8 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	}
 	
 	/**
-	 * Set the photons to PROXIMITY which will do half damage but is much more likely to hit at long range.
-	 * Proximity photons can not be used under range 9.
+	 * Set the photons to proximity (arming type SPECIAL) which will do half damage but is 
+	 * much more likely to hit at long range. Proximity photons can not be used under range 9.
 	 * 
 	 * @return True if the weapon is in a valid state to be proximity armed, false otherwise.
 	 */
@@ -228,7 +226,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		}
 		
 		// If arming has already commenced, it is too late
-		// to change back to standard. Instead, go reset().
+		// to change back to standard. Instead, try reset().
 		if (armingTurn > 0) {
 			return false;
 		}

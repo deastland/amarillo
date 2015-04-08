@@ -10,7 +10,7 @@ import com.sfb.properties.Location;
  * @author Daniel Eastland
  *
  */
-public class HexMap {
+public class HexMapUtils {
 	
 	// Shield facings from a position
 	// within the hex map.

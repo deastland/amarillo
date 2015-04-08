@@ -2,6 +2,15 @@ package com.sfb.weapons;
 
 import com.sfb.properties.WeaponArmingType;
 
+/**
+ * This interface contains the behaviors expected of any SFB weapon
+ * that is a heavy weapon (Disruptor, Photon, Hellbore, etc.). Most
+ * heavy weapons have multi-turn arming cycles and/or multiple arming
+ * modes.
+ * 
+ * @author deastland
+ *
+ */
 public interface HeavyWeapon {
 
 	/**
@@ -61,7 +70,6 @@ public interface HeavyWeapon {
 	public void reset();
 	
 	/**
-	 * 
 	 * Arm the weapon by applying arming energy to it. Arming 
 	 * success is dependent on the energy provided, the arming type
 	 * (STANDARD, OVERLOAD, SPECIAL), and the number of turns
