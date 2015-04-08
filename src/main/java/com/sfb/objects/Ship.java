@@ -58,6 +58,8 @@ public class Ship extends Marker {
 	//TODO: Turn Mode Chart (HET & Breakdown tracking)
 	//TODO: Refits (different ships with parent/child relationship?)
 	//TODO: Armor?
+	//TODO: YEAR IN SERVICE
+	//TODO: Point Value
 	/////////////////////////////////////////////////////////
 	
 	

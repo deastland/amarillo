@@ -21,6 +21,8 @@ public class Unit extends Marker {
 	private int speed = 0;
 	private int sizeClass = 0;
 	
+	//TODO: Point Value
+	
 	private int[] turnMode;
 	
 	private int sideslipCount = 0;			// Can't sideslip unless this value is 1. Reset to 0 with every sideslip.
