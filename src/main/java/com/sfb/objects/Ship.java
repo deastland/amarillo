@@ -53,7 +53,7 @@ public class Ship extends Unit {
 	private int               yearInService		= 0;							// The minimum year this ship can be deployed.
 	private String            hullType			= null;							// Descriptor of the type of ship (i.e. "CA", "FFG", "D7K", etc.)
 	private Faction			  faction			= Faction.Federation;			// The faction to which this ship belongs.
-	private String            name				= null;						// Name of the ship.
+	private String            name				= null;							// Name of the ship.
 	private int               battlePointValue	= 0;							// BPV, a measure of how powerful the ship is in combat.
 	
 	//TODO: Transporter bombs (Romulan nuclear mine).
@@ -75,6 +75,7 @@ public class Ship extends Unit {
 		super.init(values);
 		
 		// Ship values
+		name			 = values.get("name")		 == null ? null : (String)values.get("name");
 		faction          = values.get("faction")     == null ? null : (Faction)values.get("faction");
 		hullType         = values.get("hull")        == null ? null : (String)values.get("hull");
 		yearInService    = values.get("serviceyear") == null ? 0    : (Integer)values.get("serviceyear");
@@ -155,6 +156,10 @@ public class Ship extends Unit {
 	// Create shields
 	private void initShields(Map<String, Object> values) {
 		this.shields.init(values);
+	}
+	
+	public Shields getShields() {
+		return this.shields;
 	}
 	
 	// Get the strength of a particular shield (including specific reinforcement)

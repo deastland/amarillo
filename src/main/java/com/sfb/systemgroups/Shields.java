@@ -68,6 +68,10 @@ public class Shields implements Systems {
 		generalReinforcement = 0;
 	}
 	
+	public int[] getShieldValues() {
+		return this.currentShieldValues;
+	}
+	
 	/**
 	 * Add reinforcement to the specified shield.
 	 * @param shieldNumber The shield to be reinforced.
