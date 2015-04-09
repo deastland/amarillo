@@ -1,81 +1,32 @@
 package com.sfb.objects;
 
-public class Seeker extends Unit {
+/**
+ * Seeking weapons are units that have particular behaviors and properties. This is the interface to represent that.
+ * 
+ * @author deastland
+ *
+ */
+public interface Seeker {
 	
-	private String  type;					// The name of the seeker.
-	private int     speed;					// How fast the drone will move.
-	private int     warheadDamage;			// How much damage it will do if it impacts.
-	private boolean selfGuiding = false;	// True if the drone is self-guiding, false otherwise.
+	public String getType();
 	
-	private int endurance;					// The number of impulses (and therefore turns) the drone will last before running out of fuel. //TODO: This may be drone only, as warheadDamage is the endurance of a plasma torp.
-	private int launchImpulse;				// The impulse in which the drone was launched.
-	
-	// The turn mode at each speed from 0 to 32.
-	private static final int[] turnMode = new int[] {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-	
-	public Seeker() {
-		
-	}
+	public void setType(String type);
 
-	public String getType() {
-		return type;
-	}
+	public boolean isSelfGuiding();
+	public void setSelfGuiding(boolean selfGuiding);
 
-	public void setType(String type) {
-		this.type = type;
-	}
+	public int getEndurance();
+	public void setEndurance(int endurance);
+	public int getLaunchImpulse();
+	public void setLaunchImpulse(int launchImpulse);
 
-	public int getSpeed() {
-		return speed;
-	}
+	public int getWarheadDamage();
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-
-	public boolean isSelfGuiding() {
-		return selfGuiding;
-	}
-
-	public void setSelfGuiding(boolean selfGuiding) {
-		this.selfGuiding = selfGuiding;
-	}
-
-	public int getEndurance() {
-		return endurance;
-	}
-
-	public void setEndurance(int endurance) {
-		this.endurance = endurance;
-	}
-
-	public int getLaunchImpulse() {
-		return launchImpulse;
-	}
-
-	public void setLaunchImpulse(int launchImpulse) {
-		this.launchImpulse = launchImpulse;
-	}
-
-	public static int[] getTurnmode() {
-		return turnMode;
-	}
-
-	public int getWarheadDamage() {
-		return warheadDamage;
-	}
-
-	public void setWarheadDamage(int warheadDamage) {
-		this.warheadDamage = warheadDamage;
-	}
+	public void setWarheadDamage(int warheadDamage);
 	
 	/**
 	 * The seeker impacts its target, doing damage.
 	 * @return The damage done by the seeker to its target.
 	 */
-	public int impact() {
-		//TODO: Figure out how to do this. Does it need a target? If so you will need to track location and last location to figure out shield impact?
-		
-		return warheadDamage;
-	}
+	public int impact();
 }

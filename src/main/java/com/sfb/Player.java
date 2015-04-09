@@ -2,21 +2,21 @@ package com.sfb;
 
 import com.sfb.properties.Faction;
 
-public class User {
+public class Player {
 
-	private String userName = null;
+	private String name = null;
 	private Faction faction = null;
 	
-	public User() {
+	public Player() {
 		
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Faction getFaction() {
@@ -26,6 +26,6 @@ public class User {
 	public void setFaction(Faction faction) {
 		this.faction = faction;
 	}
-	
+
 	
 }

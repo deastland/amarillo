@@ -10,6 +10,8 @@ public class Shields implements Systems {
 	
 	// later include logic for shield that is 'lowered'
 	private boolean[] shieldActive = new boolean[] {true, true, true, true, true, true};
+	// the last turn each shield was lowered or raised. There is a mandatory time gap between these actions.
+	private int[] turnShieldToggled = new int[] {0,0,0,0,0,0};
 	
 	// reinforcement
 	private int[] specificReinforcement = new int[] {0,0,0,0,0,0};

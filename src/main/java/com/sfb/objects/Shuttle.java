@@ -1,5 +1,8 @@
 package com.sfb.objects;
 
+import com.sfb.properties.TurnMode;
+import com.sfb.systemgroups.Weapons;
+
 
 /**
  * This object represents an base shuttle.
@@ -8,13 +11,16 @@ package com.sfb.objects;
  */
 public abstract class Shuttle extends Unit {
 	
-	private int maxSpeed 		= 6;	// The maximum speed this shuttle can go
-	private int currentSpeed 	= 6;	// The speed the shuttle is currently travelling
-	private int hull			= 6;	// The maximum hull value of the shuttle	
-	private int currentHull		= 6;	// The number of undamaged hull remaining.
+	private int maxSpeed;		// The maximum speed this shuttle can go
+	private int hull;			// The maximum hull value of the shuttle	
+
+	private int currentSpeed;	// The speed the shuttle is currently travelling
+	private int currentHull;	// The number of undamaged hull remaining.
+	
+	private Weapons weapons = new Weapons();	// The weapons carried by the shuttle.
 	
 	public Shuttle() {
-		
+		setTurnMode(TurnMode.X);
 	}
 	
 	public int getMaxSpeed() {
@@ -49,5 +55,8 @@ public abstract class Shuttle extends Unit {
 		this.currentHull = currentHull;
 	}
 	
+	public Weapons getWeapons() {
+		return this.weapons;
+	}
 	
 }

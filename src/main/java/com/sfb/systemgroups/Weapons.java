@@ -36,7 +36,7 @@ public class Weapons implements Systems {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(Map<String, Object> values) {
-		weapons = (List<Weapon>)values.get("weapons");
+		weapons = values.get("weapons") == null ? new LinkedList<Weapon>() : (List<Weapon>)values.get("weapons");
 		if (weapons != null) {
 			for (Weapon weapon : weapons) {
 				// Register a new phaser weapon
@@ -66,6 +66,10 @@ public class Weapons implements Systems {
 		availableTorps = torpList.size();
 		availableDrones = droneList.size();
 		availableCapacitor = capacitor;
+	}
+	
+	public List<Weapon> getWeapons() {
+		return this.weapons;
 	}
 
 	@Override

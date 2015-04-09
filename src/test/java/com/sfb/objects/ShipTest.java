@@ -17,7 +17,7 @@ public class ShipTest {
 		Ship testShip = new Ship();
 		
 		// Load the ship with the values from the map.
-		testShip.initShip(getInitMap());
+		testShip.init(getInitMap());
 		
 		// Verify number of fhull
 		assertEquals(4, testShip.getHullBoxes().getAvailableFhull());
@@ -142,7 +142,13 @@ public class ShipTest {
 		shipMap.put("damcon", damcon);
 		shipMap.put("excess", excess);
 		
-		
+		shipMap.put("movecost", new Double(1));
+		shipMap.put("breakdown", new Integer(5));
+		shipMap.put("nimble", new Boolean(false));
+		shipMap.put("bonushets", new Integer(1));
+		shipMap.put("shieldCost", new Integer(2));
+		shipMap.put("lifesupport", new Integer(1));
+
 		return shipMap;
 	}
 
