@@ -2,30 +2,42 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.Constants;
+import com.sfb.Main;
+
 public class Shields implements Systems {
 
-	// The strength of the various shields.
-	private int[] shieldValues = new int[] {0,0,0,0,0,0};
-	private int[] currentShieldValues = new int[] {0,0,0,0,0,0};
+	// Shield strength
+	private int[]     shieldValues			= new int[] {0,0,0,0,0,0};	// The baseline strength of the various shields.
+	private int[]     currentShieldValues	= new int[] {0,0,0,0,0,0};	// The current strength of the various shields.
+
+	// Shield reinforcement
+	private int[]     specificReinforcement	= new int[] {0,0,0,0,0,0};	// Reinforcement applied to individual shields.
+	private int       generalReinforcement	= 0;						// General reinforcement on all shields.
+
+	// Shield manipulation
+	private boolean[] shieldActive;										// Indicates what shields are inactive (lowered).
+	private int[]     impulseShieldToggled; 							// The last turn a shield was toggled between active/inactive (raised/lowered).
 	
-	// later include logic for shield that is 'lowered'
-	private boolean[] shieldActive = new boolean[] {true, true, true, true, true, true};
-	// the last turn each shield was lowered or raised. There is a mandatory time gap between these actions.
-	private int[] turnShieldToggled = new int[] {0,0,0,0,0,0};
-	
-	// reinforcement
-	private int[] specificReinforcement = new int[] {0,0,0,0,0,0};
-	private int generalReinforcement = 0;
 	
 	public Shields() {}
 	
-	// Returns the current strength of the specified shield, including specific reinforcement.
+	/**
+	 * Get the strength of a specific shield, including reinforcement (if any)
+	 * @param shieldNumber The shield to be checked.
+	 * @return The value of the shield.
+	 */
 	public int getShieldStrength(int shieldNumber) {
 		return currentShieldValues[shieldNumber - 1] + specificReinforcement[shieldNumber - 1];
 	}
 	
-	// Set the value of a current shield to a fixed number.
 	// NOTE: Not sure if this is a method that should be exposed.
+	/**
+	 * Set the value of a current shield to a specified value.
+	 * @param shieldNumber The shield to be altered.
+	 * @param value The new strength of the shield.
+	 * @return True if the the new value is within the original shield strength, false otherwise.
+	 */
 	public boolean setShieldValue(int shieldNumber, int value) {
 		if (value > shieldValues[shieldNumber - 1]) {
 			return false;
@@ -35,13 +47,6 @@ public class Shields implements Systems {
 		return true;
 	}
 	
-	////////////////////////////////////
-	//
-	// Utilities
-	//
-	////////////////////////////////////
-
-	// Initialize shield values.
 	@Override
 	public void init(Map<String, Object> values) {
 		currentShieldValues[0] = shieldValues[0] = values.get("shield1") == null ? 0 : (Integer)values.get("shield1");
@@ -53,16 +58,22 @@ public class Shields implements Systems {
 		
 		// All shields start active
 		shieldActive = new boolean[] {true, true, true, true, true, true};
+		// Set turnShieldToggled to -8 so the shields are available for toggling in the first impulse.
+		impulseShieldToggled = new int[] {-8,-8,-8,-8,-8,-8};
 	}
 	
-	// At the end of the turn, all reinforcement is lost
+	@Override
 	public void cleanUp() {
 		specificReinforcement = new int[] {0,0,0,0,0,0};
 		generalReinforcement = 0;
 	}
 	
-	// If a shield has a positive strength value, add the reinforcement and return true.
-	// Otherwise return false.
+	/**
+	 * Add reinforcement to the specified shield.
+	 * @param shieldNumber The shield to be reinforced.
+	 * @param amount The energy added to be added to the shield.
+	 * @return True if this is a valid request (the shield has strength > 0), false otherwise.
+	 */
 	public boolean reinforceShield(int shieldNumber, int amount) {
 		if (!shieldActive[shieldNumber - 1]) {
 			return false;
@@ -79,13 +90,21 @@ public class Shields implements Systems {
 		return true;
 	}
 	
-	// Add general reinforcement value.
+	/**
+	 * Add general reinforcement to all shields.
+	 * @param amount The amount of reinforcement to add.
+	 */
 	public void addGeneralRenforcement(int amount) {
+		//TODO: Should this take the energy provided and cut it in half? Or should it just take the net increaase in strength?
 		generalReinforcement += amount;
 	}
 	
-	// Apply damage to the shield facing. If the shield is destroyed and there
-	// are still damage points remaining, return the remainder. Otherwise return 0.
+	/**
+	 * Apply damage to the specified shield, returning any damage that gets through.
+	 * @param shieldNumber The shield to be damaged.
+	 * @param amount The amount of damage to apply to the shield.
+	 * @return Amount of damage remaining, if the shield strength was insufficent to stop all damage.
+	 */
 	public int damageShield(int shieldNumber, int amount) {
 		int remainingDamage = amount;
 		
@@ -124,6 +143,12 @@ public class Shields implements Systems {
 	
 	// Repair a number of shield boxes. If this would exceed the maximum
 	// shield value, return false. Otherwise true.
+	/**
+	 * Repair a number of boxes on a specified damaged shield.
+	 * @param shieldNumber The shield to be repaired.
+	 * @param amount The number of shield boxes to be repaired.
+	 * @return True if the repair was legal, false otherwise.
+	 */
 	public boolean repairShield(int shieldNumber, int amount) {
 		int currentValue = currentShieldValues[shieldNumber - 1];
 		int maxValue = shieldValues[shieldNumber - 1];
@@ -155,5 +180,40 @@ public class Shields implements Systems {
 		
 		return totalCount;
 	}
+
+	/**
+	 * Activate (raise) the specified shield.
+	 * This is only possible if the shield is inactive (lowered) and the shield status hasn't been changed
+	 * within 1/4 turn.
+	 * @param shieldNumber The shield to be raised.
+	 * @return
+	 */
+	public boolean raiseShield(int shieldNumber) {
+		if (shieldActive[shieldNumber - 1] == false 
+				&& ((Main.getTurnTracker().getImpulse() - impulseShieldToggled[shieldNumber - 1]) <= (Constants.IMPULSES_PER_TURN / 4))) {
+			shieldActive[shieldNumber - 1] = true;
+			impulseShieldToggled[shieldNumber - 1] = Main.getTurnTracker().getImpulse();
+			return true;
+		}
+		return false;
+		
+	}
 	
+	/**
+	 * Deactivate (lower) the specified shield.
+	 * This is only possible if the shield is active (raised) and the shield status hasn't been changed
+	 * within 1/4 turn.
+	 * @param shieldNumber The shield to be lowered.
+	 * @return
+	 */
+	public boolean lowerShield(int shieldNumber) {
+		if (shieldActive[shieldNumber - 1] == true 
+				&& ((Main.getTurnTracker().getImpulse() - impulseShieldToggled[shieldNumber - 1]) <= (Constants.IMPULSES_PER_TURN / 4))) {
+			shieldActive[shieldNumber - 1] = false;
+			impulseShieldToggled[shieldNumber - 1] = Main.getTurnTracker().getImpulse();
+			return true;
+		}
+		return false;
+		
+	}
 }

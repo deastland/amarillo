@@ -26,31 +26,6 @@ public class SpecialFunctions {
 	
 	public SpecialFunctions() {}
 	
-//	// Initialize the values for special functions from the SSD
-//	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue) {
-//		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
-//		availableDamageControl = 0;
-//		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
-//		availableScanner = 0;
-//		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
-//		availableSensor = 0;
-//		excessDamage = excessDamageValue;
-//	}
-//	
-//	// Initialize the values for special functions from the SSD, including special Disruptor systems
-//	public void init(int[] damageControlValues, int[] scannerValues, int[] sensorValues, int excessDamageValue, int derfacsValue, int uimValue) {
-//		System.arraycopy(damageControlValues, 0, this.damageControl, 0, damageControlValues.length);
-//		availableDamageControl = 0;
-//		System.arraycopy(scannerValues, 0, this.scanner, 0, scannerValues.length);
-//		availableScanner = 0;
-//		System.arraycopy(sensorValues, 0, this.sensor, 0, sensorValues.length);
-//		availableSensor = 0;
-//		excessDamage = excessDamageValue;
-//		availableUim = uim = uimValue;
-//		availableDerfacs = derfacs = derfacsValue;
-//	}
-//	
-
 	public void init(Map<String, Object> values) {
 		// Damage Control Track
 		int[] damageControlValues = values.get("damcon") == null ? new int[] {0} : (int[])values.get("damcon");
@@ -73,6 +48,10 @@ public class SpecialFunctions {
 		// Excess Damage
 		availableExcessDamage = excessDamage = values.get("excess") == null ? 0 : (Integer)values.get("excess");
 
+	}
+	
+	public void cleanUp() {
+		//TODO: Figure out what needs to happen here.
 	}
 	
 	///// FETCH VALUES /////

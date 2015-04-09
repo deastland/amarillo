@@ -44,6 +44,10 @@ public class PerformanceData {
 		}
 	}
 	
+	public void cleanUp() {
+		//TODO: Figure out what to do here, if anything.
+	}
+	
 	public double getMovementCost() {
 		return this.movementCost;
 	}

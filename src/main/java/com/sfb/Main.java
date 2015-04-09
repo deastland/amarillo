@@ -61,5 +61,8 @@ public class Main {
 		inProgress = value;
 	}
 	
+	public static TurnTracker getTurnTracker() {
+		return turnTracker;
+	}
 	
 }

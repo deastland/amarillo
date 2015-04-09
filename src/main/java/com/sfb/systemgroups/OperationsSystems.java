@@ -109,5 +109,11 @@ public class OperationsSystems implements Systems {
 		availableLab += value;
 		return true;
 	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

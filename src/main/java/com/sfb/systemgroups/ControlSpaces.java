@@ -165,4 +165,10 @@ public class ControlSpaces implements Systems {
 	public int getTotalBoxes() {
 		return availableBridge + availableFlag + availableEmer + availableAuxcon + availableSecurity;
 	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
 }

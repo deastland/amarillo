@@ -58,6 +58,12 @@ public class Crew implements Systems {
 		return 0;
 	}
 
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }

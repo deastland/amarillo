@@ -46,36 +46,41 @@ public class Ship extends Unit {
 	private PerformanceData	  performanceData	= new PerformanceData();		// Base statistics for the frame.
 	private Crew              crew				= new Crew();					// Crew
 	
-	////////////////////////////////////////////////////////
-
-	// "Real-time" data
-	private Integer           sideslipCount		= 0;							// Can't sideslip unless this value is 0.
-	private Integer           turnCount			= 0;							// Turn count must reach turn mode value before the ship can turn.
-	private boolean           crippled			= false;						// True if the ship is crippled.
-
 	// WHERE SHOULD THIS GO?
 	private int               armor             = 0;							// Some early ships have armor.
 	
 	// Other data
-	private Integer           yearInService		= 120;							// The minimum year this ship can be deployed.
-	private String            hullType			= "CA";							// Descriptor of the type of ship (i.e. "CA", "FFG", "D7K", etc.)
+	private int               yearInService		= 0;							// The minimum year this ship can be deployed.
+	private String            hullType			= null;							// Descriptor of the type of ship (i.e. "CA", "FFG", "D7K", etc.)
 	private Faction			  faction			= Faction.Federation;			// The faction to which this ship belongs.
-	private String            name				= "Hood";						// Name of the ship.
-	private Integer           battlePointValue	= 125;							// BPV, a measure of how powerful the ship is in combat.
+	private String            name				= null;						// Name of the ship.
+	private int               battlePointValue	= 0;							// BPV, a measure of how powerful the ship is in combat.
 	
 	//TODO: Transporter bombs (Romulan nuclear mine).
 	//TODO: Turn Mode Chart (HET & Breakdown tracking)
 	//TODO: Refits (different ships with parent/child relationship?)
 	//TODO: Armor?
 	//TODO: Point Value
-	/////////////////////////////////////////////////////////
 	
 	
 	// On spool-up, set initial value for all members.
 	public Ship() {	}
-	
-	// Fill in the values for all the systems.
+
+	/**
+	 * Initialize all ship statistics through the values
+	 * passed in the Map.
+	 */
 	public void init(Map<String, Object> values) {
+		// Unit values
+		super.init(values);
+		
+		// Ship values
+		faction          = values.get("faction")     == null ? null : (Faction)values.get("faction");
+		hullType         = values.get("hull")        == null ? null : (String)values.get("hull");
+		yearInService    = values.get("serviceyear") == null ? 0    : (Integer)values.get("serviceyear");
+		battlePointValue = values.get("bpv")         == null ? 0    : (Integer)values.get("bpv");
+		
+		// Subsystem values
 		initShields(values);
 		initHullBoxes(values);
 		initPowerSystems(values);
@@ -89,8 +94,22 @@ public class Ship extends Unit {
 		initPerformanceData(values);
 	}
 	
-	/// REAL TIME DATA ///
-	
+	public void cleanUp() {
+		
+		//TODO: Figure out if there is any Ship object level cleanup needed.
+		
+		shields.cleanUp();
+		hullBoxes.cleanUp();
+		powerSystems.cleanUp();
+		controlSpaces.cleanUp();
+		specialFunctions.cleanUp();
+		operationsSystems.cleanUp();
+		probes.cleanUp();
+		shuttles.cleanUp();
+		weapons.cleanUp();
+		crew.cleanUp();
+		performanceData.cleanUp();
+	}
 	
 	/// BASIC SHIP DATA ///
 	public void setName(String newName) {
@@ -115,6 +134,14 @@ public class Ship extends Unit {
 	
 	public Faction getFacation() {
 		return this.faction;
+	}
+	
+	public int getYearInService() {
+		return this.yearInService;
+	}
+	
+	public int getBpv() {
+		return this.battlePointValue;
 	}
 	
 	// Cleanup tasks for the end of the turn.
@@ -305,24 +332,6 @@ public class Ship extends Unit {
 	}
 	
 	
-	/// SHUTTLES ///
-
-	//TODO: Shuttle operations
-	
-//	public int getShuttle() {
-//		return shuttle;
-//	}
-//
-//	public void setShuttle(Integer shuttle) {
-//		this.shuttle = shuttle;
-//	}
-
-	
-	///////////////////////////////////////////////////////
-	///
-	/// Utility Functions
-	///
-	///////////////////////////////////////////////////////
 	
 	// Return the JSON string of the Unit object
 	@Override

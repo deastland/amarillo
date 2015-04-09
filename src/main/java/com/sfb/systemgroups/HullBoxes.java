@@ -128,6 +128,12 @@ public class HullBoxes implements Systems {
 		availableCargo += amount;
 		return true;
 	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 }

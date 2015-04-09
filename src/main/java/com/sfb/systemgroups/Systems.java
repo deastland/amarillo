@@ -24,4 +24,10 @@ public interface Systems {
 	 * @return The number of remaining, undamaged SSD boxes in this group.
 	 */
 	public int getTotalBoxes();
+	
+	/**
+	 * Perform end-of-turn housekeeping duties, if any, so the ship will be ready for the
+	 * next energy allocation.
+	 */
+	public void cleanUp();
 }

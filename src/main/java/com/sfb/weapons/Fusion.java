@@ -40,7 +40,6 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 
 	private int              maxRange		= 24;							// Maximum range this weapon may be fired.
 	private WeaponArmingType armingType		= WeaponArmingType.STANDARD;
-	private double           armingEnergy 	= 0;							// Amount of total energy stored in the weapon.
 	private int              armingTurn     = 0;
 	private boolean          armed 			= false;						// True if the weapon is armed and ready to fire.
 	private boolean          cooldown		= false;						// Weapon must have a cooldown turn between firing turns.
@@ -103,7 +102,6 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 	@Override
 	public void reset() {
 		setStandard();
-		armingEnergy = 0;
 		armingTurn = 0;
 		armed = false;
 	}
@@ -157,7 +155,6 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 			}
 		}
 
-		armingEnergy += energy;
 		armed = true;
 		return true;
 	}

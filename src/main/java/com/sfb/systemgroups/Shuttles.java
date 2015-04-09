@@ -101,4 +101,10 @@ public class Shuttles implements Systems {
 		
 		return false;
 	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
 }

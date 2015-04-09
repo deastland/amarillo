@@ -424,5 +424,11 @@ public class PowerSystems implements Systems {
 		availableBattery += amount;
 		return true;
 	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

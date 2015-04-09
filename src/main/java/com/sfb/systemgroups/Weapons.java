@@ -101,6 +101,12 @@ public class Weapons implements Systems {
 	public int getAvailableDrones() {
 		return availableDrones;
 	}
+
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

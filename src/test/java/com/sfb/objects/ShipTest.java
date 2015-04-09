@@ -9,6 +9,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.sfb.properties.TurnMode;
+
 public class ShipTest {
 	
 	@Test
@@ -75,6 +77,9 @@ public class ShipTest {
 		
 		// Fire fully armed probe.
 		assertEquals(20, testShip.getProbes().get(0).fire(3));
+		
+		// Check the turn mode
+		assertEquals(TurnMode.D, testShip.getTurnMode());
 		
 		
 	}
@@ -148,6 +153,7 @@ public class ShipTest {
 		shipMap.put("bonushets", new Integer(1));
 		shipMap.put("shieldCost", new Integer(2));
 		shipMap.put("lifesupport", new Integer(1));
+		shipMap.put("turnmode", TurnMode.D);
 
 		return shipMap;
 	}

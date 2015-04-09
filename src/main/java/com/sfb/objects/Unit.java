@@ -16,25 +16,21 @@ public class Unit extends Marker {
 	// a direction that the thing is facing, relative
 	// to the hex map. (1 is "due north" and 4 is "due south).
 	//
-	// 1
-	// 21 5
-	// X
-	// 17 9
-	// 13
+	//    1
+	// 2    5
+	//    X
+	// 17   9
+	//    3
 	//
-	private int facing = 1;
-	private int speed = 0;
-	private int sizeClass = 0;
+	private int facing			= 0;	// Direction the unit is facing (1 through 6)
+	private int speed			= 0;	// Speed the unit is moving (0 through 32)
+	private int sizeClass		= 0;	// Size class of the unit (0 through 6...I think?)
+	private int sideslipCount	= 0;	// Track number of moves since last sideslip.
+	private int turnCount		= 0;	// Track number of moves since last turn.
 
 	// TODO: Point Value
 
 	private TurnMode turnMode;
-
-	private int sideslipCount = 0; // Can't sideslip unless this value is 1.
-									// Reset to 0 with every sideslip.
-	private int turnCount = 99; // Turn count must reach turn mode value before
-								// the ship can turn. Reset to 0 with every
-								// turn.
 
 	public Unit() {
 
@@ -99,7 +95,7 @@ public class Unit extends Marker {
 	/**
 	 * Return the turn mode for the unit at its current speed.
 	 * 
-	 * @return The number of hexes the ship must move before it can turn.
+	 * @return The number of hexes the unit must move before it can turn.
 	 */
 	public TurnMode getTurnMode() {
 		return this.turnMode;
@@ -120,51 +116,84 @@ public class Unit extends Marker {
 
 	// / MOVEMENT ///
 
+	/**
+	 * Sideslip the unit to the left. This is only possible if the unit
+	 * has moved at least one hex since the last sideslip.
+	 * The unit will move to the adjacent hed in (relative) direction 21 wihtout changing
+	 * its facing.
+	 * @return True if the sideslip was possible, false otherwise.
+	 */
 	public boolean sideslipLeft() {
 		if (sideslipCount == 0) {
 			return false;
 		}
-		// TODO: Work out logic for this. Will need to change ship position to
+		// TODO: Work out logic for this. Will need to change unit position to
 		// the hex at range 1 in the '21' direction (or hex 6 direction) wthiout
-		// changing the ship facing.
+		// changing the unit facing.
 		sideslipCount = 0;
 		return true;
 	}
 
+	/**
+	 * Sideslip the unit to the right. This is only possible if the unit
+	 * has moved at least one hex since the last sideslip.
+	 * The unit will move to the adjacent hex in (relative) direction 5 without changing
+	 * its facing. 
+	 * @return True if the sideslip was possible, false otherwise.
+	 */
 	public boolean sideslipRight() {
 		if (sideslipCount == 0) {
 			return false;
 		}
-		// TODO: Work out logic for this. Will need to change ship position to
+		// TODO: Work out logic for this. Will need to change unit position to
 		// the hex at range 1 in the '5' direction (or hex 2 direction) wthiout
-		// changing the ship facing.
+		// changing the unit facing.
 		sideslipCount = 0;
 		return true;
 	}
 
+	/**
+	 * Turn the unit to the left and move one hex forward. This will change the
+	 * facing of the unit to (relative) direction 21 and then move it into the adjacent
+	 * hex in (relative) direction 1.
+	 * This is only possible if the unit has fulfilled its turn mode.
+	 * @return True if the turn was possible, false otherwise.
+	 */
 	public boolean turnLeft() {
 		if (turnCount < TurnModeUtil.getTurnMode(this.turnMode, this.speed)) {
 			return false;
 		}
-		// TODO: Chagne ship facing and position to match.
+		// TODO: Chagne unit facing and position to match.
 
 		turnCount = 1;
 		return true;
 	}
 
+	/**
+	 * Turn the unit to the right and move one hex forward. This will change the
+	 * facing of the unit to (relative) direction 5 and then move it into the adjacent
+	 * hex in (relative) direction 1.
+	 * This is only possible if the unit has fulfilled its turn mode.
+	 * @return True if the turn was possible, false otherwise.
+	 */
 	public boolean turnRight() {
 		if (turnCount < TurnModeUtil.getTurnMode(turnMode, speed)) {
 			return false;
 		}
-		// TODO: Change ship facing and position to match.
+		// TODO: Change unit facing and position to match.
 
 		turnCount = 1;
 		return true;
 	}
 
+	/**
+	 * Move the unit a single hex forward, placing it in the adjacent hex
+	 * in (relative) direction 1 without changing facing.
+	 * @return
+	 */
 	public boolean goStraight() {
 
-		// TODO: Change ship position to match.
+		// TODO: Change unit position to match.
 		sideslipCount++;
 		turnCount++;
 
