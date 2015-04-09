@@ -248,14 +248,6 @@ public class DAC {
 			this.system = system;
 		}
 		
-		public boolean getSpecial() {
-			return this.special;
-		}
-		
-		public boolean getAvailable() {
-			return this.available;
-		}
-		
 		public void setAvailable() {
 			this.available = true;
 		}
