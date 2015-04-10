@@ -11,6 +11,7 @@ import org.codehaus.jackson.map.ObjectWriter;
 
 import com.sfb.exceptions.CapacitorException;
 import com.sfb.properties.Faction;
+import com.sfb.properties.ShieldStatus;
 import com.sfb.systemgroups.ControlSpaces;
 import com.sfb.systemgroups.Crew;
 import com.sfb.systemgroups.HullBoxes;
@@ -58,6 +59,12 @@ public class Ship extends Unit {
 	private Faction			  faction			= Faction.Federation;			// The faction to which this ship belongs.
 	private String            name				= null;							// Name of the ship.
 	private int               battlePointValue	= 0;							// BPV, a measure of how powerful the ship is in combat.
+	
+	// Real-time data
+	private boolean           activeFireControl = false;						// True if active fire control is up, false otherwise.
+	private ShieldStatus      shieldsStatus		= ShieldStatus.Inactive;		// Status of shields. Active is normal shields. Minimal is 5-point shields. Inactive is no shields at all.
+	
+	
 	
 	//TODO: Transporter bombs (Romulan nuclear mine).
 	//TODO: Turn Mode Chart (HET & Breakdown tracking)
@@ -175,6 +182,27 @@ public class Ship extends Unit {
 		return this.shields.damageShield(shieldNumber, damageApplied);
 	}
 	
+	/**
+	 * Checks on the status of the shields: 
+	 * Active) Full shields
+	 * Minimal) 5-point shields
+	 * Inactive) No shields
+	 * 
+	 * @return ShieldStatus of the ship's shields.
+	 */
+	public ShieldStatus getShieldStatus() {
+		return this.shieldsStatus;
+	}
+	
+	/**
+	 * Checks to see if fire control is active.
+	 * 
+	 * @return True if fire control is active, false otherwise.
+	 */
+	public boolean isActiveFireControl() {
+		return this.activeFireControl;
+	}
+	
 	/// HULL BOXES ///
 	
 	public HullBoxes getHullBoxes() {
@@ -246,8 +274,6 @@ public class Ship extends Unit {
 		totalBoxes += this.shuttles.getOriginalTotalBoxes();
 		totalBoxes += this.weapons.getOriginalTotalBoxes();
 		
-		//TODO: Figure out what other data goes here. (for example, weapons)
-		
 		return totalBoxes;
 	}
 	
@@ -261,9 +287,6 @@ public class Ship extends Unit {
 		totalBoxes += this.specialFunctions.getExcessDamage();
 		totalBoxes += this.shuttles.getTotalBoxes();
 		totalBoxes += this.weapons.getTotalBoxes();
-		
-		//TODO: Derive this from the above method.
-		
 		
 		return totalBoxes;
 	}

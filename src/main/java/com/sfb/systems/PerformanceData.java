@@ -13,6 +13,7 @@ public class PerformanceData {
 	private int     bonusHets		= 0;		// Number of times this ship get's a -2 to the HET breakdown roll.
 	private int     shieldCost		= 0;		// Cost to have shields active.
 	private double  lifeSupportCost	= 0;		// cost to have life support active.
+	private double  fireControlCost	= 0;		// Cost for active fire control.
 	
 	// Calculated values
 	private double hetCost			= 0;
@@ -32,6 +33,7 @@ public class PerformanceData {
 		bonusHets       = values.get("bonushets")   == null ? 0     : (Integer)values.get("bonushets");
 		shieldCost      = values.get("shieldcost")  == null ? 0     : (Integer)values.get("shieldcost");
 		lifeSupportCost = values.get("lifesupport") == null ? 0     : (Double)values.get("lifesupport");
+		fireControlCost = values.get("firecontrol") == null ? 0     : (Double)values.get("firecontrol");
 		
 		// Calculate cost of HET
 		hetCost = movementCost * 5;
@@ -83,4 +85,9 @@ public class PerformanceData {
 	public double getErraticCost() {
 		return this.erraticCost;
 	}
+	
+	public double getFireControlCost() {
+		return this.fireControlCost;
+	}
+	
 }
