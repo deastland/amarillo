@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 
 public class PhotonTest {
@@ -58,7 +60,7 @@ public class PhotonTest {
 	}
 	
 	@Test
-	public void testFiring() {
+	public void testFiring() throws WeaponUnarmedException, TargetOutOfRangeException {
 		Photon photon = getStandardPhoton();
 		int range = 30;
         int damage = photon.fire(range);

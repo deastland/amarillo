@@ -1,5 +1,9 @@
 package com.sfb.weapons;
 
+import com.sfb.Main;
+import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.exceptions.WeaponUnarmedException;
+
 /**
  * Parent class for all weapons. Contains common functionality shared by weapons of all types.
  * Class is abstract, as you will never instantiate a "Weapon" object; only a Phaser, Disruptor, etc.
@@ -14,6 +18,10 @@ public abstract class Weapon {
 	private int[]   arcs;				// An array of the arcs into which the weapon can fire. All arcs are a number (1 for straight ahead, etc.)
 	private boolean functional;			// True if the weapon is undamaged, false otherwise.
 	private int     lastImpulseFired;	// The last impulse on which this weapon was fired. (Weapons normally can't fire twice within 8 impulses.)
+	private int     lastTurnFired;		// The last turn on which this weapon was fired.
+	
+	private int maxRange;				// The maximum distance that this weapon can do damage.
+	private int minRange;				// The range below which this weapon can not fire.
 	
 	/**
 	 * Determine what value on the DAC ('torp', 'drone', etc.) will damage this weapon.
@@ -99,8 +107,10 @@ public abstract class Weapon {
 	 * @param range The range from the shooter to the target
 	 * 
 	 * @return The damage done by the weapon at that range.
+	 * @throws WeaponUnarmedException 
+	 * @throws TargetOutOfRangeException 
 	 */
-	public abstract int fire(int range);
+	public abstract int fire(int range) throws WeaponUnarmedException, TargetOutOfRangeException;
 
 	/**
 	 * Get the name of the weapon (Phaser1, Photon, etc.).
@@ -131,5 +141,43 @@ public abstract class Weapon {
 	public void setLastImpulseFired(int lastImpulseFired) {
 		this.lastImpulseFired = lastImpulseFired;
 	}
+	
+	protected void setLastTurnFired(int turn) {
+		this.lastTurnFired = turn;
+	}
+	
+	public int getLastTurnFired() {
+		return this.lastTurnFired;
+	}
+	
+	protected void setMaxRange(int range) {
+		this.maxRange = range;
+	}
 
+	protected void setMinRange(int range) {
+		this.minRange = range;
+	}
+	
+	public int getMaxRange() {
+		return this.maxRange;
+	}
+	
+	public int getMinRange() {
+		return this.minRange;
+	}
+
+	/**
+	 * Register that this weapon fired on the current impulse and turn.
+	 */
+	protected void registerFire() {
+		setLastImpulseFired(Main.getTurnTracker().getImpulse());
+		setLastTurnFired(Main.getTurnTracker().getTurn());
+	}
+	
+	/**
+	 * End of turn cleanup.
+	 */
+	public void cleanUp() {
+		
+	}
 }

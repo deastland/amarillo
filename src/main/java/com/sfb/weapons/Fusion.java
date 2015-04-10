@@ -1,5 +1,9 @@
 package com.sfb.weapons;
 
+import com.sfb.Constants;
+import com.sfb.Main;
+import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
@@ -38,7 +42,6 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 		{16,8,  4,0,0,0,0,0,0}  // Roll 4
 	};
 
-	private int              maxRange		= 24;							// Maximum range this weapon may be fired.
 	private WeaponArmingType armingType		= WeaponArmingType.STANDARD;
 	private int              armingTurn     = 0;
 	private boolean          armed 			= false;						// True if the weapon is armed and ready to fire.
@@ -48,17 +51,30 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 	public Fusion() {
 		setDacHitLocaiton("torp");
 		setName("Fusion");
+		setStandard();
+	}
+	
+	@Override
+	public void cleanUp() {
+		// If it is on cooldown and did not fire this turn, deactivate cooldown.
+		if (isOnCooldown() && getLastTurnFired() < Main.getTurnTracker().getTurn()) {
+			setCooldown(false);
+		}
 	}
 
 	@Override
 	public boolean setStandard() {
 		armingType = WeaponArmingType.STANDARD;
+		setMinRange(0);
+		setMaxRange(24);
 		return true;
 	}
 
 	@Override
 	public boolean setOverload() {
 		this.armingType = WeaponArmingType.OVERLOAD;
+		setMinRange(0);
+		setMaxRange(8);
 		return true;
 	}
 
@@ -68,6 +84,8 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 	@Override
 	public boolean setSpecial() {
 		this.armingType = WeaponArmingType.SPECIAL;
+		setMinRange(0);
+		setMaxRange(8);
 		return true;
 	}
 
@@ -171,10 +189,19 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 	}
 
 	@Override
-	public int fire(int range) {
-
+	public int fire(int range) throws WeaponUnarmedException, TargetOutOfRangeException {
 		// If the weapon isn't armed, it can't be fired.
 		if (!isArmed()) {
+			throw new WeaponUnarmedException("Weapon is unarmed.");
+		}
+		
+		// Can't fire beyond maximum range.
+		if (range > getMaxRange()) {
+			throw new TargetOutOfRangeException("Target is out of weapon range.");
+		}
+		
+		// Can't fire twice within a quarter turn
+		if (getLastImpulseFired() < Main.getTurnTracker().getImpulse() + (Constants.IMPULSES_PER_TURN / 4)) {
 			return -1;
 		}
 		
@@ -186,25 +213,12 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 		
 		switch(this.armingType) {
 		case STANDARD:
-			// Can't fire standard fusions beyond range 24.
-			if (range > maxRange) {
-				return -1;
-			}
 			damage = hitChart[roll - 1][range];
 			break;
 		case OVERLOAD:
-			// Can't fire overloads beyond range 8.
-			if (range > 8) {
-				return -1;
-			}
 			damage = overloadHitChart[roll - 1][range];
 			break;
 		case SPECIAL:
-			// Can't fire suicide overloads beyond range 8.
-			if (range > 8) {
-				return -1;
-			}
-			
 			damage = suicideOverloadHitChart[roll - 1][range];
 			// This weapon is destroyed after firing in suicide mode.
 			damage();
@@ -214,9 +228,10 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 		}
 		
 		armed = false;
-		// The weapon goes into cooldown mode after firing and can't be fired next turn.
+		putOnCooldown();
 		reset();
 
+		registerFire();
 		return damage;
 	}
 	
@@ -224,8 +239,12 @@ public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
 		return cooldown;
 	}
 	
-	public void setOnCooldown() {
+	public void putOnCooldown() {
 		cooldown = true;
+	}
+	
+	private void setCooldown(boolean value) {
+		cooldown = value;
 	}
 
 

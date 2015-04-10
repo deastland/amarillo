@@ -2,7 +2,9 @@ package com.sfb.objects;
 
 import java.util.Map;
 
+import com.sfb.properties.Location;
 import com.sfb.properties.TurnMode;
+import com.sfb.utilities.HexMapUtils;
 import com.sfb.utilities.TurnModeUtil;
 
 // Units are any thing on the map that is more than
@@ -17,9 +19,9 @@ public class Unit extends Marker {
 	// to the hex map. (1 is "due north" and 4 is "due south).
 	//
 	//    1
-	// 2    5
+	// 2     5
 	//    X
-	// 17   9
+	// 17    9
 	//    3
 	//
 	private int facing			= 0;	// Direction the unit is facing (1 through 6)
@@ -119,7 +121,7 @@ public class Unit extends Marker {
 	/**
 	 * Sideslip the unit to the left. This is only possible if the unit
 	 * has moved at least one hex since the last sideslip.
-	 * The unit will move to the adjacent hed in (relative) direction 21 wihtout changing
+	 * The unit will move to the adjacent hex in (relative) direction 21 without changing
 	 * its facing.
 	 * @return True if the sideslip was possible, false otherwise.
 	 */
@@ -127,9 +129,11 @@ public class Unit extends Marker {
 		if (sideslipCount == 0) {
 			return false;
 		}
-		// TODO: Work out logic for this. Will need to change unit position to
-		// the hex at range 1 in the '21' direction (or hex 6 direction) wthiout
-		// changing the unit facing.
+
+		// Calculate what hex is adjacent in the '21' relative bearing (forward left). Move the ship to that hex.
+		int relativeBearing = 21;
+		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(relativeBearing, getFacing())));
+		
 		sideslipCount = 0;
 		return true;
 	}
@@ -145,9 +149,10 @@ public class Unit extends Marker {
 		if (sideslipCount == 0) {
 			return false;
 		}
-		// TODO: Work out logic for this. Will need to change unit position to
-		// the hex at range 1 in the '5' direction (or hex 2 direction) wthiout
-		// changing the unit facing.
+		// Calculate what hex is adjacent in the '5' relative bearing (forward right). Move the ship to that hex.
+		int relativeBearing = 5;
+		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(relativeBearing, getFacing())));
+
 		sideslipCount = 0;
 		return true;
 	}
@@ -163,8 +168,12 @@ public class Unit extends Marker {
 		if (turnCount < TurnModeUtil.getTurnMode(this.turnMode, this.speed)) {
 			return false;
 		}
-		// TODO: Chagne unit facing and position to match.
 
+		// Change the facing of the ship one to the left.
+		setFacing(HexMapUtils.getTrueBearing(21, getFacing()));
+
+		// Then go forward one.
+		goForward();
 		turnCount = 1;
 		return true;
 	}
@@ -180,8 +189,12 @@ public class Unit extends Marker {
 		if (turnCount < TurnModeUtil.getTurnMode(turnMode, speed)) {
 			return false;
 		}
-		// TODO: Change unit facing and position to match.
 
+		// Change the facing of the ship one to the right.
+		setFacing(HexMapUtils.getTrueBearing(5, getFacing()));
+
+		// Then go forward one.
+		goForward();
 		turnCount = 1;
 		return true;
 	}
@@ -189,14 +202,29 @@ public class Unit extends Marker {
 	/**
 	 * Move the unit a single hex forward, placing it in the adjacent hex
 	 * in (relative) direction 1 without changing facing.
-	 * @return
+	 * @return True if this is a legal move.
 	 */
-	public boolean goStraight() {
-
-		// TODO: Change unit position to match.
+	public boolean goForward() {
 		sideslipCount++;
 		turnCount++;
 
+		// Find the hex directly in front of the ship and move the ship to that hex.
+		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(1, getFacing())));
+		
+		return true;
+	}
+	
+	/**
+	 * Move the unit a single hex backward.
+	 * @return True if this is a legal move.
+	 */
+	public boolean goBackward() {
+		sideslipCount++;
+		turnCount++;
+
+		// Find the hex directly behind of the ship and move the ship to that hex.
+		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(13, getFacing())));
+		
 		return true;
 	}
 
@@ -209,6 +237,8 @@ public class Unit extends Marker {
 	 */
 	public boolean performHet(int absoluteFacing) {
 
+		setFacing(absoluteFacing);
+		
 		return true;
 	}
 }

@@ -596,4 +596,111 @@ public class HexMapUtils {
 		}
 		
 	}
+	
+	/**
+	 * Given the relative (ship-centric) bearing and the ship facing, find
+	 * out the true (map-centric) bearing.
+	 * @param relativeBearing The bearing relative to the front of the ship
+	 * @param facing The map-relative facing of the ship.
+	 * @return The true bearing of the direction desired.
+	 */
+	public static int getTrueBearing(int relativeBearing, int facing) {
+
+		// If the ship is facing "true north" then the relative and
+		// true bearings are the same.
+		if (facing == 1) {
+			return relativeBearing;
+		}
+		
+		// Ship 5
+		// 1->5, 5->9, 9->13, 13->17, 17->21, 21->1
+		
+		// Ship 9
+		// 1->9, 5->13, 9->17, 13->21, 17->1, 21->5
+		
+		// Ship 13
+		// 1->13, 5->17, 9->21, 13->1, 17->5, 21->9
+		
+		// So, take the facing and subtract 1.
+		// Then add this to the facing to get the true bearing.
+		int adjustmentValue = facing -1;
+		int trueBearing = relativeBearing + adjustmentValue;
+		// If we've spilled past 24, adjust
+		if (trueBearing > 24) {
+			trueBearing = trueBearing % 24;
+		}
+		
+		return trueBearing;
+	}
+
+	/**
+	 * Get the coordinates of an adjacent hex in a particular direction.
+	 * @param sourceLocation The hex from which we are measuring.
+	 * @param trueBearing The map direction of the adjacent hex
+	 * @return The coordinates of the desired adjacent hex.
+	 */
+	public static Location getAdjacentHex(Location sourceLocation, int trueBearing) {
+		Location newLocation = new Location();
+		
+		// Odd and even X coords will have different calculations
+		boolean even = (sourceLocation.getX() % 2 == 0);
+
+		switch(trueBearing) {
+		case 1:
+			// Hex in direction 1 is simply subtract 1 from Y coord.
+			newLocation.setX(sourceLocation.getX());
+			newLocation.setY(sourceLocation.getY() - 1);
+			break;
+		case 5:
+			newLocation.setX(sourceLocation.getX() + 1);
+			// If even X coord (x+1, y)
+			if (even) {
+				newLocation.setY(sourceLocation.getY());
+				// If odd X coord (x+1, y - 1)
+			} else {
+				newLocation.setY(sourceLocation.getY() - 1);
+			}
+			break;
+		case 9:
+			newLocation.setX(sourceLocation.getX() + 1);
+			// if even coord (x+1, y + 1)
+			if (even) {
+				newLocation.setY(sourceLocation.getY() + 1);
+			} else {
+				newLocation.setY(sourceLocation.getY());
+			}
+			break;
+		case 13:
+			// Hex in direction 13 is simply add 1 to Y coord.
+			newLocation.setX(sourceLocation.getX());
+			newLocation.setY(sourceLocation.getY() + 1);
+			break;
+		case 17:
+			newLocation.setX(sourceLocation.getX() - 1);
+			// if even coord (x-1, y+1)
+			if (even) {
+				newLocation.setY(sourceLocation.getY() + 1);
+			} else {
+				newLocation.setY(sourceLocation.getY());
+			}
+			break;
+		case 21:
+			newLocation.setX(sourceLocation.getX() - 1);
+			// If even X coord (x-1, y)
+			if (even) {
+				newLocation.setY(sourceLocation.getY());
+				// If odd X coord (x-1, y - 1)
+			} else {
+				newLocation.setY(sourceLocation.getY() - 1);
+			}
+			break;
+		default:
+			// Something went wrong and a bad bearing was sent.
+			newLocation = null;
+			break;
+		}
+		
+		return newLocation;
+	}
+	
 }

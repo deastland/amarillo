@@ -1,5 +1,6 @@
 package com.sfb.weapons;
 
+import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 
 /**
@@ -40,8 +41,9 @@ public interface HeavyWeapon {
 	 * 
 	 * @param energy The energy being used to hold the weapon
 	 * @return True if the energy is sufficient and the weapon is armed. False otherwise.
+	 * @throws WeaponUnarmedException 
 	 */
-	public boolean hold(int energy);
+	public boolean hold(int energy) throws WeaponUnarmedException;
 	
 	/**
 	 * Returns the number of turns that the weapon has been arming.

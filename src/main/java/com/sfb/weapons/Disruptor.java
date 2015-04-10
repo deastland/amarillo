@@ -1,5 +1,7 @@
 package com.sfb.weapons;
 
+import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
@@ -27,8 +29,8 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	private final static int[] overloadDamageChart =
 		{10,10,8,8,8,6,6,6,6};
 
-	private int              maxRange		= 0;							// Maximum range this weapon may be fired.
 	private WeaponArmingType armingType		= WeaponArmingType.STANDARD;
+	private int				 disruptorRange;								// Maximum range for this model of disruptor (15, 22, 30, etc.)
 	private int              armingTurn		= 0;							// Number of turns the weapon has been arming.
 	private double           armingEnergy 	= 0;							// Amount of total energy stored in the weapon.
 	private boolean          armed 			= false;						// True if the weapon is armed and ready to fire.
@@ -39,21 +41,40 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	}
 	
 	// This is the only constructor we want to use.
-	public Disruptor(int maxRange) {
-		this.maxRange = maxRange;
+	public Disruptor(int designRange) {
+		setDisruptorRange(designRange);
+		setMinRange(1);
+		setMaxRange(getDisruptorRange());
 		setDacHitLocaiton("torp");
-		setName("Disruptor-" + maxRange);
+		setName("Disruptor-" + getDisruptorRange());
+	}
+	
+	@Override
+	public void cleanUp() {
+		armed = false;
+		armingEnergy = 0;
+		armingTurn = 0;
+		setStandard();
 	}
 	
 	@Override
 	public boolean setStandard() {
+		// If the weapon is already armed as overloaded, it is too late
+		// to set it to standard.
+		if (isArmed() && armingType == WeaponArmingType.OVERLOAD) {
+			return false;
+		}
 		this.armingType = WeaponArmingType.STANDARD;
+		setMinRange(1);
+		setMaxRange(getDisruptorRange());
 		return true;
 	}
 
 	@Override
 	public boolean setOverload() {
 		this.armingType = WeaponArmingType.OVERLOAD;
+		setMinRange(0);
+		setMaxRange(8);
 		return true;
 	}
 
@@ -92,17 +113,19 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	 * 
 	 * @param range The range to the target.
 	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 * @throws WeaponUnarmedException 
+	 * @throws TargetOutOfRangeException 
 	 */
 	@Override
-	public int fire(int range) {
+	public int fire(int range) throws WeaponUnarmedException, TargetOutOfRangeException {
 		// If the dirutptor isn't armed, it can't fire.
 		if (!isArmed()) {
-			return -1;
+			throw new WeaponUnarmedException("Weapon is unarmed.");
 		}
 		
 		// If the target is out of range, it can't fire.
-		if (range > maxRange) {
-			return -1;
+		if (range > getMaxRange() || range < getMinRange()) {
+			throw new TargetOutOfRangeException("Target not in weapon range.");
 		}
 
 		int damage = 0;
@@ -112,27 +135,12 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		// Based on arming type, calculate damage (0 on a miss).
 		switch(armingType) {
 		case STANDARD:
-			// Can't fire at range 0.
-			if (range < 1) {
-				return -1;
-			}
-			
-			// Can't fire beyond maximum range for this weapon.
-			if (range > maxRange) {
-				return -1;
-			}
-			
 			// Calculate hit/damage for the range.
 			if (diceRoller.rollOneDie() <= hitChart[range]) {
 				damage = damageChart[range];
 			}
 			break;
 		case OVERLOAD:
-			// Can't fire at targets beyond range 8.
-			if (range > 8) {
-				return -1;
-			}
-			
 			// Calculate hit/damage for the range
 			if (diceRoller.rollOneDie() <= overloadHitChart[range]) {
 				damage = overloadDamageChart[range];
@@ -145,6 +153,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		// Once fired, the weapon is no longer armed.
 		reset();
 		
+		registerFire();
 		return damage;
 	}
 
@@ -153,16 +162,18 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	 * 
 	 * @param range The range to the target.
 	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 * @throws WeaponUnarmedException 
+	 * @throws TargetOutOfRangeException 
 	 */
-	public int fireUim(int range) {
+	public int fireUim(int range) throws WeaponUnarmedException, TargetOutOfRangeException {
 		// If the dirutptor isn't armed, it can't fire.
 		if (!isArmed()) {
-			return -1;
+			throw new WeaponUnarmedException("Weapon is unarmed.");
 		}
 
 		// If the target is out of range, it can't fire.
-		if (range > maxRange) {
-			return -1;
+		if (range > getMaxRange() || range < getMinRange()) {
+			throw new TargetOutOfRangeException("Target not in weapon range.");
 		}
 
 		int damage = 0;
@@ -172,27 +183,12 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		// Based on arming type, calculate damage (0 on a miss).
 		switch(armingType) {
 		case STANDARD:
-			// Standard disruptors can't fire at range 0.
-			if (range < 1) {
-				return -1;
-			}
-			
-			// Can't fire beyond maximum range for this weapon.
-			if (range > maxRange) {
-				return -1;
-			}
-			
 			// Calculate hit/damage for the range.
 			if (diceRoller.rollOneDie() <= uimHitChart[range]) {
 				damage = damageChart[range];
 			}
 			break;
 		case OVERLOAD:
-			// Overloads can't fire at targets beyond range 8.
-			if (range > 8) {
-				return -1;
-			}
-			
 			// Calculate hit/damage for the range
 			if (diceRoller.rollOneDie() <= uimOverloadHitChart[range]) {
 				damage = overloadDamageChart[range];
@@ -205,6 +201,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		// Once fired, the weapon is no longer armed.
 		reset();
 		
+		registerFire();
 		return damage;
 	}
 
@@ -213,16 +210,18 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	 * 
 	 * @param range The range to the target.
 	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 * @throws WeaponUnarmedException 
+	 * @throws TargetOutOfRangeException 
 	 */
-	public int fireDerfacs(int range) {
+	public int fireDerfacs(int range) throws WeaponUnarmedException, TargetOutOfRangeException {
 		// If the dirutptor isn't armed, it can't fire.
 		if (!isArmed()) {
-			return -1;
+			throw new WeaponUnarmedException("Weapon is unarmed.");
 		}
 
 		// If the target is out of range, it can't fire.
-		if (range > maxRange) {
-			return -1;
+		if (range > getMaxRange() || range < getMinRange()) {
+			throw new TargetOutOfRangeException("Target not in weapon range.");
 		}
 
 		int damage = 0;
@@ -232,28 +231,12 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		// Based on arming type, calculate damage (0 on a miss).
 		switch(armingType) {
 		case STANDARD:
-			// Standard disruptors can't fire at range 0.
-			if (range < 1) {
-				return -1;
-			}
-			
-			// Can't fire beyond maximum range for this weapon.
-			if (range > maxRange) {
-				return -1;
-			}
-			
 			// Calculate hit/damage for the range.
 			if (diceRoller.rollOneDie() <= derfacsHitChart[range]) {
 				damage = damageChart[range];
 			}
 			break;
 		case OVERLOAD:
-			// Overloads can't fire at targets beyond range 8.
-			// Also must have 4 arming energy.
-			if (range > 8 || armingEnergy != 4) {
-				return -1;
-			}
-			
 			// Calculate hit/damage for the range
 			if (diceRoller.rollOneDie() <= overloadHitChart[range]) {
 				damage = overloadDamageChart[range];
@@ -266,6 +249,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		// Once fired, the weapon is no longer armed.
 		reset();
 		
+		registerFire();
 		return damage;
 	}
 
@@ -303,6 +287,22 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 	@Override
 	public boolean setSpecial() {
 		return false;
+	}
+	
+	/**
+	 * Return the maximum operational range of this type of disruptor.
+	 * @return Maximum range of this disruptor armed with a standard load.
+	 */
+	public int getDisruptorRange() {
+		return this.disruptorRange;
+	}
+	
+	/**
+	 * Set the maximum operational range of this type of disruptor.
+	 * @param range The range to cap out this disruptor.
+	 */
+	public void setDisruptorRange(int range) {
+		this.disruptorRange = range;
 	}
 
 	@Override

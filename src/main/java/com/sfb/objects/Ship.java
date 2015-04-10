@@ -63,7 +63,9 @@ public class Ship extends Unit {
 	//TODO: Point Value
 	
 	
-	// On spool-up, set initial value for all members.
+	/**
+	 * Constructor
+	 */
 	public Ship() {	}
 
 	/**
@@ -82,19 +84,22 @@ public class Ship extends Unit {
 		battlePointValue = values.get("bpv")         == null ? 0    : (Integer)values.get("bpv");
 		
 		// Subsystem values
-		initShields(values);
-		initHullBoxes(values);
-		initPowerSystems(values);
-		initControlSpaces(values);
-		initSpecialFunctions(values);
-		initOperationsSystems(values);
-		initProbes(values);
-		initShuttles(values);
-		initWeapons(values);
-		initCrew(values);
-		initPerformanceData(values);
+		shields.init(values);
+		hullBoxes.init(values);
+		powerSystems.init(values);
+		controlSpaces.init(values);
+		specialFunctions.init(values);
+		operationsSystems.init(values);
+		probes.init(values);
+		shuttles.init(values);
+		weapons.init(values);
+		crew.init(values);
+		performanceData.init(values);
 	}
 	
+	/**
+	 * Perform end-of-turn activities needed to prepare for the next energy allocation phase.
+	 */
 	public void cleanUp() {
 		
 		//TODO: Figure out if there is any Ship object level cleanup needed.
@@ -152,12 +157,6 @@ public class Ship extends Unit {
 	}
 	
 	/// SHIELDS ///
-	
-	// Create shields
-	private void initShields(Map<String, Object> values) {
-		this.shields.init(values);
-	}
-	
 	public Shields getShields() {
 		return this.shields;
 	}
@@ -175,20 +174,11 @@ public class Ship extends Unit {
 	
 	/// HULL BOXES ///
 	
-	// Create hull boxes
-	private void initHullBoxes(Map<String, Object> values) {
-		this.hullBoxes.init(values);
-	}
-	
 	public HullBoxes getHullBoxes() {
 		return this.hullBoxes;
 	}
 
 	/// POWER SYSTEMS ///
-	private void initPowerSystems(Map<String, Object> values) {
-		powerSystems.init(values);
-	}
-	
 	public PowerSystems getPowerSysetems() {
 		return powerSystems;
 	}
@@ -196,21 +186,11 @@ public class Ship extends Unit {
 	/// CONTROL SPACES ///
 	
 	// Create control boxes.
-	private void initControlSpaces(Map <String, Object> values) {
-		this.controlSpaces.init(values);
-	}
-	
 	public ControlSpaces getControlSpaces() {
 		return this.controlSpaces;
 	}
 	
 	/// SPECIAL FUNCITONS ///
-	
-	// Create special function tracks.
-	private void initSpecialFunctions(Map<String, Object> values) {
-		specialFunctions.init(values);
-	}
-	
 	public boolean hasDerfacs() {
 		return this.specialFunctions.hasDerfacs();
 	}
@@ -220,34 +200,16 @@ public class Ship extends Unit {
 	}
 	
 	/// OPERATIONS SYSTEMS ///
-	
-	// Create Operations System Boxes
-	private void initOperationsSystems(Map<String, Object> values) {
-		this.operationsSystems.init(values);
-	}
-	
 	public OperationsSystems getOperationsSystems() {
 		return this.operationsSystems;
 	}
 	
 	/// PROBES ///
-	
-	// Create probe boxes.
-	private void initProbes(Map<String, Object> values) {
-		probes.init(values);
-	}
-	
 	public Probes getProbes() {
 		return this.probes;
 	}
 	
 	/// WEAPONS ///
-	
-	// Create weapons.
-	private void initWeapons(Map<String, Object> values) {
-		weapons.init(values);
-	}
-	
 	public Weapons getWeapons() {
 		return this.weapons;
 	}
@@ -255,43 +217,20 @@ public class Ship extends Unit {
 	/// SHUTTLES ///
 
 	//TODO: Shuttle operations
-	
-	private void initShuttles(Map<String, Object> values) {
-		shuttles.init(values);
-	}
-	
 	public Shuttles getShuttles() {
 		return this.shuttles;
 	}
-//	public int getShuttle() {
-//		return shuttle;
-//	}
-//
-//	public void setShuttle(Integer shuttle) {
-//		this.shuttle = shuttle;
-//	}
-	
+
 	/// CREW ///
-	private void initCrew(Map<String, Object> values) {
-		crew.init(values);
-	}
-	
 	public Crew getCrew() {
 		return this.crew;
 	}
 	
 	/// PERFORMANCE DATA ///
-	
-	private void initPerformanceData(Map<String, Object> values) {
-		performanceData.init(values);
-	}
-	
 	public PerformanceData getPerformanceData() {
 		return this.performanceData;
 	}
 
-	/// CRIPPLE CALCULATIONS ////
-	
 	// Calculate the total number of boxes on the ship.
 	private int getTotalSSDBoxes() {
 		int totalBoxes = 0;

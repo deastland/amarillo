@@ -1,5 +1,6 @@
 package com.sfb.weapons;
 
+import com.sfb.exceptions.TargetOutOfRangeException;
 import com.sfb.utilities.DiceRoller;
 
 public class Phaser2 extends VariableDamageWeapon {
@@ -18,25 +19,37 @@ public class Phaser2 extends VariableDamageWeapon {
 	public Phaser2() {
 		setDacHitLocaiton("phaser");
 		setName("Phaser-2");
+		setMinRange(0);
+		setMaxRange(50);
 	}
 
 	/**
 	 * @param range The range from the shooter to the target
 	 * 
 	 * @return The damage done by the weapon at that range.
+	 * @throws TargetOutOfRangeException 
 	 */
 	@Override
-	public int fire(int range) {
+	public int fire(int range) throws TargetOutOfRangeException {
 		// Can not damage targets beyond range 50
-		if (range > 50) {
-			return -1;
+		if (range > getMaxRange()) {
+			throw new TargetOutOfRangeException("Target is out of weapon range.");
 		}
 		// Roll the 1d6 to determine damage
 		DiceRoller diceRoller = new DiceRoller();
 		int roll = diceRoller.rollOneDie();
 		
 		// Return the value that matches the die roll and the range.
+		registerFire();
 		return hitChart[roll - 1][range];
 	}
 
+	/**
+	 * Fetch the energy needed from the capacitor to fire this weapon.
+	 * 
+	 * @return The energy needed to fire the weapon.
+	 */
+	public double energyToFire() {
+		return 1;
+	}
 }

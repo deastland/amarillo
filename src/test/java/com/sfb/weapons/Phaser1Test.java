@@ -4,10 +4,12 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.sfb.exceptions.TargetOutOfRangeException;
+
 public class Phaser1Test {
 
 	@Test 
-	public void testFire() {
+	public void testFire() throws TargetOutOfRangeException {
 		Phaser1 phaser1 = new Phaser1();
 		
 		int range = 15;

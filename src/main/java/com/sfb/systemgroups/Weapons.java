@@ -68,6 +68,26 @@ public class Weapons implements Systems {
 		availableCapacitor = capacitor;
 	}
 	
+	@Override
+	public void cleanUp() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	/**
+	 * Given a relative bearing, fetch all weapons that have the target in arc and range.
+	 * 
+	 * @param relativeBearing The bearing of the target.
+	 * @param range The range to the target
+	 * @return List of weapons that can hit a target at that bearing and range.
+	 */
+	public List<Weapon> getAllBearing(int relativeBearing, int range) {
+		List<Weapon> bearingWeapons = new LinkedList<>();
+		
+		//TODO: Finish this logic!!!!!
+		
+		return bearingWeapons;
+	}
 	public List<Weapon> getWeapons() {
 		return this.weapons;
 	}
@@ -102,12 +122,6 @@ public class Weapons implements Systems {
 		return availableDrones;
 	}
 
-	@Override
-	public void cleanUp() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 
 }
 

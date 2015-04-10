@@ -4,12 +4,14 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 
 public class DisruptorTest {
 
 	@Test
-	public void testArming() {
+	public void testArming() throws WeaponUnarmedException, TargetOutOfRangeException {
 		// Get an unarmed disruptor.
 		Disruptor disruptor = getUnarmedDisruptor();
 		
@@ -53,7 +55,7 @@ public class DisruptorTest {
 	}
 	
 	@Test
-	public void testFiring() {
+	public void testFiring() throws WeaponUnarmedException, TargetOutOfRangeException {
 		
 		// Get an armed standard disruptor.
 		Disruptor standardDis = getStandardDisruptor();

@@ -1,5 +1,7 @@
 package com.sfb.weapons;
 
+import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
@@ -21,6 +23,8 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	private int armingTurn = 0;											// Number of turns the weapon has been arming.
 	private double armingEnergy = 0;									// Amount of total energy stored in the weapon.
 	private boolean armed = false;										// True if the weapon is armed and ready to fire.
+	private boolean held  = false;										// True if the weapon is in 'hold' mode.
+	//TODO: Figure out logic for holding weapon and losing it if you do not hold it.
 	
 	/**
 	 * Constructor for a new Photon object.
@@ -28,6 +32,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	public Photon() {
 		setDacHitLocaiton("torp");
 		setName("Photon");
+		reset();
 	}
 	
 	/**
@@ -36,13 +41,21 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	 * @return The amount of damage done by the weapon (0 on a miss).
 	 * Returns -1 if the weapon can not be fired at the target due
 	 * to range or arming restrictions.
+	 * @throws WeaponUnarmedException 
+	 * @throws TargetOutOfRangeException 
 	 */
 	@Override
-	public int fire(int range) {
+	public int fire(int range) throws WeaponUnarmedException, TargetOutOfRangeException {
+		// If the weapon isn't armed, it can't fire.
 		if (!isArmed()) {
-			return -1;
+			throw new WeaponUnarmedException("Weapon is unarmed.");
 		}
-
+		
+		// If the weapon is out of range, it can't fire.
+		if (range > getMaxRange() || range < getMinRange()) {
+			throw new TargetOutOfRangeException("Target not in weapon range.");
+		}
+		
 		int damage = 0;
 		// Roll to hit.
 		DiceRoller diceRoller = new DiceRoller();
@@ -50,28 +63,17 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		// Based on arming type, calculate damage (0 on a miss).
 		switch(armingType) {
 		case STANDARD:
-			// Standard photons can't fire at targets below range 2.
-			if (range < 2) {
-				return -1;
-			}
 			if (diceRoller.rollOneDie() <= hitChart[range]) {
 				damage = 8;
 			}
 			break;
 		case OVERLOAD:
 			// Overloaded photons can't fire at targets above range 8.
-			if (range > 8) {
-				return -1;
-			}
 			if (diceRoller.rollOneDie() <= overloadHitChart[range]) {
 				damage = (int)(armingEnergy * 2);
 			}
 			break;
 		case SPECIAL:
-			// Prox photons can't fire at targets below range 9.
-			if (range < 9) {
-				return -1;
-			}
 			if (diceRoller.rollOneDie() <= proximityHitChart[range]) {
 				damage = 4;
 			}
@@ -83,6 +85,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		// Once fired, the weapon is no longer armed.
 		reset();
 		
+		registerFire();
 		return damage;
 	}
 	
@@ -92,21 +95,20 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	 */
 	@Override
 	public boolean isArmed() {
-
 		return armed;
 	}
 	
 	@Override
-	public boolean hold(int energy) {
+	public boolean hold(int energy) throws WeaponUnarmedException {
 		boolean result = false;
 		
 		if (!isArmed()) {
-			return result;
+			throw new WeaponUnarmedException("Weapon is not armed.");
 		}
 		
 		switch(armingType) {
 		case STANDARD:
-			if (energy >= 1) {
+			if (energy == 1) {
 				result = true;
 			}
 			break;
@@ -118,10 +120,11 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 			// This allows gradual arming of overloaded photons.
 			} else if (energy > 2) {
 				armingEnergy = armingEnergy + energy - 2;
+				result = true;
 			}
 			break;
 		case SPECIAL:
-			if (energy >= 1) {
+			if (energy == 1) {
 				result = true;
 			}
 			break;
@@ -129,6 +132,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 			break;
 		}
 		
+		held = result;
 		return result;
 	}
 
@@ -179,7 +183,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 			break;
 		}
 		
-		// If everythign worked out and this is the second turn
+		// If everything worked out and this is the second turn
 		// of arming, mark the weapon as armed.
 		if (okayToArm && armingTurn == 2) {
 			armed = true;
@@ -205,6 +209,8 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		
 		// Set the arming type.
 		armingType = WeaponArmingType.OVERLOAD;
+		setMinRange(0);
+		setMaxRange(8);
 		return true;
 	}
 	
@@ -220,11 +226,6 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	
 	@Override
 	public boolean setStandard() {
-		// If arming type is already STANDARD, no harm no foul.
-		if (armingType == WeaponArmingType.STANDARD) {
-			return true;
-		}
-		
 		// If arming has already commenced, it is too late
 		// to change back to standard. Instead, try reset().
 		if (armingTurn > 0) {
@@ -233,17 +234,13 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		
 		// Set the arming type.
 		armingType = WeaponArmingType.STANDARD;
+		setMinRange(2);
+		setMaxRange(30);
 		return true;
 	}
 	
 	@Override
 	public boolean setSpecial() {
-		
-		// If arming type is already SPECIAL, no harm no foul.
-		if (armingType == WeaponArmingType.SPECIAL) {
-			return true;
-		}
-		
 		// If arming has already commenced, it is too late
 		// to change back to standard.
 		if (armingTurn > 0) {
@@ -251,6 +248,8 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		}
 		
 		armingType = WeaponArmingType.SPECIAL;
+		setMinRange(9);
+		setMaxRange(30);
 		return true;
 		
 	}
@@ -265,6 +264,7 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		armingType = WeaponArmingType.STANDARD;
 		armingTurn = 0;
 		armingEnergy = 0;
+		held = false;
 		armed = false;
 	}
 	
@@ -295,6 +295,15 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 		}
 		
 		return energyRequired;
+	}
+	
+	public boolean isHeld() {
+		return held;
+	}
+	
+	@Override
+	public void cleanUp() {
+		//TODO: figure this out.
 	}
 
 }
