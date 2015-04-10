@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.sfb.objects.Drone;
 
-public class DroneRack extends Weapon {
+public class DroneRack extends Weapon implements Launcher {
 	
 	private int         spaces 		= 0;					// The number of spaces in the rack (usually 4 or 6)
 
@@ -16,7 +16,14 @@ public class DroneRack extends Weapon {
 	private int         addReloads	= 0;					// The number of ADD reloads available.
 	
 	public DroneRack() {
-		setArcs(new int[] {0});
+		setArcs(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24});
+	}
+	
+	@Override
+	public Drone launch(int weaponNumber) {
+		Drone launchedDrone = ammo.get(weaponNumber);
+		
+		return launchedDrone;
 	}
 	
 	/**
@@ -27,12 +34,6 @@ public class DroneRack extends Weapon {
 		return ammo;
 	}
 	
-	@Override
-	public int fire(int range) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	public int getSpaces() {
 		return spaces;
 	}

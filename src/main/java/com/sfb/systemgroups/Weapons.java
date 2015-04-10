@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import com.sfb.exceptions.CapacitorException;
+import com.sfb.objects.Unit;
+import com.sfb.utilities.MapUtils;
 import com.sfb.weapons.Phaser1;
 import com.sfb.weapons.Phaser2;
 import com.sfb.weapons.Phaser3;
@@ -33,12 +36,22 @@ public class Weapons implements Systems {
 	
 	private int          capacitorEnergy;							// Energy currently in the phaser capacitor.
 	
+	private Unit         owningShip;								// The ship on which this weapons system is mounted.
+	
+	private Weapons() {}
+	
+	public Weapons(Unit owningShip) {
+		this.owningShip = owningShip;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(Map<String, Object> values) {
 		weapons = values.get("weapons") == null ? new LinkedList<Weapon>() : (List<Weapon>)values.get("weapons");
 		if (weapons != null) {
 			for (Weapon weapon : weapons) {
+				// Make sure the weapon knows what unit owns it.
+				weapon.setOwningShip(owningShip);
 				// Register a new phaser weapon
 				if ("phaser".equals(weapon.getDacHitLocaiton())) {
 					phaserList.add(weapon);
@@ -75,19 +88,33 @@ public class Weapons implements Systems {
 	}
 
 	/**
-	 * Given a relative bearing, fetch all weapons that have the target in arc and range.
-	 * 
-	 * @param relativeBearing The bearing of the target.
-	 * @param range The range to the target
-	 * @return List of weapons that can hit a target at that bearing and range.
+	 * Given a shooter and a target, fetch all weapons that have range and arc on the target. 
+	 * @param source The shooter
+	 * @param target The target
+	 * @return All weapons on the shooter that have arc and range on the target.
 	 */
-	public List<Weapon> getAllBearing(int relativeBearing, int range) {
+	public List<Weapon> getAllBearingWeapons(Unit source, Unit target) {
 		List<Weapon> bearingWeapons = new LinkedList<>();
 		
-		//TODO: Finish this logic!!!!!
-		
+		// Loop through all weapons, finding which ones are good to fire.
+		for (Weapon weapon : weapons) {
+			// Check to see that the target is in range.
+			boolean inRange = MapUtils.getRange(source, target) <= weapon.getMaxRange();
+
+			// Check to see that the target is in arc.
+			int trueBearingOfTarget = MapUtils.getBearing(source, target);
+			int relativeBearingToTarget = MapUtils.getRelativeBearing(trueBearingOfTarget, source.getFacing());
+			boolean inArc = weapon.inArc(relativeBearingToTarget);
+			
+			// If it is in range AND in arc, add it to the list of weapons.
+			if (inRange && inArc) {
+				bearingWeapons.add(weapon);
+			}
+		}
+
 		return bearingWeapons;
 	}
+	
 	public List<Weapon> getWeapons() {
 		return this.weapons;
 	}
@@ -110,6 +137,21 @@ public class Weapons implements Systems {
 		return capacitor;
 	}
 	
+	public void drainCapacitor(double energy) throws CapacitorException {
+		if (energy > this.capacitorEnergy) {
+			throw new CapacitorException("Not enough capacitor energy.");
+		} else {
+			this.capacitorEnergy -= energy;
+		}
+	}
+	
+	public void chargeCapacitor(double energy) throws CapacitorException {
+		if (this.capacitorEnergy + energy > this.availableCapacitor) {
+			throw new CapacitorException("Too much energy for capacitor size.");
+		} else {
+			this.capacitorEnergy += energy;
+		}
+	}
 	public double getAvailableCapacitor() {
 		return availableCapacitor;
 	}

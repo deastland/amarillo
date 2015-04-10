@@ -5,7 +5,7 @@ import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
-public class Disruptor extends Weapon implements HeavyWeapon {
+public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 	
 	// STANDARD
 	private final static int[] hitChart = 
@@ -125,7 +125,7 @@ public class Disruptor extends Weapon implements HeavyWeapon {
 		
 		// If the target is out of range, it can't fire.
 		if (range > getMaxRange() || range < getMinRange()) {
-			throw new TargetOutOfRangeException("Target not in weapon range.");
+			throw new TargetOutOfRangeException("Target not in weapon range. [" + getMinRange()  + "|" + getMaxRange() + "]");
 		}
 
 		int damage = 0;

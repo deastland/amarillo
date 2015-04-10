@@ -2,9 +2,9 @@ package com.sfb.objects;
 
 import java.util.Map;
 
-import com.sfb.properties.Location;
+import com.sfb.Player;
 import com.sfb.properties.TurnMode;
-import com.sfb.utilities.HexMapUtils;
+import com.sfb.utilities.MapUtils;
 import com.sfb.utilities.TurnModeUtil;
 
 // Units are any thing on the map that is more than
@@ -24,11 +24,13 @@ public class Unit extends Marker {
 	// 17    9
 	//    3
 	//
-	private int facing			= 0;	// Direction the unit is facing (1 through 6)
-	private int speed			= 0;	// Speed the unit is moving (0 through 32)
-	private int sizeClass		= 0;	// Size class of the unit (0 through 6...I think?)
-	private int sideslipCount	= 0;	// Track number of moves since last sideslip.
-	private int turnCount		= 0;	// Track number of moves since last turn.
+	private int    facing				= 0;	// Direction the unit is facing (1 through 6)
+	private int    speed				= 0;	// Speed the unit is moving (0 through 32)
+	private int    sizeClass			= 0;	// Size class of the unit (0 through 6...I think?)
+	private int    sideslipCount		= 0;	// Track number of moves since last sideslip.
+	private int    turnCount			= 0;	// Track number of moves since last turn.
+	
+	private Player owner	= null; // controlling player
 
 	// TODO: Point Value
 
@@ -116,6 +118,15 @@ public class Unit extends Marker {
 		return TurnModeUtil.getTurnMode(this.turnMode, this.speed);
 	}
 
+	/// PLAYER ///
+	public Player getOwner() {
+		return this.owner;
+	}
+	
+	public void setOwner(Player player) {
+		this.owner = player;
+	}
+	
 	// / MOVEMENT ///
 
 	/**
@@ -132,7 +143,7 @@ public class Unit extends Marker {
 
 		// Calculate what hex is adjacent in the '21' relative bearing (forward left). Move the ship to that hex.
 		int relativeBearing = 21;
-		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(relativeBearing, getFacing())));
+		setLocation(MapUtils.getAdjacentHex(getLocation(), MapUtils.getTrueBearing(relativeBearing, getFacing())));
 		
 		sideslipCount = 0;
 		return true;
@@ -151,7 +162,7 @@ public class Unit extends Marker {
 		}
 		// Calculate what hex is adjacent in the '5' relative bearing (forward right). Move the ship to that hex.
 		int relativeBearing = 5;
-		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(relativeBearing, getFacing())));
+		setLocation(MapUtils.getAdjacentHex(getLocation(), MapUtils.getTrueBearing(relativeBearing, getFacing())));
 
 		sideslipCount = 0;
 		return true;
@@ -170,7 +181,7 @@ public class Unit extends Marker {
 		}
 
 		// Change the facing of the ship one to the left.
-		setFacing(HexMapUtils.getTrueBearing(21, getFacing()));
+		setFacing(MapUtils.getTrueBearing(21, getFacing()));
 
 		// Then go forward one.
 		goForward();
@@ -191,7 +202,7 @@ public class Unit extends Marker {
 		}
 
 		// Change the facing of the ship one to the right.
-		setFacing(HexMapUtils.getTrueBearing(5, getFacing()));
+		setFacing(MapUtils.getTrueBearing(5, getFacing()));
 
 		// Then go forward one.
 		goForward();
@@ -209,7 +220,7 @@ public class Unit extends Marker {
 		turnCount++;
 
 		// Find the hex directly in front of the ship and move the ship to that hex.
-		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(1, getFacing())));
+		setLocation(MapUtils.getAdjacentHex(getLocation(), MapUtils.getTrueBearing(1, getFacing())));
 		
 		return true;
 	}
@@ -223,7 +234,7 @@ public class Unit extends Marker {
 		turnCount++;
 
 		// Find the hex directly behind of the ship and move the ship to that hex.
-		setLocation(HexMapUtils.getAdjacentHex(getLocation(), HexMapUtils.getTrueBearing(13, getFacing())));
+		setLocation(MapUtils.getAdjacentHex(getLocation(), MapUtils.getTrueBearing(13, getFacing())));
 		
 		return true;
 	}

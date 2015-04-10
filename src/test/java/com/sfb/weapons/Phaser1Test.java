@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.sfb.exceptions.CapacitorException;
 import com.sfb.exceptions.TargetOutOfRangeException;
 
 public class Phaser1Test {
@@ -14,7 +15,13 @@ public class Phaser1Test {
 		
 		int range = 15;
 		
-		int damage = phaser1.fire(range);
+		int damage = 0;
+		try {
+			damage = phaser1.fire(range);
+		} catch (CapacitorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		System.out.println("Damage: " + damage);
 		

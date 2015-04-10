@@ -2,9 +2,10 @@ package com.sfb.systems;
 
 import com.sfb.properties.ProbeArmingType;
 import com.sfb.utilities.DiceRoller;
+import com.sfb.weapons.DirectFire;
 import com.sfb.weapons.Weapon;
 
-public class Probe extends Weapon {
+public class Probe extends Weapon implements DirectFire {
 
 	private int             ammo = 5;		// Total number of probes per launcher
 	private int             availableAmmo;	// Current number of probes remaining.
@@ -162,7 +163,7 @@ public class Probe extends Weapon {
 	
 	public void setToInformation() {
 		setProbeType(ProbeArmingType.INFORMATION);
-		setArcs(new int[] {0});
+		setArcs(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24});
 	}
 	
 	public void setToWeapon() {

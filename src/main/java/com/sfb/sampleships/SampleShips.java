@@ -5,11 +5,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.sfb.objects.Ship;
 import com.sfb.properties.Faction;
 import com.sfb.properties.TurnMode;
-import com.sfb.weapons.Phaser2;
 import com.sfb.weapons.Disruptor;
+import com.sfb.weapons.Phaser1;
+import com.sfb.weapons.Phaser2;
+import com.sfb.weapons.Photon;
 import com.sfb.weapons.Weapon;
 
 /**
@@ -29,77 +30,93 @@ public class SampleShips {
 	public static Map<String, Object> getFedCa() {
 		Map<String, Object> shipSpecs = new HashMap<String, Object>();
 
-		// Turn mode D
-		shipSpecs.put("turnmode", TurnMode.D);
-		
+		// Ship basics
 		shipSpecs.put("faction", Faction.Federation);
 		shipSpecs.put("hull", "CA");
 		shipSpecs.put("name", "USS Lexington");
 		shipSpecs.put("serviceyear", new Integer(130));
 		shipSpecs.put("bpv", new Integer(140));
-
+		shipSpecs.put("turnmode", TurnMode.D);
+		// Shields
 		shipSpecs.put("shield1", new Integer(30));
 		shipSpecs.put("shield2", new Integer(24));
 		shipSpecs.put("shield3", new Integer(20));
 		shipSpecs.put("shield4", new Integer(20));
 		shipSpecs.put("shield5", new Integer(20));
 		shipSpecs.put("shield6", new Integer(24));
+		// Hull
 		shipSpecs.put("fhull", new Integer(12));
 		shipSpecs.put("ahull", new Integer(4));
+		// Power
 		shipSpecs.put("lwarp", new Integer(15));
 		shipSpecs.put("rwarp", new Integer(15));
 		shipSpecs.put("impulse", new Integer(4));
 		shipSpecs.put("battery", new Integer(3));
+		// Control
 		shipSpecs.put("bridge", new Integer(2));
 		shipSpecs.put("emer", new Integer(2));
 		shipSpecs.put("auxcon", new Integer(2));
 		shipSpecs.put("damcon", new int[] {4,4,2,2,0});
+		// Special Functions
 		shipSpecs.put("scanner", new int[] {0,0,1,3,5,9});
 		shipSpecs.put("sensor", new int[] {6,6,5,3,1,0});
 		shipSpecs.put("excess", new Integer(6));
+		// Operations
 		shipSpecs.put("trans", new Integer(3));
 		shipSpecs.put("tractor", new Integer(3));
 		shipSpecs.put("lab", new Integer(8));
+		// Probes
 		shipSpecs.put("probe", new Integer(1));
+		// Shuttles
 		shipSpecs.put("shuttle", new Integer(4));
+		// Crew
 		shipSpecs.put("crew", new Integer(43));
 		shipSpecs.put("boardingparties", new Integer(10));
 		shipSpecs.put("minimumcrew", new Integer(4));
-		
+		// Performance
+		shipSpecs.put("movecost", new Double(1));
+		shipSpecs.put("breakdown", new Integer(5));
+		shipSpecs.put("bonushets", new Integer(1));
+		shipSpecs.put("shieldcost", new Integer(2));
+		shipSpecs.put("lifesupport", new Double(1));
+		// Weapons
 		List<Weapon> weaponList = new LinkedList<>();
-		// FH Phasers
-		Phaser2 phaser1 = new Phaser2();
+
+		// Fore Phasers (FH)
+		Phaser1 phaser1 = new Phaser1();
 		phaser1.setArcs(new int[] {19,20,21,22,23,24,1,2,3,4,5,6,7});
 		weaponList.add(phaser1);
-		Phaser2 phaser2 = new Phaser2();
+		Phaser1 phaser2 = new Phaser1();
 		phaser2.setArcs(new int[] {19,20,21,22,23,24,1,2,3,4,5,6,7});
 		weaponList.add(phaser2);
-		// LH Phasers
-		Phaser2 phaser3 = new Phaser2();
-		phaser3.setArcs(new int[] {13,14,15,16,17,18,19,20,21,22,23,24,1});
+		
+		// Left Phasers (LF + L + directly aft)
+		Phaser1 phaser3 = new Phaser1();
+		phaser3.setArcs(new int[] {17,18,19,20,21,22,23,24,1,13});
 		weaponList.add(phaser3);
-		Phaser2 phaser4 = new Phaser2();
-		phaser4.setArcs(new int[] {13,14,15,16,17,18,19,20,21,22,23,24,1});
+		Phaser1 phaser4 = new Phaser1();
+		phaser4.setArcs(new int[] {17,18,19,20,21,22,23,24,1,13});
 		weaponList.add(phaser4);
-		// RH Phasers
-		Phaser2 phaser5 = new Phaser2();
-		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13});
+		
+		// RH Phasers (RF + R + directly aft)
+		Phaser1 phaser5 = new Phaser1();
+		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13});
 		weaponList.add(phaser5);
-		Phaser2 phaser6 = new Phaser2();
-		phaser6.setArcs(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13});
+		Phaser1 phaser6 = new Phaser1();
+		phaser6.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13});
 		weaponList.add(phaser6);
 		
-		// Disruptors
-		Disruptor photonA = new Disruptor();
+		// Photons
+		Photon photonA = new Photon();
 		photonA.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(photonA);
-		Disruptor photonB = new Disruptor();
+		Photon photonB = new Photon();
 		photonB.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(photonB);
-		Disruptor photonC = new Disruptor();
+		Photon photonC = new Photon();
 		photonC.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(photonC);
-		Disruptor photonD = new Disruptor();
+		Photon photonD = new Photon();
 		photonD.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(photonD);
 		
@@ -109,20 +126,26 @@ public class SampleShips {
 	}
 
 	/**
-	 * This map represents a Klingon D7 (?? Class)
-	 * @return A map with all the data for a Klingon D7
+	 * This map represents a Klingon D7 (Barbarous Class)
+	 * @return A map with all the data for a D7 Battlecruiser
 	 */
 	public static Map<String, Object> getD7() {
 		Map<String, Object> shipSpecs = new HashMap<String, Object>();
 
+		// Basics
 		shipSpecs.put("faction", Faction.Klingon);
 		shipSpecs.put("hull", "D7");
 		shipSpecs.put("name", "IKV Saber");
 		shipSpecs.put("serviceyear", new Integer(120));
 		shipSpecs.put("bpv", new Integer(135));
-		
-		// Turn mode D
 		shipSpecs.put("turnmode", TurnMode.B);
+
+		// Performance
+		shipSpecs.put("movecost", new Double(1));
+		shipSpecs.put("breakdown", new Integer(5));
+		shipSpecs.put("bonushets", new Integer(1));
+		shipSpecs.put("shieldcost", new Integer(2));
+		shipSpecs.put("lifesupport", new Double(1));
 
 		// Shields
 		shipSpecs.put("shield1", new Integer(30));
@@ -171,10 +194,10 @@ public class SampleShips {
 		shipSpecs.put("boardingparties", new Integer(10));
 		shipSpecs.put("minimumcrew", new Integer(4));
 		
-		
+		// Weapons
 		List<Weapon> weaponList = new LinkedList<>();
 		
-		// Boom Phasers
+		// Boom Phasers (FX + directly aft)
 		Phaser2 phaser1 = new Phaser2();
 		phaser1.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
 		weaponList.add(phaser1);
@@ -185,17 +208,17 @@ public class SampleShips {
 		phaser3.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
 		weaponList.add(phaser3);
 
-		// Left Wing Phaser
+		// Left Wing Phaser (L + LF + RR, plus 5 cross deck)
 		Phaser2 phaser4 = new Phaser2();
-		phaser4.setArcs(new int[] {17,18,19,20,21,22,23,24,1,9,10,11,12,13});
+		phaser4.setArcs(new int[] {17,18,19,20,21,22,23,24,1,9,10,11,12,13,5});
 		weaponList.add(phaser4);
 
-		// Right Wing Phaser
+		// Right Wing Phaser (RF + R + LR, plus 21 cross deck)
 		Phaser2 phaser5 = new Phaser2();
-		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13,14,15,16,17});
+		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13,14,15,16,17,21});
 		weaponList.add(phaser5);
 		
-		// Left Waist Phasers
+		// Left Waist Phasers (L + LR)
 		Phaser2 phaser6 = new Phaser2();
 		phaser6.setArcs(new int[] {13,14,15,16,17,18,19,20,21});
 		weaponList.add(phaser6);
@@ -203,7 +226,7 @@ public class SampleShips {
 		phaser7.setArcs(new int[] {13,14,15,16,17,18,19,20,21});
 		weaponList.add(phaser7);
 		
-		// Right Waist Phasers
+		// Right Waist Phasers (R + RR)
 		Phaser2 phaser8 = new Phaser2();
 		phaser8.setArcs(new int[] {5,6,7,8,9,10,11,12,13});
 		weaponList.add(phaser8);
@@ -211,19 +234,21 @@ public class SampleShips {
 		phaser9.setArcs(new int[] {5,6,7,8,9,10,11,12,13});
 		weaponList.add(phaser9);
 		
-		// Disruptors
-		Disruptor disrA = new Disruptor();
+		// Disruptors (FA)
+		Disruptor disrA = new Disruptor(30);
 		disrA.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(disrA);
-		Disruptor disrB = new Disruptor();
+		Disruptor disrB = new Disruptor(30);
 		disrB.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(disrB);
-		Disruptor disrC = new Disruptor();
+		Disruptor disrC = new Disruptor(30);
 		disrC.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(disrC);
-		Disruptor disrD = new Disruptor();
+		Disruptor disrD = new Disruptor(30);
 		disrD.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(disrD);
+		
+		//TODO: Drones
 		
 		shipSpecs.put("weapons", weaponList);
 
@@ -231,8 +256,9 @@ public class SampleShips {
 	}
 	
 	/**
-	 * This map represents a Klingon D7 (?? Class)
-	 * @return A map with all the data for a Klingon D7
+	 * This map represents a Klingon F5 (Fury Class)
+	 * 
+	 * @return A map with all the data for a F5 Frigate
 	 */
 	public static Map<String, Object> getF5() {
 		Map<String, Object> shipSpecs = new HashMap<String, Object>();
@@ -240,11 +266,16 @@ public class SampleShips {
 		shipSpecs.put("faction", Faction.Klingon);
 		shipSpecs.put("hull", "F5");
 		shipSpecs.put("name", "IKV Dagger");
-		shipSpecs.put("serviceyear", new Integer(120));
-		shipSpecs.put("bpv", new Integer(90));
-		
-		// Turn mode D
+		shipSpecs.put("serviceyear", new Integer(135));
+		shipSpecs.put("bpv", new Integer(71));
 		shipSpecs.put("turnmode", TurnMode.A);
+
+		// Performance
+		shipSpecs.put("movecost", new Double(0.5));
+		shipSpecs.put("breakdown", new Integer(5));
+		shipSpecs.put("bonushets", new Integer(1));
+		shipSpecs.put("shieldcost", new Integer(1));
+		shipSpecs.put("lifesupport", new Double(0.5));
 
 		// Shields
 		shipSpecs.put("shield1", new Integer(21));
@@ -258,97 +289,74 @@ public class SampleShips {
 		shipSpecs.put("fhull", new Integer(2));
 		shipSpecs.put("ahull", new Integer(5));
 		
-		//TODO: FINISH
-		///////////////////////// FINISH REST LATER //////////////////////////
-		
 		// Power systems
-		shipSpecs.put("lwarp", new Integer(15));
-		shipSpecs.put("rwarp", new Integer(15));
-		shipSpecs.put("impulse", new Integer(5));
-		shipSpecs.put("apr", new Integer(4));
-		shipSpecs.put("battery", new Integer(5));
+		shipSpecs.put("lwarp", new Integer(8));
+		shipSpecs.put("rwarp", new Integer(8));
+		shipSpecs.put("impulse", new Integer(3));
+		shipSpecs.put("apr", new Integer(1));
+		shipSpecs.put("battery", new Integer(2));
 		
 		// Control Boxes
-		shipSpecs.put("bridge", new Integer(2));
+		shipSpecs.put("bridge", new Integer(1));
 		shipSpecs.put("emer", new Integer(1));
-		shipSpecs.put("auxcon", new Integer(2));
+		shipSpecs.put("auxcon", new Integer(1));
 		shipSpecs.put("security", new Integer(2));
 		
 		// Special Functions
-		shipSpecs.put("damcon", new int[] {4,4,2,2,0});
-		shipSpecs.put("scanner", new int[] {0,0,1,3,5,9});
-		shipSpecs.put("sensor", new int[] {6,6,5,3,1,0});
-		shipSpecs.put("excess", new Integer(5));
+		shipSpecs.put("damcon", new int[] {2,2,2,0});
+		shipSpecs.put("scanner", new int[] {0,1,3,9});
+		shipSpecs.put("sensor", new int[] {6,5,3,0});
+		shipSpecs.put("excess", new Integer(4));
 		
 		// Operations Systems
-		shipSpecs.put("trans", new Integer(5));
-		shipSpecs.put("tractor", new Integer(3));
-		shipSpecs.put("lab", new Integer(4));
+		shipSpecs.put("trans", new Integer(2));
+		shipSpecs.put("tractor", new Integer(1));
+		shipSpecs.put("lab", new Integer(2));
 		
 		// Probes
 		shipSpecs.put("probe", new Integer(1));
 		
 		// Shuttles
-		shipSpecs.put("shuttle", new Integer(4));
+		shipSpecs.put("shuttle", new Integer(1));
 		
 		// Crew
-		shipSpecs.put("crew", new Integer(45));
-		shipSpecs.put("boardingparties", new Integer(10));
+		shipSpecs.put("crew", new Integer(22));
+		shipSpecs.put("boardingparties", new Integer(8));
 		shipSpecs.put("minimumcrew", new Integer(4));
 		
 		
 		List<Weapon> weaponList = new LinkedList<>();
 		
-		// Boom Phasers
+		// Left Boom Phaser (FA + L)
 		Phaser2 phaser1 = new Phaser2();
-		phaser1.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
+		phaser1.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5});
 		weaponList.add(phaser1);
+
+		// Right Boom Phaser (FA + R)
 		Phaser2 phaser2 = new Phaser2();
-		phaser2.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
+		phaser2.setArcs(new int[] {21,22,23,24,1,2,3,4,5,6,7,8,9});
 		weaponList.add(phaser2);
+		
+		// Aft Phasers (RX)
 		Phaser2 phaser3 = new Phaser2();
-		phaser3.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
+		phaser3.setArcs(new int[] {5,6,7,8,9,10,11,12,23,14,15,16,17,18,19,20,21});
 		weaponList.add(phaser3);
-
-		// Left Wing Phaser
 		Phaser2 phaser4 = new Phaser2();
-		phaser4.setArcs(new int[] {17,18,19,20,21,22,23,24,1,9,10,11,12,13});
+		phaser4.setArcs(new int[] {5,6,7,8,9,10,11,12,23,14,15,16,17,18,19,20,21});
 		weaponList.add(phaser4);
-
-		// Right Wing Phaser
 		Phaser2 phaser5 = new Phaser2();
-		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13,14,15,16,17});
+		phaser5.setArcs(new int[] {5,6,7,8,9,10,11,12,23,14,15,16,17,18,19,20,21});
 		weaponList.add(phaser5);
 		
-		// Left Waist Phasers
-		Phaser2 phaser6 = new Phaser2();
-		phaser6.setArcs(new int[] {13,14,15,16,17,18,19,20,21});
-		weaponList.add(phaser6);
-		Phaser2 phaser7 = new Phaser2();
-		phaser7.setArcs(new int[] {13,14,15,16,17,18,19,20,21});
-		weaponList.add(phaser7);
-		
-		// Right Waist Phasers
-		Phaser2 phaser8 = new Phaser2();
-		phaser8.setArcs(new int[] {5,6,7,8,9,10,11,12,13});
-		weaponList.add(phaser8);
-		Phaser2 phaser9 = new Phaser2();
-		phaser9.setArcs(new int[] {5,6,7,8,9,10,11,12,13});
-		weaponList.add(phaser9);
-		
 		// Disruptors
-		Disruptor disrA = new Disruptor();
+		Disruptor disrA = new Disruptor(15);
 		disrA.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(disrA);
-		Disruptor disrB = new Disruptor();
+		Disruptor disrB = new Disruptor(15);
 		disrB.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
 		weaponList.add(disrB);
-		Disruptor disrC = new Disruptor();
-		disrC.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
-		weaponList.add(disrC);
-		Disruptor disrD = new Disruptor();
-		disrD.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
-		weaponList.add(disrD);
+		
+		//TODO: Drones
 		
 		shipSpecs.put("weapons", weaponList);
 

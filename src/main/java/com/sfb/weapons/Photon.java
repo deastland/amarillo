@@ -5,7 +5,7 @@ import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
-public class Photon extends HitOrMissWeapon implements HeavyWeapon {
+public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 
 	// Hit Charts are the chance (on a d6) that the weapon will hit at a given range.
 	// Array index is the range. For example hitChart[3] will return the chance the weapon will hit at range 3.
@@ -261,11 +261,11 @@ public class Photon extends HitOrMissWeapon implements HeavyWeapon {
 	
 	@Override
 	public void reset() {
-		armingType = WeaponArmingType.STANDARD;
 		armingTurn = 0;
 		armingEnergy = 0;
 		held = false;
 		armed = false;
+		setStandard();
 	}
 	
 	/**

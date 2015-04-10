@@ -10,7 +10,7 @@ import com.sfb.properties.Location;
  * @author Daniel Eastland
  *
  */
-public class HexMapUtils {
+public class MapUtils {
 	
 	// Shield facings from a position
 	// within the hex map.
@@ -31,7 +31,7 @@ public class HexMapUtils {
 	// If inside of 3/5 or 9/11, just get the xDiff
 	// Else, find the location along the 3/5 or 9/11 spine.
 	// Calculate that range, and add the yDiff.
-	public static int getDistance(Marker source, Marker target) {
+	public static int getRange(Marker source, Marker target) {
 
 		Location sourceLocation = source.getLocation();
 		Location targetLocation = target.getLocation();

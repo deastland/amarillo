@@ -4,27 +4,27 @@ import java.util.Map;
 
 import com.sfb.systems.Probe;
 
-public class Probes implements Systems {
+public class ProbeLaunchers implements Systems {
 
-	private Probe[] probeArray = new Probe[] {};
+	private Probe[] launcherArray = new Probe[] {};
 	
-	public Probes() {}
+	public ProbeLaunchers() {}
 	
 	// Create probe boxes equal to the number
 	// of probes specified in the argument.
 	@Override
 	public void init(Map<String, Object> values) {
 		int numberOfProbes = values.get("probe") == null ? 0 : (Integer)values.get("probe");
-		probeArray = new Probe[numberOfProbes];
-		for (int i=0; i < probeArray.length; i++) {
-			probeArray[i] = new Probe();
+		launcherArray = new Probe[numberOfProbes];
+		for (int i=0; i < launcherArray.length; i++) {
+			launcherArray[i] = new Probe();
 		}
 	}
 	
 	// return the number of non-destroyed probe boxes
 	public int availableProbes() { 
 		int counter = 0;
-		for (Probe probe : probeArray) {
+		for (Probe probe : launcherArray) {
 			if (probe.isFunctional()) {
 				counter++;
 			}
@@ -35,7 +35,7 @@ public class Probes implements Systems {
 	
 	@Override
 	public int getOriginalTotalBoxes() {
-		return probeArray.length;
+		return launcherArray.length;
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class Probes implements Systems {
 	 * @return The probe indicated by probeNumber.
 	 */
 	public Probe get(int probeNumber) {
-		return this.probeArray[probeNumber];
+		return this.launcherArray[probeNumber];
 	}
 	
 	/**
@@ -58,8 +58,8 @@ public class Probes implements Systems {
 	 * @return The index of an undamaged probe, -1 otherwise.
 	 */
 	public int getUndamagedIndex() {
-		for(int i=0; i < this.probeArray.length; i++) {
-			if (probeArray[i].isFunctional()) {
+		for(int i=0; i < this.launcherArray.length; i++) {
+			if (launcherArray[i].isFunctional()) {
 				return i;
 			}
 		}
@@ -72,7 +72,7 @@ public class Probes implements Systems {
 	 * @return True if there is an undamaged probe, false otherwise.
 	 */
 	public boolean hasUndamagedProbe() {
-		for (Probe probe : probeArray) {
+		for (Probe probe : launcherArray) {
 			if (probe.isFunctional()) {
 				return true;
 			}
@@ -86,7 +86,7 @@ public class Probes implements Systems {
 	 * @return Probe object that is undamaged. Null if none exist.
 	 */
 	public Probe getFirstUndamaged() {
-		for (Probe probe : probeArray) {
+		for (Probe probe : launcherArray) {
 			if (probe.isFunctional()) {
 				return probe;
 			}

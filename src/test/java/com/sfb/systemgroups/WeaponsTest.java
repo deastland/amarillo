@@ -1,13 +1,16 @@
 package com.sfb.systemgroups;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import com.sfb.objects.Unit;
 import com.sfb.weapons.Disruptor;
 import com.sfb.weapons.Phaser1;
 import com.sfb.weapons.Phaser2;
@@ -21,7 +24,7 @@ public class WeaponsTest {
 		Map<String, Object> values = new HashMap<>();
 		values.put("weapons", getWeaponList());
 
-		Weapons weapons = new Weapons();
+		Weapons weapons = new Weapons(new Unit());
 		weapons.init(values);
 		
 		assertTrue(weapons.weapons.size() > 0);

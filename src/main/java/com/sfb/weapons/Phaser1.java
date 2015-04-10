@@ -1,9 +1,11 @@
 package com.sfb.weapons;
 
+import com.sfb.exceptions.CapacitorException;
 import com.sfb.exceptions.TargetOutOfRangeException;
+import com.sfb.objects.Ship;
 import com.sfb.utilities.DiceRoller;
 
-public class Phaser1 extends VariableDamageWeapon {
+public class Phaser1 extends VariableDamageWeapon implements DirectFire {
 
 	// The damage chart for this weapon.
 	private static final int[][] hitChart = {
@@ -31,10 +33,19 @@ public class Phaser1 extends VariableDamageWeapon {
 	 * 
 	 * @return The damage done by the weapon at that range.
 	 * @throws TargetOutOfRangeException 
+	 * @throws CapacitorException 
 	 */
 	@Override
-	public int fire(int range) throws TargetOutOfRangeException {
-		// Can not damage targets beyond range 75
+	public int fire(int range) throws TargetOutOfRangeException, CapacitorException {
+
+		// If this phaser is mounted on a ship, drain the capacitor
+		// the amount needed to fire this phaser.
+		if (getOwningShip() instanceof Ship) {
+			Ship firingShip = (Ship)getOwningShip();
+			firingShip.drainCapacitor(energyToFire());
+		}
+		
+		// Can not damage targets beyond maximum range (75 for ph-1)
 		if (range > getMaxRange()) {
 			throw new TargetOutOfRangeException("Target not in weapon range.");
 		}

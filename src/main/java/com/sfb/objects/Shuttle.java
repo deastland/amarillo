@@ -17,7 +17,7 @@ public abstract class Shuttle extends Unit {
 	private int currentSpeed;	// The speed the shuttle is currently travelling
 	private int currentHull;	// The number of undamaged hull remaining.
 	
-	private Weapons weapons = new Weapons();	// The weapons carried by the shuttle.
+	private Weapons weapons = new Weapons(this);	// The weapons carried by the shuttle.
 	
 	public Shuttle() {
 		setTurnMode(TurnMode.X);

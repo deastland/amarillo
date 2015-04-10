@@ -1,8 +1,7 @@
 package com.sfb.weapons;
 
 import com.sfb.Main;
-import com.sfb.exceptions.TargetOutOfRangeException;
-import com.sfb.exceptions.WeaponUnarmedException;
+import com.sfb.objects.Unit;
 
 /**
  * Parent class for all weapons. Contains common functionality shared by weapons of all types.
@@ -20,8 +19,10 @@ public abstract class Weapon {
 	private int     lastImpulseFired;	// The last impulse on which this weapon was fired. (Weapons normally can't fire twice within 8 impulses.)
 	private int     lastTurnFired;		// The last turn on which this weapon was fired.
 	
-	private int maxRange;				// The maximum distance that this weapon can do damage.
-	private int minRange;				// The range below which this weapon can not fire.
+	private int     maxRange;			// The maximum distance that this weapon can do damage.
+	private int     minRange;			// The range below which this weapon can not fire.
+	
+	private Unit    owningShip;			// The unit on which this weapon is mounted.
 	
 	/**
 	 * Determine what value on the DAC ('torp', 'drone', etc.) will damage this weapon.
@@ -101,18 +102,6 @@ public abstract class Weapon {
 	}
 
 	/**
-	 * Fire the weapon, returning the damage done if a hit, 
-	 * 0 if a miss, and -1 if the fire request was not legal.
-	 * 
-	 * @param range The range from the shooter to the target
-	 * 
-	 * @return The damage done by the weapon at that range.
-	 * @throws WeaponUnarmedException 
-	 * @throws TargetOutOfRangeException 
-	 */
-	public abstract int fire(int range) throws WeaponUnarmedException, TargetOutOfRangeException;
-
-	/**
 	 * Get the name of the weapon (Phaser1, Photon, etc.).
 	 * 
 	 * @return The name of the weapon
@@ -164,6 +153,14 @@ public abstract class Weapon {
 	
 	public int getMinRange() {
 		return this.minRange;
+	}
+
+	public Unit getOwningShip() {
+		return owningShip;
+	}
+
+	public void setOwningShip(Unit owningShip) {
+		this.owningShip = owningShip;
 	}
 
 	/**

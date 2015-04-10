@@ -1,6 +1,8 @@
 package com.sfb.weapons;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -67,11 +69,12 @@ public class DisruptorTest {
 		// Damage will be 2 at range 30 (or 0 on a miss)
 		assertTrue(damage == 2 || damage == 0);
 		
-		// Try to fire the disruptor again
-		damage = standardDis.fire(range);
-		
-		// Verify that we got a -1, indicating an invalid fire request.
-		assertEquals(damage, -1);
+		// Try to fire the disruptor again (while it is unarmed)
+		try {
+			damage = standardDis.fire(range);
+		} catch (WeaponUnarmedException e) {
+			assertEquals("Weapon is unarmed.", e.getMessage());
+		}
 		
 		// Get another standard armed disruptor
 		standardDis = getStandardDisruptor();
@@ -79,20 +82,21 @@ public class DisruptorTest {
 		// Set the range to an illegal value 
 		range = 0;
 		
-		// Fire the weapon
-		damage = standardDis.fire(range);
-		
-		// Verify that we got a -1, indicating an invalid fire request.
-		assertEquals(damage, -1);
+		// Fire the weapon with an invalid range.
+		try {
+			damage = standardDis.fire(range);
+		} catch (TargetOutOfRangeException e) {
+			assertEquals("Target not in weapon range. [1|30]", e.getMessage());
+		}
 		
 		// Get an armed overloaded disruptor
 		Disruptor ovDis = getOverloadedDisruptor();
 		
 		// Verify that it takes 4 energy to arm an OL disr
-		assertEquals(ovDis.energyToArm(), 4);
+		assertEquals(4, ovDis.energyToArm());
 		
 		// Verify that it is overloaded.
-		assertEquals(ovDis.getArmingType(), WeaponArmingType.OVERLOAD);
+		assertEquals(WeaponArmingType.OVERLOAD, ovDis.getArmingType());
 		
 		// Fire the disruptor at range 8 target
 		range = 8;
@@ -100,20 +104,18 @@ public class DisruptorTest {
 		
 		// Damage will be 6 at range 8 (or 0 on a miss).
 		assertTrue(damage == 6 || damage == 0);
-		
-		// Try to fire the disruptor again.
-		damage = ovDis.fire(range);
-		
-		// Verify that we got a -1 indicating an invalid fire request.
-		assertEquals(damage, -1);
-		
+
+		// Get an armed overloaded disruptor
 		ovDis = getOverloadedDisruptor();
 		range = 20;
+
+		// Fire overloads at a target outside of range 8.
+		try {
+			damage = ovDis.fire(range);
+		} catch (TargetOutOfRangeException e) {
+			assertEquals("Target not in weapon range. [0|8]", e.getMessage());
+		}
 		
-		damage = ovDis.fire(range);
-		
-		// Firing at a bad range results in -1 damage.
-		assertEquals(damage, -1);
 	}
 	
 	/// Object builders for tests

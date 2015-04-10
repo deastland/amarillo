@@ -1,6 +1,7 @@
 package com.sfb.objects;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonGenerationException;
@@ -8,18 +9,20 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
+import com.sfb.exceptions.CapacitorException;
 import com.sfb.properties.Faction;
 import com.sfb.systemgroups.ControlSpaces;
 import com.sfb.systemgroups.Crew;
 import com.sfb.systemgroups.HullBoxes;
 import com.sfb.systemgroups.OperationsSystems;
 import com.sfb.systemgroups.PowerSystems;
-import com.sfb.systemgroups.Probes;
+import com.sfb.systemgroups.ProbeLaunchers;
 import com.sfb.systemgroups.Shields;
 import com.sfb.systemgroups.Shuttles;
 import com.sfb.systemgroups.Weapons;
 import com.sfb.systems.PerformanceData;
 import com.sfb.systems.SpecialFunctions;
+import com.sfb.weapons.Weapon;
 
 /**
  * 
@@ -40,9 +43,9 @@ public class Ship extends Unit {
 	private ControlSpaces     controlSpaces     = new ControlSpaces();			// Control systems (bridge, flag, aux, emer, security)
 	private SpecialFunctions  specialFunctions  = new SpecialFunctions();		// Special functions
 	private OperationsSystems operationsSystems = new OperationsSystems();		// Operations Systems
-	private Probes            probes            = new Probes();					// Probes
+	private ProbeLaunchers    probes            = new ProbeLaunchers();			// Probes
 	private Shuttles          shuttles          = new Shuttles();				// Shuttles and shuttle bays.
-	private Weapons           weapons           = new Weapons();				// Weapons
+	private Weapons           weapons           = new Weapons(this);			// Weapons
 	private PerformanceData	  performanceData	= new PerformanceData();		// Base statistics for the frame.
 	private Crew              crew				= new Crew();					// Crew
 	
@@ -205,7 +208,7 @@ public class Ship extends Unit {
 	}
 	
 	/// PROBES ///
-	public Probes getProbes() {
+	public ProbeLaunchers getProbes() {
 		return this.probes;
 	}
 	
@@ -263,6 +266,19 @@ public class Ship extends Unit {
 		
 		
 		return totalBoxes;
+	}
+	
+	public List<Weapon> getAllBearingWeapons(Unit target) {
+		return weapons.getAllBearingWeapons(this, target);
+	}
+	
+	/// PHASER CAPACITORS ///
+	public void drainCapacitor(double energy) throws CapacitorException {
+		this.weapons.drainCapacitor(energy);
+	}
+	
+	public void chargeCapacitor(double energy) throws CapacitorException {
+		this.weapons.chargeCapacitor(energy);
 	}
 	
 	// The ship may be crippled if half or more of its boxes

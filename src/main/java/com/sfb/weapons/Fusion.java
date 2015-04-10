@@ -7,7 +7,7 @@ import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
-public class Fusion extends VariableDamageWeapon implements HeavyWeapon {
+public class Fusion extends VariableDamageWeapon implements DirectFire, HeavyWeapon {
 	
 	// The damage chart for this weapon.
 	private static final int[][] hitChart = {

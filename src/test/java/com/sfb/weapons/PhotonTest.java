@@ -72,13 +72,24 @@ public class PhotonTest {
 		photon = getOverloadPhoton();
 		range = 9;
 		
-		assertEquals(photon.fire(range), -1);
+		// Weapon can't fire beyond range 8
+		try {
+			photon.fire(range);
+		} catch (TargetOutOfRangeException e) {
+			assertEquals(e.getMessage(), "Target not in weapon range.");
+		}
+
 		range = 4;
-		damage = photon.fire(range);
 		
+		damage = photon.fire(range);
+
 		assertTrue(damage == 0 || damage == 16);
 
-		assertEquals(photon.fire(range), -1);
+		try {
+			photon.fire(range);
+		} catch (WeaponUnarmedException e) {
+			assertEquals(e.getMessage(), "Weapon is unarmed.");
+		}
 		
 		photon = getOverloadPhoton();
 
@@ -91,8 +102,13 @@ public class PhotonTest {
 		// short range (illegal action)
 		photon = getProximityPhoton();
 		range = 4;
-		damage = photon.fire(range);
-		assertEquals(damage, -1);
+
+		// Prox torps can't fire under range 9
+		try {
+			photon.fire(range);
+		} catch (TargetOutOfRangeException e) {
+			assertEquals(e.getMessage(), "Target not in weapon range.");
+		}
 		
 		// Fire proximity torpedo at long range.
 		range = 30;
