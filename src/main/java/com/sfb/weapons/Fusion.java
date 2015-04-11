@@ -1,7 +1,7 @@
 package com.sfb.weapons;
 
-import com.sfb.Constants;
 import com.sfb.Main;
+import com.sfb.constants.Constants;
 import com.sfb.exceptions.TargetOutOfRangeException;
 import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;

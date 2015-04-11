@@ -2,6 +2,8 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
+
 /**
  * The control spaces of a ship.
  * 
@@ -21,7 +23,11 @@ public class ControlSpaces implements Systems {
 	private int availableAuxcon;
 	private int availableSecurity;
 	
-	public ControlSpaces() {}
+	private Unit owningUnit;
+	
+	public ControlSpaces(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	// Given a map of <String, Integer> set the initial values for all control boxes.
 	// Acceptable keys for the map are: bridge, flag, emer, auxcon, security
@@ -170,5 +176,10 @@ public class ControlSpaces implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 }

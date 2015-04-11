@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.sfb.objects.AdminShuttle;
 import com.sfb.objects.Shuttle;
+import com.sfb.objects.Unit;
 
 
 public class Shuttles implements Systems {
@@ -15,9 +16,13 @@ public class Shuttles implements Systems {
 	private int           bays					= 1;					// Number of shuttle bays. Each can launch on it's own schedule.
 	private List<Shuttle> shuttleInventory		= new ArrayList<>();	// List of the shuttles for this ship.
 
+	private Unit owningUnit;
+	
 	//TODO: Launch bays and launch rate.
 	
-	public Shuttles() {}
+	public Shuttles(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	public void init(int numberOfShuttles) {
 		availableShuttleBoxes = shuttleBoxes = numberOfShuttles;
@@ -106,5 +111,10 @@ public class Shuttles implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 }

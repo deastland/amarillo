@@ -9,6 +9,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
+import com.sfb.constants.Constants;
 import com.sfb.exceptions.CapacitorException;
 import com.sfb.properties.Faction;
 import com.sfb.properties.ShieldStatus;
@@ -21,8 +22,10 @@ import com.sfb.systemgroups.ProbeLaunchers;
 import com.sfb.systemgroups.Shields;
 import com.sfb.systemgroups.Shuttles;
 import com.sfb.systemgroups.Weapons;
+import com.sfb.systems.Energy;
 import com.sfb.systems.PerformanceData;
 import com.sfb.systems.SpecialFunctions;
+import com.sfb.systems.Tractors;
 import com.sfb.weapons.Weapon;
 
 /**
@@ -30,7 +33,7 @@ import com.sfb.weapons.Weapon;
  * This object describes an SFB ship. In particular it should represent
  * the contents of an SSD along with all boxes, ammo, ship traits, etc.
  * 
- * @author deastland
+ * @author Daniel Eastland
  *
  * @version 1.0
  */
@@ -38,20 +41,27 @@ public class Ship extends Unit {
 
 	/// All the stuff that goes into a ship ///
 	
-	private Shields           shields           = new Shields();				// Shield systems
-	private HullBoxes         hullBoxes         = new HullBoxes();				// Hull boxes
-	private PowerSystems      powerSystems      = new PowerSystems();			// Power systems (warp, impulse, apr, awr, battery)
-	private ControlSpaces     controlSpaces     = new ControlSpaces();			// Control systems (bridge, flag, aux, emer, security)
+	private Shields           shields           = new Shields(this);			// Shield systems
+	private HullBoxes         hullBoxes         = new HullBoxes(this);			// Hull boxes
+	private PowerSystems      powerSystems      = new PowerSystems(this);		// Power systems (warp, impulse, apr, awr, battery)
+	private ControlSpaces     controlSpaces     = new ControlSpaces(this);		// Control systems (bridge, flag, aux, emer, security)
 	private SpecialFunctions  specialFunctions  = new SpecialFunctions();		// Special functions
-	private OperationsSystems operationsSystems = new OperationsSystems();		// Operations Systems
-	private ProbeLaunchers    probes            = new ProbeLaunchers();			// Probes
-	private Shuttles          shuttles          = new Shuttles();				// Shuttles and shuttle bays.
+	private OperationsSystems operationsSystems = new OperationsSystems(this);	// Operations Systems (transporter, lab)
+	private Tractors          tractors          = new Tractors(this);			// Tractor beam systems.
+	private ProbeLaunchers    probes            = new ProbeLaunchers(this);		// Probes
+	private Shuttles          shuttles          = new Shuttles(this);			// Shuttles and shuttle bays.
 	private Weapons           weapons           = new Weapons(this);			// Weapons
 	private PerformanceData	  performanceData	= new PerformanceData();		// Base statistics for the frame.
-	private Crew              crew				= new Crew();					// Crew
+	private Crew              crew				= new Crew(this);				// Crew
+	
+	private Energy            energyAllocated	= new Energy();					// Where all the ship's energy is allocated
 	
 	// WHERE SHOULD THIS GO?
 	private int               armor             = 0;							// Some early ships have armor.
+	private double            lifeSupportCost	= 0;							// cost to have life support active.
+	private int               activeShieldCost	= 0;							// Cost to have shields active.
+	private double            minimumShieldCost = 0;							// Cost to have shields at minimum.
+	private int               fireControlCost	= 1;							// Cost for active fire control (always 1).
 	
 	// Other data
 	private int               yearInService		= 0;							// The minimum year this ship can be deployed.
@@ -63,14 +73,11 @@ public class Ship extends Unit {
 	// Real-time data
 	private boolean           activeFireControl = false;						// True if active fire control is up, false otherwise.
 	private ShieldStatus      shieldsStatus		= ShieldStatus.Inactive;		// Status of shields. Active is normal shields. Minimal is 5-point shields. Inactive is no shields at all.
-	
+	private boolean           lifeSupportActive = false;						// True if life support is active, false otherwise.
 	
 	
 	//TODO: Transporter bombs (Romulan nuclear mine).
-	//TODO: Turn Mode Chart (HET & Breakdown tracking)
-	//TODO: Refits (different ships with parent/child relationship?)
 	//TODO: Armor?
-	//TODO: Point Value
 	
 	
 	/**
@@ -86,12 +93,17 @@ public class Ship extends Unit {
 		// Unit values
 		super.init(values);
 		
-		// Ship values
+		// Explicit Ship values
 		name			 = values.get("name")		 == null ? null : (String)values.get("name");
 		faction          = values.get("faction")     == null ? null : (Faction)values.get("faction");
 		hullType         = values.get("hull")        == null ? null : (String)values.get("hull");
 		yearInService    = values.get("serviceyear") == null ? 0    : (Integer)values.get("serviceyear");
 		battlePointValue = values.get("bpv")         == null ? 0    : (Integer)values.get("bpv");
+		
+		// Calculated Ship Values
+		lifeSupportCost  = Constants.LIFE_SUPPORT_COST[getSizeClass()];
+		activeShieldCost = Constants.ACTIVE_SHIELD_COST[getSizeClass()];
+		minimumShieldCost = Constants.MINIMUM_SHIELD_COST[getSizeClass()];
 		
 		// Subsystem values
 		shields.init(values);
@@ -100,6 +112,7 @@ public class Ship extends Unit {
 		controlSpaces.init(values);
 		specialFunctions.init(values);
 		operationsSystems.init(values);
+		tractors.init(values);
 		probes.init(values);
 		shuttles.init(values);
 		weapons.init(values);
@@ -108,11 +121,76 @@ public class Ship extends Unit {
 	}
 	
 	/**
+	 * Set up the energy profile for this ship for the current turn.
+	 * 
+	 * @param allocation Object that will contain all instructions for
+	 * allocation of the ship's energy for the turn.
+	 */
+	public void allocateEnergy(Energy allocation) {
+		this.energyAllocated = allocation;
+		
+	}
+	
+	@Override
+	public void startTurn() {
+		// Speed = Movement energy / movement cost
+		setSpeed((int)(energyAllocated.getMovement() / performanceData.getMovementCost()));
+		
+		// Life support
+		if (energyAllocated.getLifeSupport() >= lifeSupportCost) {
+			this.lifeSupportActive = true;
+		} else if (isCrippled()) {
+			this.lifeSupportActive = true;
+		} else {
+			this.lifeSupportActive = false;
+		}
+
+		// Fire control
+		if (energyAllocated.getFireControl() >= fireControlCost) {
+			this.activeFireControl = true;
+		} else {
+			this.activeFireControl = false;
+		}
+		
+		// Shields
+		
+		// General Reinforcement (1 point for every 2 energy)
+		if (energyAllocated.getGeneralReinforcement() > 0) {
+			this.shields.addGeneralRenforcement(energyAllocated.getGeneralReinforcement() / 2);
+		}
+		// Specific reinforcement
+		shields.reinforceAllShields(energyAllocated.getSpecificReinforcement());
+		// Shield activation.
+		if (energyAllocated.getActivateShields() == activeShieldCost) {
+			this.shieldsStatus = ShieldStatus.Active;
+		} else if (energyAllocated.getActivateShields() == minimumShieldCost) {
+			this.shieldsStatus = ShieldStatus.Minimum;
+		} else {
+			this.shieldsStatus = ShieldStatus.Inactive;
+		}
+		
+		// Damage Control
+		//TODO: Damage Control - will probably need a list of systems repaired in the energy allocation
+		
+		// Phaser Capacitor
+		try {
+			chargeCapacitor(energyAllocated.getPhaserCapacitor());
+		} catch (CapacitorException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// Weapons
+		//TODO: Need to figure this out.
+	}
+	
+	/**
 	 * Perform end-of-turn activities needed to prepare for the next energy allocation phase.
 	 */
 	public void cleanUp() {
 		
 		//TODO: Figure out if there is any Ship object level cleanup needed.
+		// For example, if there is recharge energy remaining - put it into the batteries
 		
 		shields.cleanUp();
 		hullBoxes.cleanUp();
@@ -158,6 +236,34 @@ public class Ship extends Unit {
 	
 	public int getBpv() {
 		return this.battlePointValue;
+	}
+	
+	public double getLifeSupportCost() {
+		return this.lifeSupportCost;
+	}
+	
+	public boolean isLifeSupportActive() {
+		return this.lifeSupportActive;
+	}
+	
+	public int getActiveShieldCost() {
+		return this.activeShieldCost;
+	}
+	
+	/**
+	 * Indicates if the shields are in Active mode
+	 * @return True if the shields are Active, false otherwise.
+	 */
+	public boolean shieldsActive() {
+		return this.shieldsStatus == ShieldStatus.Active;
+	}
+	
+	/**
+	 * Indicates if the shields are in Inactive mode
+	 * @return True if the sheilds are Inactive, false otherwise.
+	 */
+	public boolean shieldsInactive() {
+		return this.shieldsStatus == ShieldStatus.Inactive;
 	}
 	
 	// Cleanup tasks for the end of the turn.
@@ -261,14 +367,28 @@ public class Ship extends Unit {
 	public PerformanceData getPerformanceData() {
 		return this.performanceData;
 	}
+	
+	@Override
+	public boolean performHet(int absoluteFacing) {
+		boolean result = false;
+		
+		
+		
+		return result;
+	}
 
-	// Calculate the total number of boxes on the ship.
+	/**
+	 * Calculate the total number of boxes on the ship SSD.
+	 * 
+	 * @return The number of boxes on the ship SSD
+	 */
 	private int getTotalSSDBoxes() {
 		int totalBoxes = 0;
 		totalBoxes += this.controlSpaces.getOriginalTotalBoxes();
 		totalBoxes += this.powerSystems.getOriginalTotalBoxes();
 		totalBoxes += this.hullBoxes.getOriginalTotalBoxes();
 		totalBoxes += this.operationsSystems.getOriginalTotalBoxes();
+		totalBoxes += this.tractors.getOriginalTotalBoxes();
 		totalBoxes += this.probes.getOriginalTotalBoxes();
 		totalBoxes += this.specialFunctions.getOriginalExcessDamage();
 		totalBoxes += this.shuttles.getOriginalTotalBoxes();
@@ -277,12 +397,18 @@ public class Ship extends Unit {
 		return totalBoxes;
 	}
 	
+	/**
+	 * Calculate the total number of remaining undamaged boxes on the ship.
+	 * 
+	 * @return The number of undamaged boxes on the ship.
+	 */
 	private int getCurrentBoxes() {
 		int totalBoxes = 0;
 		totalBoxes += this.controlSpaces.getTotalBoxes();
 		totalBoxes += this.powerSystems.getTotalBoxes();
 		totalBoxes += this.hullBoxes.getTotalBoxes();
 		totalBoxes += this.operationsSystems.getTotalBoxes();
+		totalBoxes += this.tractors.getTotalBoxes();
 		totalBoxes += this.probes.getTotalBoxes();
 		totalBoxes += this.specialFunctions.getExcessDamage();
 		totalBoxes += this.shuttles.getTotalBoxes();
@@ -291,6 +417,13 @@ public class Ship extends Unit {
 		return totalBoxes;
 	}
 	
+	/**
+	 * Find all weapons on the ship that have a chance of hitting the target.
+	 * 
+	 * @param target The target which weapons must hit.
+	 * 
+	 * @return A list of weapons with the right arcs and range to hit the target.
+	 */
 	public List<Weapon> getAllBearingWeapons(Unit target) {
 		return weapons.getAllBearingWeapons(this, target);
 	}
@@ -313,6 +446,29 @@ public class Ship extends Unit {
 		
 		return false;
 	}
+	
+	/**
+	 * Another unit attempts to tractor this ship.
+	 * 
+	 * @param energy The amount of energy applied to the tractor attempt.
+	 * 
+	 * @param tractoringUnit The unit attempting to tractor this ship.
+	 * 
+	 * @return True if the attempt is successful, false otherwise.
+	 */
+	@Override
+	public boolean applyTractor(int energy, Unit tractoringUnit) {
+		if (energy > this.tractors.getNegativeTractorEnergy()) {
+			//TODO: Probably a tractor auction?
+			
+			setTractoringUnit(tractoringUnit);
+			setTractored(true);
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	
 	
 	

@@ -2,40 +2,32 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
+
 public class OperationsSystems implements Systems {
 
 	private int trans;
-	private int tractor;
 	private int lab;
 	
 	private int availableTrans;
-	private int availableTractor;
 	private int availableLab;
 	
-	public OperationsSystems() {}
+	private Unit owningUnit;
 	
-	// Initialize the operations systems to the SSD values.
-//	public void init(int transValue, int tractorValue, int labValue) {
-//		availableTrans   = trans   = transValue;
-//		availableTractor = tractor = tractorValue;
-//		availableLab     = lab     = labValue;
-//	}
+	public OperationsSystems(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	// Initialize the operations systems to the SSD values.
 	@Override
 	public void init(Map<String, Object> values) {
 		availableTrans   = trans   = values.get("trans")   == null ? 0 : (Integer)values.get("trans");
-		availableTractor = tractor = values.get("tractor") == null ? 0 : (Integer)values.get("tractor");
 		availableLab     = lab     = values.get("lab")     == null ? 0 : (Integer)values.get("lab");
 	}
 	
 	/// FETCH ///
 	public int getAvailableTrans() {
 		return availableTrans;
-	}
-	
-	public int getAvailableTractor() {
-		return availableTractor;
 	}
 	
 	public int getAvailableLab() {
@@ -45,13 +37,13 @@ public class OperationsSystems implements Systems {
 	// Total operations boxes on the SSD (cripple calculations).
 	@Override
 	public int getOriginalTotalBoxes() {
-		return trans + tractor + lab;
+		return trans + lab;
 	}
 	
 	// Total current operations boxes (cripple calculations).
 	@Override
 	public int getTotalBoxes() {
-		return availableTrans + availableTractor + availableLab;
+		return availableTrans + availableLab;
 	}
 	
 	/// DAMAGE ///
@@ -61,15 +53,6 @@ public class OperationsSystems implements Systems {
 		}
 		
 		availableTrans--;
-		return true;
-	}
-	
-	public boolean damageTractor() {
-		if (availableTractor == 0) {
-			return false;
-		}
-		
-		availableTractor--;
 		return true;
 	}
 	
@@ -92,15 +75,6 @@ public class OperationsSystems implements Systems {
 		return true;
 	}
 	
-	public boolean repairTractor(int value) {
-		if (availableTractor + value > tractor) {
-			return false;
-		}
-		
-		availableTractor += value;
-		return true;
-	}
-	
 	public boolean repairLab(int value) {
 		if (availableLab + value > lab) {
 			return false;
@@ -114,6 +88,11 @@ public class OperationsSystems implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 	
 }

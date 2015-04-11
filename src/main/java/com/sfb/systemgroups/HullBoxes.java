@@ -2,6 +2,8 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
+
 public class HullBoxes implements Systems {
 	
 	private int fhull;
@@ -13,6 +15,12 @@ public class HullBoxes implements Systems {
 	private int availableAhull;
 	private int availableChull;
 	private int availableCargo;
+	
+	private Unit owningUnit;
+	
+	public HullBoxes(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	// Use a <String, Integer> map to set the initial values.
 	// Acceptable keys are: fhull, ahull, chull, cargo
@@ -133,6 +141,11 @@ public class HullBoxes implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 	
 	

@@ -11,9 +11,6 @@ public class PerformanceData {
 	private boolean nimble			= false;	// Nimble ships can do cheap EM
 	private int     breakdownChance	= 0;		// Chance on a d6 that a breakdown will occur when performing an HET maneuver.
 	private int     bonusHets		= 0;		// Number of times this ship get's a -2 to the HET breakdown roll.
-	private int     shieldCost		= 0;		// Cost to have shields active.
-	private double  lifeSupportCost	= 0;		// cost to have life support active.
-	private double  fireControlCost	= 0;		// Cost for active fire control.
 	
 	// Calculated values
 	private double hetCost			= 0;
@@ -27,13 +24,11 @@ public class PerformanceData {
 	}
 	
 	public void init(Map<String, Object> values) {
+		
 		movementCost    = values.get("movecost")    == null ? 1     : (Double)values.get("movecost");
 		nimble          = values.get("nimble")      == null ? false : true;
 		breakdownChance = values.get("breakdown")   == null ? 4     : (Integer)values.get("breakdown");
 		bonusHets       = values.get("bonushets")   == null ? 0     : (Integer)values.get("bonushets");
-		shieldCost      = values.get("shieldcost")  == null ? 0     : (Integer)values.get("shieldcost");
-		lifeSupportCost = values.get("lifesupport") == null ? 0     : (Double)values.get("lifesupport");
-		fireControlCost = values.get("firecontrol") == null ? 0     : (Double)values.get("firecontrol");
 		
 		// Calculate cost of HET
 		hetCost = movementCost * 5;
@@ -66,14 +61,6 @@ public class PerformanceData {
 		return this.bonusHets;
 	}
 	
-	public int getShieldCost() {
-		return this.shieldCost;
-	}
-	
-	public double getLifeSupportCost() {
-		return this.lifeSupportCost;
-	}
-	
 	public double getHetCost() {
 		return this.hetCost;
 	}
@@ -84,10 +71,6 @@ public class PerformanceData {
 	
 	public double getErraticCost() {
 		return this.erraticCost;
-	}
-	
-	public double getFireControlCost() {
-		return this.fireControlCost;
 	}
 	
 }

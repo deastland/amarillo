@@ -20,7 +20,7 @@ public abstract class Shuttle extends Unit {
 	private Weapons weapons = new Weapons(this);	// The weapons carried by the shuttle.
 	
 	public Shuttle() {
-		setTurnMode(TurnMode.X);
+		setTurnMode(TurnMode.Shuttle);
 	}
 	
 	public int getMaxSpeed() {

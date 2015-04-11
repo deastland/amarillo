@@ -2,6 +2,8 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
+
 // Shipboard systems are any group of SSD boxes that perform
 // a number of functions (hull, weapons, controll, etc.) and
 // are logically grouped together.
@@ -30,4 +32,10 @@ public interface Systems {
 	 * next energy allocation.
 	 */
 	public void cleanUp();
+	
+	/**
+	 * Return the unit on which this system is installed.
+	 * @return The owning unit of this system.
+	 */
+	public Unit getOwningUnit();
 }

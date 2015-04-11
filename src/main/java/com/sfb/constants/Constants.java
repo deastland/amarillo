@@ -1,4 +1,4 @@
-package com.sfb;
+package com.sfb.constants;
 
 /**
  * Values that will not change throughout the execution of the program.
@@ -9,11 +9,14 @@ package com.sfb;
  */
 public class Constants {
 
-	public static final double TRANS_ENERGY			= 0.2;							// The energy required to activate a single transporter box.
-	public static final int    IMPULSES_PER_TURN	= 32;							// The number of impulses in every turn.
-	public static final int    WEAPON_FIRE_DELAY	= (int)(IMPULSES_PER_TURN / 4);	// Weapons must wait 1/4 turn before firing again.
+	public static final double   TRANS_ENERGY		 = 0.2;								// The energy required to activate a single transporter box.
+	public static final int      IMPULSES_PER_TURN	 = 32;								// The number of impulses in every turn.
+	public static final int      WEAPON_FIRE_DELAY	 = (int)(IMPULSES_PER_TURN / 4);	// Weapons must wait 1/4 turn before firing again.
+	public static final double[] LIFE_SUPPORT_COST	 = {0.0, 3.0, 1.5, 1.0, 0.5, 0.0};	// Cost of life support for size class [index]. (3 = 1.0, 4 = 0.5, etc.)
+	public static final double[] MINIMUM_SHIELD_COST = {0.0,2.0,1.0,1.0,0.5,0.5,0,0};	// Cost of minimum shields for size class[index]
+	public static final int[]    ACTIVE_SHIELD_COST  = {0,7,4,2,1,1,0,0};				// Cost of active shields for size class[index]
 	
-	// For each impluse, an array of the speeds that get a move.
+	// For each impulse, an array of the speeds that get a move.
 	public static int[][] IMPULSE_CHART = {
 /*Impulse*/		{},
 /*1*/			{32},

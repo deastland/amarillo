@@ -24,11 +24,13 @@ public class Unit extends Marker {
 	// 17    9
 	//    3
 	//
-	private int    facing				= 0;	// Direction the unit is facing (1 through 6)
-	private int    speed				= 0;	// Speed the unit is moving (0 through 32)
-	private int    sizeClass			= 0;	// Size class of the unit (0 through 6...I think?)
-	private int    sideslipCount		= 0;	// Track number of moves since last sideslip.
-	private int    turnCount			= 0;	// Track number of moves since last turn.
+	private int     facing				= 0;		// Direction the unit is facing (1 through 6)
+	private int     speed				= 0;		// Speed the unit is moving (0 through 32)
+	private int     sizeClass			= 0;		// Size class of the unit (0 through 6...I think?)
+	private int     sideslipCount		= 0;		// Track number of moves since last sideslip.
+	private int     turnCount			= 0;		// Track number of moves since last turn.
+	private boolean tractored			= false;	// True if the unit is tractored by another unit.
+	private Unit    tractoringUnit		= null;		// The unit that is applying a tractor to this unit, if any.
 	
 	private Player owner	= null; // controlling player
 
@@ -46,7 +48,16 @@ public class Unit extends Marker {
 	 */
 	//TODO: Should I do an "init" or just have these values explicitly set on instantiation?
 	public void init(Map<String, Object> values) {
-		turnMode = values.get("turnmode") == null ? null : (TurnMode) values.get("turnmode");
+		turnMode        = values.get("turnmode")    == null ? null : (TurnMode) values.get("turnmode");
+		sizeClass       = values.get("sizeclass")   == null ? 3    : (Integer)values.get("sizeclass");
+	}
+	
+	/**
+	 * Perform the various functions that are needed at the start of each turn,
+	 * such as setting a speed.
+	 */
+	public void startTurn() {
+		
 	}
 
 	public int getFacing() {
@@ -176,7 +187,7 @@ public class Unit extends Marker {
 	 * @return True if the turn was possible, false otherwise.
 	 */
 	public boolean turnLeft() {
-		if (turnCount < TurnModeUtil.getTurnMode(this.turnMode, this.speed)) {
+		if (turnCount < getTurnHexes()) {
 			return false;
 		}
 
@@ -197,7 +208,7 @@ public class Unit extends Marker {
 	 * @return True if the turn was possible, false otherwise.
 	 */
 	public boolean turnRight() {
-		if (turnCount < TurnModeUtil.getTurnMode(turnMode, speed)) {
+		if (turnCount < getTurnHexes()) {
 			return false;
 		}
 
@@ -249,7 +260,48 @@ public class Unit extends Marker {
 	public boolean performHet(int absoluteFacing) {
 
 		setFacing(absoluteFacing);
+		turnCount = 0;
+		sideslipCount = 0;
 		
 		return true;
+	}
+	
+	/**
+	 * Check if the unit is being held in a tractor.
+	 * @return True if the unit is tractored, false otherwise.
+	 */
+	public boolean isTractored() {
+		return tractored;
+	}
+	
+	protected void setTractored(boolean value) {
+		this.tractored = value;
+	}
+	
+	public Unit getTractoringUnit() {
+		return this.tractoringUnit;
+	}
+	
+	protected void setTractoringUnit(Unit unit) {
+		this.tractoringUnit = unit;
+	}
+	/**
+	 * Unit is tractored by another unit.
+	 * 
+	 * @param energy The tractor energy applied to this unit.
+	 * 
+	 * @return True if the tractor is successful, false otherwise.
+	 */
+	public boolean applyTractor(int energy, Unit tractoringUnit) {
+		
+		return true;
+	}
+	
+	/**
+	 * Release the unit from whatever tractor beam is holding it.
+	 */
+	public void releaseTractor() {
+		this.tractoringUnit = null;
+		this.tractored = false;
 	}
 }

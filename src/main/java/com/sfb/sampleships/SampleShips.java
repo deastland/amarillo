@@ -37,6 +37,8 @@ public class SampleShips {
 		shipSpecs.put("serviceyear", new Integer(130));
 		shipSpecs.put("bpv", new Integer(140));
 		shipSpecs.put("turnmode", TurnMode.D);
+		shipSpecs.put("sizeclass", new Integer(3));
+
 		// Shields
 		shipSpecs.put("shield1", new Integer(30));
 		shipSpecs.put("shield2", new Integer(24));
@@ -44,41 +46,50 @@ public class SampleShips {
 		shipSpecs.put("shield4", new Integer(20));
 		shipSpecs.put("shield5", new Integer(20));
 		shipSpecs.put("shield6", new Integer(24));
+
 		// Hull
 		shipSpecs.put("fhull", new Integer(12));
 		shipSpecs.put("ahull", new Integer(4));
+		
 		// Power
 		shipSpecs.put("lwarp", new Integer(15));
 		shipSpecs.put("rwarp", new Integer(15));
 		shipSpecs.put("impulse", new Integer(4));
 		shipSpecs.put("battery", new Integer(3));
+		
 		// Control
 		shipSpecs.put("bridge", new Integer(2));
 		shipSpecs.put("emer", new Integer(2));
 		shipSpecs.put("auxcon", new Integer(2));
-		shipSpecs.put("damcon", new int[] {4,4,2,2,0});
+
 		// Special Functions
+		shipSpecs.put("damcon", new int[] {4,4,2,2,0});
 		shipSpecs.put("scanner", new int[] {0,0,1,3,5,9});
 		shipSpecs.put("sensor", new int[] {6,6,5,3,1,0});
 		shipSpecs.put("excess", new Integer(6));
+		shipSpecs.put("controlmod", new Integer(1));			// Multiplier for control channels
+		
 		// Operations
 		shipSpecs.put("trans", new Integer(3));
 		shipSpecs.put("tractor", new Integer(3));
 		shipSpecs.put("lab", new Integer(8));
+
 		// Probes
 		shipSpecs.put("probe", new Integer(1));
+		
 		// Shuttles
 		shipSpecs.put("shuttle", new Integer(4));
+		
 		// Crew
 		shipSpecs.put("crew", new Integer(43));
 		shipSpecs.put("boardingparties", new Integer(10));
 		shipSpecs.put("minimumcrew", new Integer(4));
+		
 		// Performance
 		shipSpecs.put("movecost", new Double(1));
 		shipSpecs.put("breakdown", new Integer(5));
 		shipSpecs.put("bonushets", new Integer(1));
-		shipSpecs.put("shieldcost", new Integer(2));
-		shipSpecs.put("lifesupport", new Double(1));
+		
 		// Weapons
 		List<Weapon> weaponList = new LinkedList<>();
 
@@ -139,13 +150,12 @@ public class SampleShips {
 		shipSpecs.put("serviceyear", new Integer(120));
 		shipSpecs.put("bpv", new Integer(135));
 		shipSpecs.put("turnmode", TurnMode.B);
+		shipSpecs.put("sizeclass", new Integer(3));
 
 		// Performance
 		shipSpecs.put("movecost", new Double(1));
 		shipSpecs.put("breakdown", new Integer(5));
 		shipSpecs.put("bonushets", new Integer(1));
-		shipSpecs.put("shieldcost", new Integer(2));
-		shipSpecs.put("lifesupport", new Double(1));
 
 		// Shields
 		shipSpecs.put("shield1", new Integer(30));
@@ -177,6 +187,7 @@ public class SampleShips {
 		shipSpecs.put("scanner", new int[] {0,0,1,3,5,9});
 		shipSpecs.put("sensor", new int[] {6,6,5,3,1,0});
 		shipSpecs.put("excess", new Integer(5));
+		shipSpecs.put("controlmod", new Integer(1));			// Multiplier for control channels
 		
 		// Operations Systems
 		shipSpecs.put("trans", new Integer(5));
@@ -187,7 +198,7 @@ public class SampleShips {
 		shipSpecs.put("probe", new Integer(1));
 		
 		// Shuttles
-		shipSpecs.put("shuttle", new Integer(4));
+		shipSpecs.put("shuttle", new Integer(2));
 		
 		// Crew
 		shipSpecs.put("crew", new Integer(45));
@@ -268,14 +279,13 @@ public class SampleShips {
 		shipSpecs.put("name", "IKV Dagger");
 		shipSpecs.put("serviceyear", new Integer(135));
 		shipSpecs.put("bpv", new Integer(71));
+		shipSpecs.put("sizeclass", new Integer(4));
 		shipSpecs.put("turnmode", TurnMode.A);
 
 		// Performance
 		shipSpecs.put("movecost", new Double(0.5));
 		shipSpecs.put("breakdown", new Integer(5));
 		shipSpecs.put("bonushets", new Integer(1));
-		shipSpecs.put("shieldcost", new Integer(1));
-		shipSpecs.put("lifesupport", new Double(0.5));
 
 		// Shields
 		shipSpecs.put("shield1", new Integer(21));
@@ -307,6 +317,7 @@ public class SampleShips {
 		shipSpecs.put("scanner", new int[] {0,1,3,9});
 		shipSpecs.put("sensor", new int[] {6,5,3,0});
 		shipSpecs.put("excess", new Integer(4));
+		shipSpecs.put("controlmod", new Integer(1));			// Multiplier for control channels
 		
 		// Operations Systems
 		shipSpecs.put("trans", new Integer(2));

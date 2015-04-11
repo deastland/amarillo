@@ -2,6 +2,8 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
+
 public class PowerSystems implements Systems {
 
 	// Base values for the unit
@@ -27,7 +29,11 @@ public class PowerSystems implements Systems {
 	private int reserveWarp = 0;
 	private int reservePower = 0;
 	
-	public PowerSystems() {}
+	private Unit owningUnit;
+	
+	public PowerSystems(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	// Pass in mapping of all the power values
 	// The mapping will have String keys and Integer values.
@@ -429,6 +435,11 @@ public class PowerSystems implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 	
 }

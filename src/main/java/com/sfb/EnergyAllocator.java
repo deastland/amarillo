@@ -13,7 +13,7 @@ public class EnergyAllocator {
 	 * AWR							|
 	 * 
 	 * BATTERY						|-- Energy storage
-	 * 
+	 *  - Battery Used				|-- Energy Generation
 	 * 
 	 * ==========================================================
 	 * List Energy Destinations
@@ -50,6 +50,11 @@ public class EnergyAllocator {
 	 * System4						|
 	 * 
 	 * ProbeLauncher1				|-- Probes
+	 * 
+	 * Tractor / Negative Tractor	|-- Operations
+	 * Transporters					|
+	 * 
+	 * Damage Control				|-- DamCon
 	 * 
 	 * Shuttle 1					|
 	 * Shuttle 2					|-- Shuttles

@@ -164,6 +164,11 @@ public class Weapons implements Systems {
 		return availableDrones;
 	}
 
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningShip;
+	}
+
 
 }
 

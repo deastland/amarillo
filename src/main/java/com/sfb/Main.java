@@ -3,11 +3,12 @@ package com.sfb;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.sfb.constants.Constants;
 import com.sfb.exceptions.CapacitorException;
 import com.sfb.exceptions.TargetOutOfRangeException;
 import com.sfb.exceptions.WeaponUnarmedException;
+import com.sfb.objects.Seeker;
 import com.sfb.objects.Ship;
-import com.sfb.objects.Unit;
 import com.sfb.properties.Faction;
 import com.sfb.properties.Location;
 import com.sfb.sampleships.SampleShips;
@@ -16,9 +17,31 @@ import com.sfb.weapons.DirectFire;
 import com.sfb.weapons.Weapon;
 
 public class Main {
+	
+	/*
+	 * The SEQUENCE OF PLAY
+	 * 
+	 * 1) Energy Allocation Phase
+	 * 2) Speed Determination Phase
+	 * 3) Self-Destruction Phase
+	 * 4) Sensor Lock-On Phase
+	 * 6) Impulse Procedure
+	 * 		A) Movement Segment (units move)
+	 * 		B) Impulse Activity Segment (transporters, mines, launching shuttles, launching seekers, etc.
+	 * 		C) Dogfight Resolution Interface
+	 * 		D) Direct-Fire Weapons Segment (fire weapons)
+	 * 		E) Post-Combat Segment
+	 * 7) Final Activity Phase
+	 * 8) Record Keeping Phase
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
 
 	private static List<Player> players     = new LinkedList<>();	// The players
-	private static List<Unit>   units		= new LinkedList<>();	// The units on the board.
+	private static List<Ship>   ships		= new LinkedList<>();	// The ships on the board.
+	private static List<Seeker>	seekers		= new LinkedList<>();	// The seekers on the board.
 	private static TurnTracker  turnTracker = new TurnTracker();	// Time tracker for everything.
 	private static boolean      inProgress  = true;					// When true, the game continues to run.
 	
@@ -40,15 +63,15 @@ public class Main {
 		fedCa.setLocation(new Location(14,01));
 		fedCa.setFacing(13);
 		fedCa.setOwner(player1);
-		units.add(fedCa);
+		ships.add(fedCa);
 		
 		// Place a Klin D7 on the board.
 		Ship klnD7 = new Ship();
 		klnD7.init(SampleShips.getD7());
 		klnD7.setLocation(new Location(14,30));
-		klnD7.setFacing(5);
+		klnD7.setFacing(1);
 		klnD7.setOwner(player2);
-		units.add(klnD7);
+		ships.add(klnD7);
 		
 		System.out.println("Range from CA to D7: " + MapUtils.getRange(klnD7, fedCa));
 		// What weapons on the FedCA have the Klin in arc?

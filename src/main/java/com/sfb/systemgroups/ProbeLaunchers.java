@@ -2,13 +2,18 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
 import com.sfb.systems.Probe;
 
 public class ProbeLaunchers implements Systems {
 
 	private Probe[] launcherArray = new Probe[] {};
 	
-	public ProbeLaunchers() {}
+	private Unit owningUnit;
+	
+	public ProbeLaunchers(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	// Create probe boxes equal to the number
 	// of probes specified in the argument.
@@ -99,6 +104,11 @@ public class ProbeLaunchers implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 
 	

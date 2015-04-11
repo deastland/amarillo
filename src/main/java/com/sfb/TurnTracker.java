@@ -1,5 +1,7 @@
 package com.sfb;
 
+import com.sfb.constants.Constants;
+
 /**
  * This will be the main class that tracks time (and therefore events).
  * Possibly, it will be the main. Not sure yet.

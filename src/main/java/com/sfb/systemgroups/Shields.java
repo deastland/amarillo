@@ -2,8 +2,9 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
-import com.sfb.Constants;
 import com.sfb.Main;
+import com.sfb.constants.Constants;
+import com.sfb.objects.Unit;
 
 public class Shields implements Systems {
 
@@ -19,8 +20,11 @@ public class Shields implements Systems {
 	private boolean[] shieldActive;										// Indicates what shields are inactive (lowered).
 	private int[]     impulseShieldToggled; 							// The last turn a shield was toggled between active/inactive (raised/lowered).
 	
+	private Unit owningUnit;
 	
-	public Shields() {}
+	public Shields(Unit owner) {
+		this.owningUnit = owner;
+	}
 	
 	/**
 	 * Get the strength of a specific shield, including reinforcement (if any)
@@ -95,12 +99,26 @@ public class Shields implements Systems {
 	}
 	
 	/**
+	 * Set specific reinforcement values for all shields.
+	 * @param reinforcementValues
+	 */
+	public void reinforceAllShields(int[] reinforcementValues) {
+		this.specificReinforcement = reinforcementValues;
+	}
+	
+	/**
 	 * Add general reinforcement to all shields.
 	 * @param amount The amount of reinforcement to add.
 	 */
 	public void addGeneralRenforcement(int amount) {
-		//TODO: Should this take the energy provided and cut it in half? Or should it just take the net increaase in strength?
 		generalReinforcement += amount;
+	}
+
+	/**
+	 * Clear all general reinforcement.
+	 */
+	public void clearGeneralReinforcement() {
+		generalReinforcement = 0;
 	}
 	
 	/**
@@ -219,5 +237,10 @@ public class Shields implements Systems {
 		}
 		return false;
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 }

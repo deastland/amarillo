@@ -1,28 +1,35 @@
 package com.sfb.systems;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+
+import com.sfb.objects.Seeker;
 
 
 public class SpecialFunctions {
 
-	int[] damageControl			= {0};		// Array of values representing the DamCon track on the SSD.
-	int[] scanner				= {0};		// Array of values representing the scanner track on the SSD.
-	int[] sensor				= {0};		// Array of values representing the sensor track on the SSD.
-	int excessDamage			= 0;		// Base amount of excess damage on the SSD.
-	
-	int uim						= 0;		// Ubitron Interface Module (usually only on Klingon ships)
-	int derfacs					= 0;		// DERFACS (usually only on Klingon and Lyran ships)
+	int[] damageControl				= {0};					// Array of values representing the DamCon track on the SSD.
+	int[] scanner					= {0};					// Array of values representing the scanner track on the SSD.
+	int[] sensor					= {0};					// Array of values representing the sensor track on the SSD.
+	int excessDamage				= 0;					// Base amount of excess damage on the SSD.
 
-	int availableDamageControl	= 0;		// Pointer to the current DamageControl value. Moves with damage/repair.
-	int availableScanner		= 0;		// Pointer to the current scanner value. Moves with damage/repair.
-	int availableSensor			= 0;		// Pointer to the current sensor value. Moves with damage/repair.
-	int availableExcessDamage	= 0;		// Amount of excess damage remaining.
+	int uim							= 0;					// Ubitron Interface Module (usually only on Klingon ships)
+	int derfacs						= 0;					// DERFACS (usually only on Klingon and Lyran ships)
+
+	int availableDamageControl		= 0;					// Pointer to the current DamageControl value. Moves with damage/repair.
+	int availableScanner			= 0;					// Pointer to the current scanner value. Moves with damage/repair.
+	int availableSensor				= 0;					// Pointer to the current sensor value. Moves with damage/repair.
+	int availableExcessDamage		= 0;					// Amount of excess damage remaining.
 	
-	int availableUim			= 0;		// Number of UIM systems remaining.
-	int availableDerfacs		= 0;		// Number of DERFACS systems remaining.
+	int availableUim				= 0;					// Number of UIM systems remaining.
+	int availableDerfacs			= 0;					// Number of DERFACS systems remaining.
 	
-	int controlModifier			= 1;		// Multiplier for seeker control. Some ships have 2 x sensor rating.
-	int controlUsed				= 0;		// Amount of seeker control currently occupied.
+	// Control Channels
+	int controlModifier				= 1;					// Multiplier for seeker control. Some ships have 2 x sensor rating.
+	int controlChannels				= 0;					// Number of total control channels
+	int controlUsed					= 0;					// Amount of seeker control currently occupied.
+	List<Seeker> controlledSeekers	= new LinkedList<>();	// List of seekers controlled by this ship.
 	
 	public SpecialFunctions() {}
 	
@@ -47,6 +54,10 @@ public class SpecialFunctions {
 		
 		// Excess Damage
 		availableExcessDamage = excessDamage = values.get("excess") == null ? 0 : (Integer)values.get("excess");
+		
+		// Control channels is (sensor rating) * (control modifier)
+		controlModifier = values.get("controlmod") == null ? 1 : (Integer)values.get("controlmod");
+		controlChannels = availableSensor * controlModifier;
 
 	}
 	
@@ -116,6 +127,13 @@ public class SpecialFunctions {
 		
 		// Move the pointer to the next value in the track.
 		availableSensor++;
+
+		// Adjust the number of control channels
+		controlChannels = availableSensor * controlModifier;
+		if (controlChannels < controlUsed) {
+			//TODO: Release a controlled seeker that now has no control
+		}
+
 		return true;
 	}
 	

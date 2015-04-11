@@ -2,6 +2,8 @@ package com.sfb.systemgroups;
 
 import java.util.Map;
 
+import com.sfb.objects.Unit;
+
 public class Crew implements Systems {
 
 	private int crewUnits = 0;
@@ -11,8 +13,10 @@ public class Crew implements Systems {
 	private int availableCrewUnits = 0;
 	private int availableBoardingParties = 0;
 	
-	public Crew() {
-		
+	private Unit owningUnit;
+	
+	public Crew(Unit owner) {
+		this.owningUnit = owner;
 	}
 	
 	public void init(Map<String, Object> values) {
@@ -62,6 +66,11 @@ public class Crew implements Systems {
 	public void cleanUp() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Unit getOwningUnit() {
+		return this.owningUnit;
 	}
 
 	
