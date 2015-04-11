@@ -26,7 +26,7 @@ public class Phaser3 extends VariableDamageWeapon implements DirectFire {
 	
 	public Phaser3() {
 		setDacHitLocaiton("phaser");
-		setName("Phaser-3");
+		setType("Phaser3");
 		setMinRange(0);
 		setMaxRange(15);
 	}

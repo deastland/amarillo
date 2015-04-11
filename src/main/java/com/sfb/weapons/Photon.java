@@ -5,6 +5,13 @@ import com.sfb.exceptions.WeaponUnarmedException;
 import com.sfb.properties.WeaponArmingType;
 import com.sfb.utilities.DiceRoller;
 
+/**
+ * Photon Torpedo, the primary weapon of the Federation. Photons take two turns to arm and can be overloaded for extra damage
+ * or set to proximity for greater accuracy.
+ * 
+ * @author Daniel Eastland
+ *
+ */
 public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 
 	// Hit Charts are the chance (on a d6) that the weapon will hit at a given range.
@@ -19,19 +26,18 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 	private final static int[] proximityHitChart = 
 		{0,0,0,0,0,0,0,0,0,4,4,4,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3};
 	
-	private WeaponArmingType armingType = WeaponArmingType.STANDARD;	// By default, photons are armed normally.
-	private int armingTurn = 0;											// Number of turns the weapon has been arming.
-	private double armingEnergy = 0;									// Amount of total energy stored in the weapon.
-	private boolean armed = false;										// True if the weapon is armed and ready to fire.
-	private boolean held  = false;										// True if the weapon is in 'hold' mode.
-	//TODO: Figure out logic for holding weapon and losing it if you do not hold it.
+	private WeaponArmingType armingType		= WeaponArmingType.STANDARD;	// By default, photons are armed normally.
+	private int              armingTurn		= 0;							// Number of turns the weapon has been arming.
+	private double           armingEnergy	= 0;							// Amount of total energy stored in the weapon.
+	private boolean          armed			= false;						// True if the weapon is armed and ready to fire.
+	private boolean          held			= false;						// True if the weapon is in 'hold' mode.
 	
 	/**
 	 * Constructor for a new Photon object.
 	 */
 	public Photon() {
 		setDacHitLocaiton("torp");
-		setName("Photon");
+		setType("Photon");
 		reset();
 	}
 	
@@ -41,6 +47,7 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 	 * @return The amount of damage done by the weapon (0 on a miss).
 	 * Returns -1 if the weapon can not be fired at the target due
 	 * to range or arming restrictions.
+	 * 
 	 * @throws WeaponUnarmedException 
 	 * @throws TargetOutOfRangeException 
 	 */
@@ -98,6 +105,8 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 		return armed;
 	}
 	
+	// Right now I only support integer values of photon overloading in this method.
+	// Later I will implement 1/4 point increments of overloading.
 	@Override
 	public boolean hold(int energy) throws WeaponUnarmedException {
 		boolean result = false;
@@ -108,7 +117,16 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 		
 		switch(armingType) {
 		case STANDARD:
+			// For 1 energy, the standard photon is held.
 			if (energy == 1) {
+				result = true;
+			// For more than 1 energy, the photon is held for 1 and then overloaded
+			// With whatever excess energy remains.
+			} else if (energy > 1) {
+				int excessArmingEnergy = energy - 1;
+				setOverload();
+				armingEnergy += excessArmingEnergy;
+				energy = 0;		// In case 'case OVERLOAD' executes next.
 				result = true;
 			}
 			break;
@@ -119,7 +137,8 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 			// it to the total overload torp energy.
 			// This allows gradual arming of overloaded photons.
 			} else if (energy > 2) {
-				armingEnergy = armingEnergy + energy - 2;
+				int excessArmingEnergy = energy - 2;
+				armingEnergy += excessArmingEnergy;
 				result = true;
 			}
 			break;
@@ -142,8 +161,31 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 
 		// If the photon is already armed then
 		// no more arming can be done. Exit with false.
+
+		
+		// If the photon is already armed, more energy
+		// could change its arming state.
 		if (isArmed()) {
-			return false;
+			switch(armingType) {
+			case STANDARD:
+				setOverload();
+				if (armingEnergy + energy <= 8) {
+					armingEnergy += energy;
+					return true;
+				}
+				break;
+			case OVERLOAD:
+				if (armingEnergy + energy <= 8) {
+					armingEnergy += energy;
+					return true;
+				}
+				break;
+			case SPECIAL:
+				return false;
+			default:
+				break;
+			}
+
 		}
 		
 		// Check what the arming type is for the weapon.
@@ -304,6 +346,48 @@ public class Photon extends HitOrMissWeapon implements DirectFire, HeavyWeapon {
 	@Override
 	public void cleanUp() {
 		//TODO: figure this out.
+	}
+
+	@Override
+	public void applyAllocationEnergy(Double energy, WeaponArmingType type) {
+		// If energy is null, then just discharge/reset the
+		// weapon and leave it idle.
+		if (energy == null) {
+			reset();
+			return;
+		}
+		
+		// For photons, zero energy will also disarm the weapon.
+		if (energy == 0) {
+			reset();
+			return;
+		}
+		
+		// If energy is negative, that means to discharge the weapon,
+		// and then begin a new arming cycle.
+		if (energy < 1) {
+			reset();
+		}
+		
+		// Otherwise, process the energy for the weapon.
+		int energySupplied = Math.abs(energy.intValue());
+		
+		// If the weapon is armed, then the energy can be used to 
+		// hold or hold and overload the weapon.
+		if (isArmed()) {
+			try {
+				hold(energySupplied);
+			} catch (WeaponUnarmedException e) {
+				// We check for armed before calling hold(), so 
+				// this should never be caught.
+			}
+
+		// If the weapon is not armed, set it to the desired type and arm it.
+		} else {
+			this.armingType = type;
+			arm(energySupplied);
+		}
+
 	}
 
 }

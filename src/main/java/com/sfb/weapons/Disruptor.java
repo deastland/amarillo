@@ -46,15 +46,12 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 		setMinRange(1);
 		setMaxRange(getDisruptorRange());
 		setDacHitLocaiton("torp");
-		setName("Disruptor-" + getDisruptorRange());
+		setType("Disruptor" + getDisruptorRange());
 	}
 	
 	@Override
 	public void cleanUp() {
-		armed = false;
-		armingEnergy = 0;
-		armingTurn = 0;
-		setStandard();
+		reset();
 	}
 	
 	@Override
@@ -78,9 +75,15 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 		return true;
 	}
 
+	/**
+	 * Disruptors can't be held. This is a stub.
+	 * 
+	 * @param energy Energy applied.
+	 * 
+	 * @return False.
+	 */
 	@Override
 	public boolean hold(int energy) {
-		// Disruptors can't be held.
 		return false;
 	}
 
@@ -101,7 +104,7 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 
 	@Override
 	public void reset() {
-		armingType = WeaponArmingType.STANDARD;
+		setStandard();
 		armingEnergy = 0;
 		armingTurn = 0;
 		armed = false;
@@ -112,7 +115,7 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 	 * Fire the diruptors using the default targeting system.
 	 * 
 	 * @param range The range to the target.
-	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 * @return Damage dealt by the weapon to the target (0 if a miss) or an exception if illegal condition (range, arming, etc.).
 	 * @throws WeaponUnarmedException 
 	 * @throws TargetOutOfRangeException 
 	 */
@@ -161,7 +164,7 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 	 * Fire the disruptors using the UIM targeting system.
 	 * 
 	 * @param range The range to the target.
-	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 * @return Damage dealt by the weapon to the target (0 if a miss) or an exception if illegal condition (range, arming, etc.).
 	 * @throws WeaponUnarmedException 
 	 * @throws TargetOutOfRangeException 
 	 */
@@ -209,7 +212,7 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 	 * Fire the disruptors using the DERFACS targeting system.
 	 * 
 	 * @param range The range to the target.
-	 * @return Damage dealt by the weapon to the target (0 if a miss) or -1 if illegal condition (range, arming, etc.).
+	 * @return Damage dealt by the weapon to the target (0 if a miss) or an exception if illegal condition (range, arming, etc.).
 	 * @throws WeaponUnarmedException 
 	 * @throws TargetOutOfRangeException 
 	 */
@@ -314,6 +317,11 @@ public class Disruptor extends Weapon implements DirectFire, HeavyWeapon {
 		} else {
 			return 4;
 		}
+	}
+
+	@Override
+	public void applyAllocationEnergy(Double energy, WeaponArmingType type) {
+		arm(energy.intValue());
 	}
 
 }

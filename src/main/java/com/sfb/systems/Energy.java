@@ -1,5 +1,11 @@
 package com.sfb.systems;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.sfb.properties.WeaponArmingType;
+import com.sfb.weapons.Weapon;
+
 /**
  * This will be the energy allocation for a ship. It will indicate where all power generated is to be sent.
  * 
@@ -30,15 +36,20 @@ public class Energy {
 	// Probes
 	private int probes;
 	
+	// Tractors
+	private int tractors;
+
 	// Operations
 	private double transporters;
-	private int tractors;
 	private int damageControl;
 	
 	// Reserve
 	private double rechargeBatteries;
 	
-	// Weapons
+	// Weapons Map with <Weapon, Energy for Weapon>
+	Map<Weapon, Double> armingEnergy = new HashMap<>();
+	Map<Weapon, WeaponArmingType> armingType = new HashMap<>();
+	//TODO: May be better to have a map of <Weapon, CustomObject> where custom object holds both arming energy AND armingType.
 	
 	//TODO: dang, how will I do this?
 
@@ -172,6 +183,22 @@ public class Energy {
 
 	public void setRechargeBatteries(double rechargeBatteries) {
 		this.rechargeBatteries = rechargeBatteries;
+	}
+
+	public Map<Weapon, Double> getArmingEnergy() {
+		return armingEnergy;
+	}
+
+	public void setArmingEnergy(Map<Weapon, Double> armingEnergy) {
+		this.armingEnergy = armingEnergy;
+	}
+
+	public Map<Weapon, WeaponArmingType> getArmingType() {
+		return armingType;
+	}
+
+	public void setArmingType(Map<Weapon, WeaponArmingType> armingType) {
+		this.armingType = armingType;
 	}
 	
 }

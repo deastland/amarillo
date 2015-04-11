@@ -96,39 +96,49 @@ public class SampleShips {
 		// Fore Phasers (FH)
 		Phaser1 phaser1 = new Phaser1();
 		phaser1.setArcs(new int[] {19,20,21,22,23,24,1,2,3,4,5,6,7});
+		phaser1.setDesignator("1");
 		weaponList.add(phaser1);
 		Phaser1 phaser2 = new Phaser1();
 		phaser2.setArcs(new int[] {19,20,21,22,23,24,1,2,3,4,5,6,7});
+		phaser2.setDesignator("2");
 		weaponList.add(phaser2);
 		
 		// Left Phasers (LF + L + directly aft)
 		Phaser1 phaser3 = new Phaser1();
 		phaser3.setArcs(new int[] {17,18,19,20,21,22,23,24,1,13});
+		phaser3.setDesignator("3");
 		weaponList.add(phaser3);
 		Phaser1 phaser4 = new Phaser1();
 		phaser4.setArcs(new int[] {17,18,19,20,21,22,23,24,1,13});
+		phaser4.setDesignator("4");
 		weaponList.add(phaser4);
 		
 		// RH Phasers (RF + R + directly aft)
 		Phaser1 phaser5 = new Phaser1();
 		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13});
+		phaser5.setDesignator("5");
 		weaponList.add(phaser5);
 		Phaser1 phaser6 = new Phaser1();
 		phaser6.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13});
+		phaser6.setDesignator("6");
 		weaponList.add(phaser6);
 		
 		// Photons
 		Photon photonA = new Photon();
 		photonA.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		photonA.setDesignator("A");
 		weaponList.add(photonA);
 		Photon photonB = new Photon();
 		photonB.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		photonB.setDesignator("B");
 		weaponList.add(photonB);
 		Photon photonC = new Photon();
 		photonC.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		photonC.setDesignator("C");
 		weaponList.add(photonC);
 		Photon photonD = new Photon();
 		photonD.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		photonD.setDesignator("D");
 		weaponList.add(photonD);
 		
 		shipSpecs.put("weapons", weaponList);
@@ -211,52 +221,65 @@ public class SampleShips {
 		// Boom Phasers (FX + directly aft)
 		Phaser2 phaser1 = new Phaser2();
 		phaser1.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
+		phaser1.setDesignator("1");
 		weaponList.add(phaser1);
 		Phaser2 phaser2 = new Phaser2();
 		phaser2.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
+		phaser2.setDesignator("2");
 		weaponList.add(phaser2);
 		Phaser2 phaser3 = new Phaser2();
 		phaser3.setArcs(new int[] {17,18,19,20,21,22,23,24,1,2,3,4,5,6,7,8,9,13});
+		phaser3.setDesignator("3");
 		weaponList.add(phaser3);
 
 		// Left Wing Phaser (L + LF + RR, plus 5 cross deck)
 		Phaser2 phaser4 = new Phaser2();
 		phaser4.setArcs(new int[] {17,18,19,20,21,22,23,24,1,9,10,11,12,13,5});
+		phaser4.setDesignator("4");
 		weaponList.add(phaser4);
 
 		// Right Wing Phaser (RF + R + LR, plus 21 cross deck)
 		Phaser2 phaser5 = new Phaser2();
 		phaser5.setArcs(new int[] {1,2,3,4,5,6,7,8,9,13,14,15,16,17,21});
+		phaser5.setDesignator("5");
 		weaponList.add(phaser5);
 		
 		// Left Waist Phasers (L + LR)
 		Phaser2 phaser6 = new Phaser2();
 		phaser6.setArcs(new int[] {13,14,15,16,17,18,19,20,21});
+		phaser6.setDesignator("6");
 		weaponList.add(phaser6);
 		Phaser2 phaser7 = new Phaser2();
 		phaser7.setArcs(new int[] {13,14,15,16,17,18,19,20,21});
+		phaser7.setDesignator("7");
 		weaponList.add(phaser7);
 		
 		// Right Waist Phasers (R + RR)
 		Phaser2 phaser8 = new Phaser2();
 		phaser8.setArcs(new int[] {5,6,7,8,9,10,11,12,13});
+		phaser8.setDesignator("8");
 		weaponList.add(phaser8);
 		Phaser2 phaser9 = new Phaser2();
 		phaser9.setArcs(new int[] {5,6,7,8,9,10,11,12,13});
+		phaser9.setDesignator("9");
 		weaponList.add(phaser9);
 		
 		// Disruptors (FA)
 		Disruptor disrA = new Disruptor(30);
 		disrA.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		disrA.setDesignator("A");
 		weaponList.add(disrA);
 		Disruptor disrB = new Disruptor(30);
 		disrB.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		disrB.setDesignator("B");
 		weaponList.add(disrB);
 		Disruptor disrC = new Disruptor(30);
 		disrC.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		disrC.setDesignator("C");
 		weaponList.add(disrC);
 		Disruptor disrD = new Disruptor(30);
 		disrD.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		disrD.setDesignator("D");
 		weaponList.add(disrD);
 		
 		//TODO: Drones
@@ -362,9 +385,11 @@ public class SampleShips {
 		// Disruptors
 		Disruptor disrA = new Disruptor(15);
 		disrA.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		disrA.setDesignator("A");
 		weaponList.add(disrA);
 		Disruptor disrB = new Disruptor(15);
 		disrB.setArcs(new int[] {21,22,23,24,1,2,3,4,5});
+		disrB.setDesignator("B");
 		weaponList.add(disrB);
 		
 		//TODO: Drones

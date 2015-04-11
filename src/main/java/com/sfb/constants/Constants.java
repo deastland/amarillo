@@ -4,7 +4,7 @@ package com.sfb.constants;
  * Values that will not change throughout the execution of the program.
  * Later, some may be moved to a config file.
  * 
- * @author deastland
+ * @author Daniel Eastland
  *
  */
 public class Constants {

@@ -21,7 +21,7 @@ import com.sfb.weapons.Weapon;
  */
 public class Weapons implements Systems {
 
-	List<Weapon> weapons = new LinkedList<>();	// A list of all the weapons.
+	List<Weapon> weapons = new LinkedList<>();						// A list of all the weapons.
 	
 	private double       capacitor			= 0;					// Initial size of the phaser capacitor
 	

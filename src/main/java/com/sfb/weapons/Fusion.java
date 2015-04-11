@@ -50,7 +50,7 @@ public class Fusion extends VariableDamageWeapon implements DirectFire, HeavyWea
 
 	public Fusion() {
 		setDacHitLocaiton("torp");
-		setName("Fusion");
+		setType("Fusion");
 		setStandard();
 	}
 	
@@ -59,6 +59,12 @@ public class Fusion extends VariableDamageWeapon implements DirectFire, HeavyWea
 		// If it is on cooldown and did not fire this turn, deactivate cooldown.
 		if (isOnCooldown() && getLastTurnFired() < Main.getTurnTracker().getTurn()) {
 			setCooldown(false);
+		}
+		
+		// If the weapon is not armed as STANDARD, it can't be 
+		// held and is simply discharged.
+		if (!(armingType == WeaponArmingType.STANDARD)) {
+			reset();
 		}
 	}
 
@@ -98,8 +104,24 @@ public class Fusion extends VariableDamageWeapon implements DirectFire, HeavyWea
 	}
 
 	@Override
-	public boolean hold(int energy) {
+	public boolean hold(int energy) throws WeaponUnarmedException {
+
+		// Can't hold the weapon if it isn't armed.
+		if (!isArmed()) {
+			throw new WeaponUnarmedException("Weapon is unamred.");
+		}
+		
+		// Can't hold overloaded (or suicide overloaded) fusions.
+		if (this.armingType == WeaponArmingType.OVERLOAD || this.armingType == WeaponArmingType.SPECIAL) {
+			return false;
+		}
+		
+		if (energy == 1) {
+			return true;
+		}
+		
 		return false;
+		
 	}
 
 	@Override
@@ -222,6 +244,7 @@ public class Fusion extends VariableDamageWeapon implements DirectFire, HeavyWea
 			damage = suicideOverloadHitChart[roll - 1][range];
 			// This weapon is destroyed after firing in suicide mode.
 			damage();
+			// TODO: Apply 2 damage to the owning ship
 			break;
 		default:
 			break;
@@ -245,6 +268,57 @@ public class Fusion extends VariableDamageWeapon implements DirectFire, HeavyWea
 	
 	private void setCooldown(boolean value) {
 		cooldown = value;
+	}
+
+	@Override
+	public void applyAllocationEnergy(Double energy, WeaponArmingType type) {
+		// If energy is null, then just discharge/reset the
+		// weapon and leave it idle.
+		if (energy == null) {
+			reset();
+			return;
+		}
+		
+		// If energy is negative, that means to discharge the weapon,
+		// and then begin a new arming cycle.
+		if (energy < 1) {
+			reset();
+		}
+		
+		// Handle the special case where energy is 0
+		if (energy == 0) {
+			reset();		// For fusions, this is the same as a null value.
+			return;
+		}
+		
+		// Otherwise, process the energy for the weapon.
+		int energySupplied = Math.abs(energy.intValue());
+		
+		// If the weapon is armed then the energy
+		// can be used to either hold (1 energy) or overload/suicide
+		if (isArmed()) {
+			try {
+				// For 1 energy, the weapon can be held at standard.
+				if (energySupplied == 1) {
+					hold(energySupplied);
+				// For 3 energy, the weapon can be held (1) and overloaded (2).
+				} else if (energySupplied == 3) {
+					hold(1);
+					arm(2);
+				// For 6 energy, the weapon can be held (1) and suicided (5)
+				} else if (energySupplied == 6) {
+					hold(1);
+					arm(5);
+				}
+			} catch (WeaponUnarmedException e) {
+				// We check for armed before calling hold(), so 
+				// this should never be caught.
+			}
+		// If not already armed, then arm the weapon.
+		} else {
+			arm(energySupplied);
+		}
+		
 	}
 
 

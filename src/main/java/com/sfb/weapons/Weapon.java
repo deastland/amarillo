@@ -12,7 +12,9 @@ import com.sfb.objects.Unit;
  */
 public abstract class Weapon {
 	
-	private String  name;				// The name of the weapon ('phaser1', 'disruptor30', 'photon', 'esg', 'dronea', etc.)
+	private String  type;				// The type of weapon (Phaser1, Disruptor30, Photon, ESG, etc.)
+	private String  designator;			// The unique designator for the weapon (A, B, C...1, 2, 3...etc.)'
+	private String  name;				// Display name of the weapon. A combination of type and designator (Photon-A, Phaser2-8, Disruptor15-C)
 	private String  dacHitLocaiton;		// What DAC 'hit' destroys  this weapon //TODO: should this be an enum?
 	private int[]   arcs;				// An array of the arcs into which the weapon can fire. All arcs are a number (1 for straight ahead, etc.)
 	private boolean functional;			// True if the weapon is undamaged, false otherwise.
@@ -106,16 +108,28 @@ public abstract class Weapon {
 	 * 
 	 * @return The name of the weapon
 	 */
-	public String getName() {
-		return name;
+	public String geDesignator() {
+		return designator;
 	}
 
 	/**
-	 * Set the name of the weapon.
-	 * @param name The name to be given to the weapon.
+	 * Set the unique designator for this weapon.
+	 * @param designator Simple designator (A, B, C...1, 2, 3)
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setDesignator(String designator) {
+		this.designator = designator;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+	
+	public String getName() {
+		return type + "-" + designator;
 	}
 
 	/**

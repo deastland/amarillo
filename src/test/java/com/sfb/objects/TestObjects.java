@@ -11,7 +11,7 @@ public class TestObjects {
 	public static PowerSystems testPowerSystems = getTestPowerSystems();
 
 	private static PowerSystems getTestPowerSystems() {
-		PowerSystems ps = new PowerSystems();
+		PowerSystems ps = new PowerSystems(new Unit());
 		
 		Map<String, Object> powerSettings = new HashMap<>();
 		powerSettings.put("lwarp", new Integer(15));

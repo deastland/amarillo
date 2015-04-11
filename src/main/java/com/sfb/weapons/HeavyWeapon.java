@@ -9,7 +9,7 @@ import com.sfb.properties.WeaponArmingType;
  * heavy weapons have multi-turn arming cycles and/or multiple arming
  * modes.
  * 
- * @author deastland
+ * @author Daniel Eastland
  *
  */
 public interface HeavyWeapon {
@@ -89,4 +89,13 @@ public interface HeavyWeapon {
 	 */
 	public int energyToArm();
 	
+	/**
+	 * This is where the weapon is affected by energy allocation at the start
+	 * of the turn. Weapons can be held, armed, or allowed to discharge.
+	 * 
+	 * @param energy The amount of energy to put into this weapon. Null means to discharge the
+	 * weapon regardless of state. Negative value means to discharge the weapon and then begin 
+	 * a new arming cycle.
+	 */
+	public void applyAllocationEnergy(Double energy, WeaponArmingType type);	
 }

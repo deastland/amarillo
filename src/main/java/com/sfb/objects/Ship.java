@@ -26,6 +26,7 @@ import com.sfb.systems.Energy;
 import com.sfb.systems.PerformanceData;
 import com.sfb.systems.SpecialFunctions;
 import com.sfb.systems.Tractors;
+import com.sfb.weapons.HeavyWeapon;
 import com.sfb.weapons.Weapon;
 
 /**
@@ -181,6 +182,12 @@ public class Ship extends Unit {
 		}
 		
 		// Weapons
+		for (Weapon weapon : weapons.getWeapons()) {
+			// For heavy weapons, apply the arming type and energy
+			if (weapon instanceof HeavyWeapon) {
+				((HeavyWeapon) weapon).applyAllocationEnergy(energyAllocated.getArmingEnergy().get(weapon), energyAllocated.getArmingType().get(weapon));
+			}
+		}
 		//TODO: Need to figure this out.
 	}
 	
@@ -198,6 +205,7 @@ public class Ship extends Unit {
 		controlSpaces.cleanUp();
 		specialFunctions.cleanUp();
 		operationsSystems.cleanUp();
+		tractors.cleanUp();
 		probes.cleanUp();
 		shuttles.cleanUp();
 		weapons.cleanUp();
