@@ -438,11 +438,11 @@ public class Ship extends Unit {
 	
 	/// PHASER CAPACITORS ///
 	public void drainCapacitor(double energy) throws CapacitorException {
-		this.weapons.drainCapacitor(energy);
+		this.weapons.drainPhaserCapacitor(energy);
 	}
 	
 	public void chargeCapacitor(double energy) throws CapacitorException {
-		this.weapons.chargeCapacitor(energy);
+		this.weapons.chargePhaserCapacitor(energy);
 	}
 	
 	// The ship may be crippled if half or more of its boxes

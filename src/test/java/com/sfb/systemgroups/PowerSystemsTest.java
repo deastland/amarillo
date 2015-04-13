@@ -18,7 +18,7 @@ public class PowerSystemsTest {
 		// CA has 4 APR
 		assertEquals(testPs.getAvailableApr(), 4);
 		// CA has 38 total power
-		assertEquals(testPs.getTotalPower(), 38);
+		assertEquals(testPs.getTotalAvailablePower(), 38);
 		
 		// No CWarp on the ship, this should return false
 		assertFalse(testPs.damageCWarp());
@@ -32,7 +32,7 @@ public class PowerSystemsTest {
 		assertEquals(testPs.getAvailableLWarp(), 12);
 		
 		// Check that total available power is 3 less
-		assertEquals(testPs.getTotalPower(), 35);
+		assertEquals(testPs.getTotalAvailablePower(), 35);
 		
 		// Damage APR 4 times
 		assertTrue(testPs.damageApr());

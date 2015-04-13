@@ -39,7 +39,7 @@ public class PhotonTest {
 		assertTrue(photon.isArmed());
 		
 		// Try to arm an already armed weapon.
-		assertFalse(photon.arm(2));
+		assertTrue(photon.arm(2));
 		
 		// Set arming to OVERLOAD, this is legal
 		assertTrue(photon.setOverload());
@@ -48,7 +48,7 @@ public class PhotonTest {
 		assertFalse(photon.setProximity());
 		
 		// Verify that the photons have been armed with 4 points of energy.
-		assertEquals(photon.getArmingEnergy(), 4, 0.24);
+		assertEquals(photon.getArmingEnergy(), 6, 0.24);
 		
 		// Reset the photon
 		photon.reset();

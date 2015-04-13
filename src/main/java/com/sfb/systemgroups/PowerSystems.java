@@ -198,15 +198,15 @@ public class PowerSystems implements Systems {
 	/////////
 	
 	public int getPower() {
-		return getTotalPower();
+		return getTotalAvailablePower();
 	}
 	
-	public int getTotalPower() {
+	public int getTotalAvailablePower() {
 		
 		return availableLwarp + availableRwarp + availableCwarp + availableImpulse + availableApr + availableAwr;
 	}
 	
-	public int getWarpPower() {
+	public int getAvailableWarpPower() {
 		return availableLwarp + availableRwarp + availableCwarp + availableAwr;
 	}
 	
@@ -214,15 +214,19 @@ public class PowerSystems implements Systems {
 		return availableLwarp + availableRwarp + availableCwarp;
 	}
 	
-	// Get original number of SSD power boxes (cripple calculations)
-	@Override
-	public int getOriginalTotalBoxes() {
-		return availableLwarp + availableRwarp + availableCwarp + availableImpulse + availableApr + availableAwr + availableBattery;
+	public int getAvailableReactorPower() {
+		return availableApr;
 	}
 	
 	// Get current number of power boxes (cripple calculations)
 	@Override
 	public int getTotalBoxes() {
+		return availableLwarp + availableRwarp + availableCwarp + availableImpulse + availableApr + availableAwr + availableBattery;
+	}
+	
+	// Get original number of SSD power boxes (cripple calculations)
+	@Override
+	public int getOriginalTotalBoxes() {
 		return lwarp + rwarp + cwarp + impulse + apr + awr + battery;
 	}
 	

@@ -1,6 +1,6 @@
 package com.sfb;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.sfb.constants.Constants;
@@ -39,9 +39,9 @@ public class Main {
 	 * 
 	 */
 
-	private static List<Player> players     = new LinkedList<>();	// The players
-	private static List<Ship>   ships		= new LinkedList<>();	// The ships on the board.
-	private static List<Seeker>	seekers		= new LinkedList<>();	// The seekers on the board.
+	private static List<Player> players     = new ArrayList<>();	// The players
+	private static List<Ship>   ships		= new ArrayList<>();	// The ships on the board.
+	private static List<Seeker>	seekers		= new ArrayList<>();	// The seekers on the board.
 	private static TurnTracker  turnTracker = new TurnTracker();	// Time tracker for everything.
 	private static boolean      inProgress  = true;					// When true, the game continues to run.
 	

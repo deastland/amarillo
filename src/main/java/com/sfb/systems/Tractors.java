@@ -1,6 +1,6 @@
 package com.sfb.systems;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +20,7 @@ public class Tractors implements Systems {
 	int tractorsUsed;								// The number of tractors that are currently in use.
 	Unit owningUnit;								// The unit on which the tractors are installed.
 	
-	List<Unit> tractoredUnits = new LinkedList<>();	// Any units currently being tractored.
+	List<Unit> tractoredUnits = new ArrayList<>();	// Any units currently being tractored.
 	
 	public Tractors(Unit owningUnit) {
 		this.owningUnit = owningUnit;

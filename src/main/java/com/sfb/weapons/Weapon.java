@@ -14,10 +14,9 @@ public abstract class Weapon {
 	
 	private String  type;				// The type of weapon (Phaser1, Disruptor30, Photon, ESG, etc.)
 	private String  designator;			// The unique designator for the weapon (A, B, C...1, 2, 3...etc.)'
-	private String  name;				// Display name of the weapon. A combination of type and designator (Photon-A, Phaser2-8, Disruptor15-C)
 	private String  dacHitLocaiton;		// What DAC 'hit' destroys  this weapon //TODO: should this be an enum?
 	private int[]   arcs;				// An array of the arcs into which the weapon can fire. All arcs are a number (1 for straight ahead, etc.)
-	private boolean functional;			// True if the weapon is undamaged, false otherwise.
+	private boolean functional = true;	// True if the weapon is undamaged, false otherwise.
 	private int     lastImpulseFired;	// The last impulse on which this weapon was fired. (Weapons normally can't fire twice within 8 impulses.)
 	private int     lastTurnFired;		// The last turn on which this weapon was fired.
 	

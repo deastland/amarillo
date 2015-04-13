@@ -30,7 +30,7 @@ public class WeaponsTest {
 		assertTrue(weapons.weapons.size() > 0);
 		
 		// 3 Phaser1 and 6 Phaser2 means a capacitor size of 9
-		assertEquals(9, weapons.getAvailableCapacitor(), 0.24);
+		assertEquals(9, weapons.getAvailablePhaserCapacitor(), 0.24);
 		
 		// There are 4 torpedoes (disruptors)
 		assertEquals(4, weapons.getAvailableTorps());

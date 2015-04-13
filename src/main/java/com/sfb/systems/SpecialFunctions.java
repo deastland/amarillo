@@ -1,6 +1,6 @@
 package com.sfb.systems;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +29,7 @@ public class SpecialFunctions {
 	int controlModifier				= 1;					// Multiplier for seeker control. Some ships have 2 x sensor rating.
 	int controlChannels				= 0;					// Number of total control channels
 	int controlUsed					= 0;					// Amount of seeker control currently occupied.
-	List<Seeker> controlledSeekers	= new LinkedList<>();	// List of seekers controlled by this ship.
+	List<Seeker> controlledSeekers	= new ArrayList<>();	// List of seekers controlled by this ship.
 	
 	public SpecialFunctions() {}
 	

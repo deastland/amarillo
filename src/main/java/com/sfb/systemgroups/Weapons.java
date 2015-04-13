@@ -1,7 +1,6 @@
 package com.sfb.systemgroups;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +20,9 @@ import com.sfb.weapons.Weapon;
  */
 public class Weapons implements Systems {
 
-	List<Weapon> weapons = new LinkedList<>();						// A list of all the weapons.
+	List<Weapon> weapons = new ArrayList<>();						// A list of all the weapons.
 	
-	private double       capacitor			= 0;					// Initial size of the phaser capacitor
+	private double       phaserCapacitor	= 0;					// Initial size of the phaser capacitor
 	
 	private List<Weapon> phaserList			= new ArrayList<>();	// List of all phasers
 	private List<Weapon> torpList			= new ArrayList<>();	// List of all 'torp' type weapons (usually heavy weapons)
@@ -32,13 +31,11 @@ public class Weapons implements Systems {
 	private int          availablePhasers;							// Items hit on 'phaser' in the DAC
 	private int          availableTorps;							// Items hit on 'torp' in the DAC
 	private int          availableDrones;							// Items hit on 'drone' in the DAC
-	private double       availableCapacitor;						// Current size of the phaser capacitor.
+	private double       availablePhaserCapacitor;					// Current size of the phaser capacitor.
 	
-	private int          capacitorEnergy;							// Energy currently in the phaser capacitor.
+	private int          phaserCapacitorEnergy;						// Energy currently in the phaser capacitor.
 	
 	private Unit         owningShip;								// The ship on which this weapons system is mounted.
-	
-	private Weapons() {}
 	
 	public Weapons(Unit owningShip) {
 		this.owningShip = owningShip;
@@ -47,7 +44,7 @@ public class Weapons implements Systems {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void init(Map<String, Object> values) {
-		weapons = values.get("weapons") == null ? new LinkedList<Weapon>() : (List<Weapon>)values.get("weapons");
+		weapons = values.get("weapons") == null ? new ArrayList<Weapon>() : (List<Weapon>)values.get("weapons");
 		if (weapons != null) {
 			for (Weapon weapon : weapons) {
 				// Make sure the weapon knows what unit owns it.
@@ -56,13 +53,13 @@ public class Weapons implements Systems {
 				if ("phaser".equals(weapon.getDacHitLocaiton())) {
 					phaserList.add(weapon);
 					
-					// Increase the size of the capacitor to match 
+					// Increase the size of the phaser capacitor to match 
 					if (weapon instanceof Phaser1 || weapon instanceof Phaser2) {
-						capacitor++;
+						phaserCapacitor++;
 					}
 					
 					if (weapon instanceof Phaser3) {
-						capacitor += 0.5;
+						phaserCapacitor += 0.5;
 					}
 				}
 				// Register a new 'torp' type weapon
@@ -78,7 +75,7 @@ public class Weapons implements Systems {
 		availablePhasers = phaserList.size();
 		availableTorps = torpList.size();
 		availableDrones = droneList.size();
-		availableCapacitor = capacitor;
+		availablePhaserCapacitor = phaserCapacitor;
 	}
 	
 	@Override
@@ -94,7 +91,7 @@ public class Weapons implements Systems {
 	 * @return All weapons on the shooter that have arc and range on the target.
 	 */
 	public List<Weapon> getAllBearingWeapons(Unit source, Unit target) {
-		List<Weapon> bearingWeapons = new LinkedList<>();
+		List<Weapon> bearingWeapons = new ArrayList<>();
 		
 		// Loop through all weapons, finding which ones are good to fire.
 		for (Weapon weapon : weapons) {
@@ -129,31 +126,31 @@ public class Weapons implements Systems {
 		return availablePhasers + availableTorps + availableDrones;
 	}
 	
-	public double getCapacitorEnergy() {
-		return capacitorEnergy;
+	public double getPhaserCapacitorEnergy() {
+		return phaserCapacitorEnergy;
 	}
 	
-	public double getCapacitor() {
-		return capacitor;
+	public double getPhaserCapacitor() {
+		return phaserCapacitor;
 	}
 	
-	public void drainCapacitor(double energy) throws CapacitorException {
-		if (energy > this.capacitorEnergy) {
+	public void drainPhaserCapacitor(double energy) throws CapacitorException {
+		if (energy > this.phaserCapacitorEnergy) {
 			throw new CapacitorException("Not enough capacitor energy.");
 		} else {
-			this.capacitorEnergy -= energy;
+			this.phaserCapacitorEnergy -= energy;
 		}
 	}
 	
-	public void chargeCapacitor(double energy) throws CapacitorException {
-		if (this.capacitorEnergy + energy > this.availableCapacitor) {
+	public void chargePhaserCapacitor(double energy) throws CapacitorException {
+		if (this.phaserCapacitorEnergy + energy > this.availablePhaserCapacitor) {
 			throw new CapacitorException("Too much energy for capacitor size.");
 		} else {
-			this.capacitorEnergy += energy;
+			this.phaserCapacitorEnergy += energy;
 		}
 	}
-	public double getAvailableCapacitor() {
-		return availableCapacitor;
+	public double getAvailablePhaserCapacitor() {
+		return availablePhaserCapacitor;
 	}
 	
 	public int getAvailableTorps() {
@@ -167,6 +164,18 @@ public class Weapons implements Systems {
 	@Override
 	public Unit getOwningUnit() {
 		return this.owningShip;
+	}
+	
+	public List<Weapon> getPhaserList() {
+		return this.phaserList;
+	}
+	
+	public List<Weapon> getTorpList() {
+		return this.torpList;
+	}
+	
+	public List<Weapon> getDroneList() {
+		return this.droneList;
 	}
 
 

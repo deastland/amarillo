@@ -2,7 +2,6 @@ com\sfb\systemgroups\ProbeLaunchers.class
 com\sfb\systemgroups\Weapons.class
 com\sfb\systems\Probe.class
 com\sfb\systems\SpecialFunctions.class
-com\sfb\Constants.class
 com\sfb\systemgroups\Systems.class
 com\sfb\utilities\DAC.class
 com\sfb\objects\Drone.class
@@ -17,6 +16,7 @@ com\sfb\objects\AdminShuttle.class
 com\sfb\weapons\Photon.class
 com\sfb\utilities\MapUtils.class
 com\sfb\exceptions\TargetOutOfRangeException.class
+com\sfb\systems\Energy.class
 com\sfb\systems\PerformanceData.class
 com\sfb\weapons\Phaser1.class
 com\sfb\sampleships\SampleShips.class
@@ -34,6 +34,7 @@ com\sfb\restservices\RestService$MyService.class
 com\sfb\properties\WeaponArmingType.class
 com\sfb\systemgroups\PowerSystems.class
 com\sfb\UnitFactory.class
+com\sfb\constants\Constants.class
 com\sfb\properties\ArmingType.class
 com\sfb\systemgroups\HullBoxes.class
 com\sfb\utilities\TurnModeUtil.class
@@ -42,6 +43,7 @@ com\sfb\weapons\Photon$1.class
 com\sfb\properties\SizeClass.class
 com\sfb\weapons\Launcher.class
 com\sfb\properties\ShieldStatus.class
+com\sfb\systems\Tractors.class
 com\sfb\weapons\Phaser2.class
 com\sfb\ShipFactory.class
 com\sfb\TurnTracker.class
@@ -56,6 +58,7 @@ com\sfb\weapons\Disruptor$1.class
 com\sfb\utilities\DAC$DACItem.class
 com\sfb\properties\ProbeArmingType.class
 com\sfb\systemgroups\OperationsSystems.class
+com\sfb\EnergyAllocationFramework.class
 com\sfb\systemgroups\Shields.class
 com\sfb\utilities\DiceRoller.class
 com\sfb\weapons\Phaser3.class

@@ -1,7 +1,7 @@
 package com.sfb.sampleships;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -91,7 +91,7 @@ public class SampleShips {
 		shipSpecs.put("bonushets", new Integer(1));
 		
 		// Weapons
-		List<Weapon> weaponList = new LinkedList<>();
+		List<Weapon> weaponList = new ArrayList<>();
 
 		// Fore Phasers (FH)
 		Phaser1 phaser1 = new Phaser1();
@@ -216,7 +216,7 @@ public class SampleShips {
 		shipSpecs.put("minimumcrew", new Integer(4));
 		
 		// Weapons
-		List<Weapon> weaponList = new LinkedList<>();
+		List<Weapon> weaponList = new ArrayList<>();
 		
 		// Boom Phasers (FX + directly aft)
 		Phaser2 phaser1 = new Phaser2();
@@ -359,7 +359,7 @@ public class SampleShips {
 		shipSpecs.put("minimumcrew", new Integer(4));
 		
 		
-		List<Weapon> weaponList = new LinkedList<>();
+		List<Weapon> weaponList = new ArrayList<>();
 		
 		// Left Boom Phaser (FA + L)
 		Phaser2 phaser1 = new Phaser2();

@@ -2,13 +2,17 @@ E:\source\amarillo\src\main\java\com\sfb\weapons\Disruptor.java
 E:\source\amarillo\src\main\java\com\sfb\properties\TurnMode.java
 E:\source\amarillo\src\main\java\com\sfb\properties\ShieldStatus.java
 E:\source\amarillo\src\main\java\com\sfb\systemgroups\ProbeLaunchers.java
+E:\source\amarillo\src\main\java\com\sfb\systems\Energy.java
+E:\source\amarillo\src\main\java\com\sfb\EnergyAllocationFramework.java
 E:\source\amarillo\src\main\java\com\sfb\properties\FiringArc.java
 E:\source\amarillo\src\main\java\com\sfb\objects\Unit.java
+E:\source\amarillo\src\main\java\com\sfb\systems\Tractors.java
 E:\source\amarillo\src\main\java\com\sfb\properties\ShieldFacing.java
 E:\source\amarillo\src\main\java\com\sfb\weapons\Phaser3.java
 E:\source\amarillo\src\main\java\com\sfb\systems\Probe.java
 E:\source\amarillo\src\main\java\com\sfb\TurnTracker.java
 E:\source\amarillo\src\main\java\com\sfb\weapons\Weapon.java
+E:\source\amarillo\src\main\java\com\sfb\constants\Constants.java
 E:\source\amarillo\src\main\java\com\sfb\weapons\HitOrMissWeapon.java
 E:\source\amarillo\src\main\java\com\sfb\weapons\Phaser2.java
 E:\source\amarillo\src\main\java\com\sfb\properties\Faction.java
@@ -42,7 +46,6 @@ E:\source\amarillo\src\main\java\com\sfb\systemgroups\PowerSystems.java
 E:\source\amarillo\src\main\java\com\sfb\Player.java
 E:\source\amarillo\src\main\java\com\sfb\systemgroups\Shuttles.java
 E:\source\amarillo\src\main\java\com\sfb\Application.java
-E:\source\amarillo\src\main\java\com\sfb\Constants.java
 E:\source\amarillo\src\main\java\com\sfb\weapons\Phaser1.java
 E:\source\amarillo\src\main\java\com\sfb\systems\SpecialFunctions.java
 E:\source\amarillo\src\main\java\com\sfb\systemgroups\Systems.java
