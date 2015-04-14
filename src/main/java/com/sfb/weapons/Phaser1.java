@@ -40,8 +40,8 @@ public class Phaser1 extends VariableDamageWeapon implements DirectFire {
 
 		// If this phaser is mounted on a ship, drain the capacitor
 		// the amount needed to fire this phaser.
-		if (getOwningShip() instanceof Ship) {
-			Ship firingShip = (Ship)getOwningShip();
+		if (fetchOwningShip() instanceof Ship) {
+			Ship firingShip = (Ship)fetchOwningShip();
 			firingShip.drainCapacitor(energyToFire());
 		}
 		

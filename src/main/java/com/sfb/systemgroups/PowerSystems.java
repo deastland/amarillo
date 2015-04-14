@@ -220,13 +220,13 @@ public class PowerSystems implements Systems {
 	
 	// Get current number of power boxes (cripple calculations)
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return availableLwarp + availableRwarp + availableCwarp + availableImpulse + availableApr + availableAwr + availableBattery;
 	}
 	
 	// Get original number of SSD power boxes (cripple calculations)
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return lwarp + rwarp + cwarp + impulse + apr + awr + battery;
 	}
 	
@@ -442,7 +442,7 @@ public class PowerSystems implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 	

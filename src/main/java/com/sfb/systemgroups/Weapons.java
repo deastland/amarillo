@@ -90,7 +90,7 @@ public class Weapons implements Systems {
 	 * @param target The target
 	 * @return All weapons on the shooter that have arc and range on the target.
 	 */
-	public List<Weapon> getAllBearingWeapons(Unit source, Unit target) {
+	public List<Weapon> fetchAllBearingWeapons(Unit source, Unit target) {
 		List<Weapon> bearingWeapons = new ArrayList<>();
 		
 		// Loop through all weapons, finding which ones are good to fire.
@@ -117,12 +117,12 @@ public class Weapons implements Systems {
 	}
 
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return phaserList.size() + torpList.size() + droneList.size();
 	}
 
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return availablePhasers + availableTorps + availableDrones;
 	}
 	
@@ -149,6 +149,7 @@ public class Weapons implements Systems {
 			this.phaserCapacitorEnergy += energy;
 		}
 	}
+	
 	public double getAvailablePhaserCapacitor() {
 		return availablePhaserCapacitor;
 	}
@@ -162,7 +163,7 @@ public class Weapons implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningShip;
 	}
 	

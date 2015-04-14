@@ -36,8 +36,8 @@ public class Phaser2 extends VariableDamageWeapon implements DirectFire {
 	public int fire(int range) throws TargetOutOfRangeException, CapacitorException {
 		// If this phaser is mounted on a ship, drain the capacitor
 		// the amount needed to fire this phaser.
-		if (getOwningShip() instanceof Ship) {
-			Ship firingShip = (Ship)getOwningShip();
+		if (fetchOwningShip() instanceof Ship) {
+			Ship firingShip = (Ship)fetchOwningShip();
 			firingShip.drainCapacitor(energyToFire());
 		}
 		

@@ -33,7 +33,9 @@ public class Shuttles implements Systems {
 		availableShuttleBoxes = shuttleBoxes = values.get("shuttle") == null ? 0 : (Integer)values.get("shuttle");
 		// Create a new shuttle for each shuttle box on the ship.
 		for (int i = 0; i < shuttleBoxes; i++) {
-			shuttleInventory.add(new AdminShuttle());
+			Shuttle adminShuttle = new AdminShuttle();
+			adminShuttle.setName("AdminShuttle" + i);
+			shuttleInventory.add(adminShuttle);
 		}
 	}
 	
@@ -48,12 +50,12 @@ public class Shuttles implements Systems {
 	//TODO: Implement shuttle/fighter stuff.
 	
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return shuttleBoxes;
 	}
 	
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return availableShuttleBoxes;
 	}
 	
@@ -114,7 +116,7 @@ public class Shuttles implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 }

@@ -75,7 +75,7 @@ public class Main {
 		
 		System.out.println("Range from CA to D7: " + MapUtils.getRange(klnD7, fedCa));
 		// What weapons on the FedCA have the Klin in arc?
-		List<Weapon> inArc = fedCa.getAllBearingWeapons(klnD7);
+		List<Weapon> inArc = fedCa.fetchAllBearingWeapons(klnD7);
 		for (Weapon weapon : inArc) {
 			System.out.println(weapon.getName());
 			
@@ -83,7 +83,7 @@ public class Main {
 
 		System.out.println("Range from D7 to CA: " + MapUtils.getRange(klnD7, fedCa));
 		// What weapons on the FedCA have the Klin in arc?
-		inArc = klnD7.getAllBearingWeapons(fedCa);
+		inArc = klnD7.fetchAllBearingWeapons(fedCa);
 		for (Weapon weapon : inArc) {
 			if (weapon instanceof DirectFire) {
 				System.out.println(weapon.getName());
@@ -114,7 +114,7 @@ public class Main {
 			for (int speed : moveThisImpulse) {
 				moveNow.append(speed).append(" - ");
 			}
-//			System.out.println(turnTracker.getTurn() + "|" + turnTracker.getLocalImpulse() + ": " + moveNow.toString());
+			System.out.println(turnTracker.getTurn() + "|" + turnTracker.getLocalImpulse() + ": " + moveNow.toString());
 						
 			// On the 3rd turn, exit the main loop
 			if (turnTracker.getTurn() == 3) {

@@ -39,12 +39,12 @@ public class ProbeLaunchers implements Systems {
 	}
 	
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return launcherArray.length;
 	}
 	
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return availableProbes();
 	}
 
@@ -107,7 +107,7 @@ public class ProbeLaunchers implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 

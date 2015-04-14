@@ -163,12 +163,12 @@ public class ControlSpaces implements Systems {
 	}
 
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return bridge + flag + emer + auxcon + security;
 	}
 
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return availableBridge + availableFlag + availableEmer + availableAuxcon + availableSecurity;
 	}
 
@@ -179,7 +179,7 @@ public class ControlSpaces implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 }

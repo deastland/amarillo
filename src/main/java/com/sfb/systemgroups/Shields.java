@@ -22,6 +22,10 @@ public class Shields implements Systems {
 	
 	private Unit owningUnit;
 	
+	public Shields() {
+		
+	}
+	
 	public Shields(Unit owner) {
 		this.owningUnit = owner;
 	}
@@ -184,7 +188,7 @@ public class Shields implements Systems {
 	}
 
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		int totalCount = 0;
 		for (int i=0; i < shieldValues.length; i++) {
 			totalCount += shieldValues[i];
@@ -194,7 +198,7 @@ public class Shields implements Systems {
 	}
 
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		int totalCount = 0;
 		for (int i=0; i < currentShieldValues.length; i++) {
 			totalCount += currentShieldValues[i];
@@ -240,7 +244,7 @@ public class Shields implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 }

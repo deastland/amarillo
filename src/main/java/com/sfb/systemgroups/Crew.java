@@ -51,14 +51,18 @@ public class Crew implements Systems {
 	public void setAvailableBoardingParties(int availableBoardingParties) {
 		this.availableBoardingParties = availableBoardingParties;
 	}
+	
+	public int getMinimumCrew() {
+		return this.minimumCrew;
+	}
 
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return 0;
 	}
 
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return 0;
 	}
 
@@ -69,7 +73,7 @@ public class Crew implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 

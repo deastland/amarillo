@@ -36,13 +36,13 @@ public class OperationsSystems implements Systems {
 	
 	// Total operations boxes on the SSD (cripple calculations).
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return trans + lab;
 	}
 	
 	// Total current operations boxes (cripple calculations).
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return availableTrans + availableLab;
 	}
 	
@@ -91,7 +91,7 @@ public class OperationsSystems implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 	

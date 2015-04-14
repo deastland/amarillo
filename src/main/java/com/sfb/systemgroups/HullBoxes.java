@@ -53,13 +53,13 @@ public class HullBoxes implements Systems {
 	
 	// Total original hull boxes on SSD (cripple calculations).
 	@Override
-	public int getOriginalTotalBoxes() {
+	public int fetchOriginalTotalBoxes() {
 		return this.ahull + this.cargo + this.chull + this.fhull;
 	}
 	
 	// Total current hull boxes (cripple calculations).
 	@Override
-	public int getTotalBoxes() {
+	public int fetchRemainingTotalBoxes() {
 		return this.availableAhull + this.availableCargo + this.availableChull + this.availableFhull;
 	}
 	
@@ -144,7 +144,7 @@ public class HullBoxes implements Systems {
 	}
 
 	@Override
-	public Unit getOwningUnit() {
+	public Unit fetchOwningUnit() {
 		return this.owningUnit;
 	}
 	

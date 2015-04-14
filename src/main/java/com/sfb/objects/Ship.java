@@ -7,7 +7,6 @@ import java.util.Map;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
 
 import com.sfb.constants.Constants;
 import com.sfb.exceptions.CapacitorException;
@@ -68,7 +67,6 @@ public class Ship extends Unit {
 	private int               yearInService		= 0;							// The minimum year this ship can be deployed.
 	private String            hullType			= null;							// Descriptor of the type of ship (i.e. "CA", "FFG", "D7K", etc.)
 	private Faction			  faction			= Faction.Federation;			// The faction to which this ship belongs.
-	private String            name				= null;							// Name of the ship.
 	private int               battlePointValue	= 0;							// BPV, a measure of how powerful the ship is in combat.
 	
 	// Real-time data
@@ -84,7 +82,8 @@ public class Ship extends Unit {
 	/**
 	 * Constructor
 	 */
-	public Ship() {	}
+	public Ship() {
+	}
 
 	/**
 	 * Initialize all ship statistics through the values
@@ -95,7 +94,6 @@ public class Ship extends Unit {
 		super.init(values);
 		
 		// Explicit Ship values
-		name			 = values.get("name")		 == null ? null : (String)values.get("name");
 		faction          = values.get("faction")     == null ? null : (Faction)values.get("faction");
 		hullType         = values.get("hull")        == null ? null : (String)values.get("hull");
 		yearInService    = values.get("serviceyear") == null ? 0    : (Integer)values.get("serviceyear");
@@ -214,14 +212,6 @@ public class Ship extends Unit {
 	}
 	
 	/// BASIC SHIP DATA ///
-	public void setName(String newName) {
-		this.name = newName;
-	}
-	
-	public String getName() {
-		return this.name;
-	}
-	
 	public void setType(String type) {
 		this.hullType = type;
 	}
@@ -380,8 +370,6 @@ public class Ship extends Unit {
 	public boolean performHet(int absoluteFacing) {
 		boolean result = false;
 		
-		
-		
 		return result;
 	}
 
@@ -392,15 +380,15 @@ public class Ship extends Unit {
 	 */
 	private int getTotalSSDBoxes() {
 		int totalBoxes = 0;
-		totalBoxes += this.controlSpaces.getOriginalTotalBoxes();
-		totalBoxes += this.powerSystems.getOriginalTotalBoxes();
-		totalBoxes += this.hullBoxes.getOriginalTotalBoxes();
-		totalBoxes += this.operationsSystems.getOriginalTotalBoxes();
-		totalBoxes += this.tractors.getOriginalTotalBoxes();
-		totalBoxes += this.probes.getOriginalTotalBoxes();
+		totalBoxes += this.controlSpaces.fetchOriginalTotalBoxes();
+		totalBoxes += this.powerSystems.fetchOriginalTotalBoxes();
+		totalBoxes += this.hullBoxes.fetchOriginalTotalBoxes();
+		totalBoxes += this.operationsSystems.fetchOriginalTotalBoxes();
+		totalBoxes += this.tractors.fetchOriginalTotalBoxes();
+		totalBoxes += this.probes.fetchOriginalTotalBoxes();
 		totalBoxes += this.specialFunctions.getOriginalExcessDamage();
-		totalBoxes += this.shuttles.getOriginalTotalBoxes();
-		totalBoxes += this.weapons.getOriginalTotalBoxes();
+		totalBoxes += this.shuttles.fetchOriginalTotalBoxes();
+		totalBoxes += this.weapons.fetchOriginalTotalBoxes();
 		
 		return totalBoxes;
 	}
@@ -412,15 +400,15 @@ public class Ship extends Unit {
 	 */
 	private int getCurrentBoxes() {
 		int totalBoxes = 0;
-		totalBoxes += this.controlSpaces.getTotalBoxes();
-		totalBoxes += this.powerSystems.getTotalBoxes();
-		totalBoxes += this.hullBoxes.getTotalBoxes();
-		totalBoxes += this.operationsSystems.getTotalBoxes();
-		totalBoxes += this.tractors.getTotalBoxes();
-		totalBoxes += this.probes.getTotalBoxes();
+		totalBoxes += this.controlSpaces.fetchRemainingTotalBoxes();
+		totalBoxes += this.powerSystems.fetchRemainingTotalBoxes();
+		totalBoxes += this.hullBoxes.fetchRemainingTotalBoxes();
+		totalBoxes += this.operationsSystems.fetchRemainingTotalBoxes();
+		totalBoxes += this.tractors.fetchRemainingTotalBoxes();
+		totalBoxes += this.probes.fetchRemainingTotalBoxes();
 		totalBoxes += this.specialFunctions.getExcessDamage();
-		totalBoxes += this.shuttles.getTotalBoxes();
-		totalBoxes += this.weapons.getTotalBoxes();
+		totalBoxes += this.shuttles.fetchRemainingTotalBoxes();
+		totalBoxes += this.weapons.fetchRemainingTotalBoxes();
 		
 		return totalBoxes;
 	}
@@ -432,8 +420,8 @@ public class Ship extends Unit {
 	 * 
 	 * @return A list of weapons with the right arcs and range to hit the target.
 	 */
-	public List<Weapon> getAllBearingWeapons(Unit target) {
-		return weapons.getAllBearingWeapons(this, target);
+	public List<Weapon> fetchAllBearingWeapons(Unit target) {
+		return weapons.fetchAllBearingWeapons(this, target);
 	}
 	
 	/// PHASER CAPACITORS ///
@@ -483,18 +471,40 @@ public class Ship extends Unit {
 	// Return the JSON string of the Unit object
 	@Override
 	public String toString() {
-		String jsonOutput = null;
-		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		
+		String outputString = null;
+		ObjectMapper mapper = new ObjectMapper();
+		
 		try {
-			jsonOutput = ow.writeValueAsString(this);
+//			mapper.writeValue(new File("e:\\ship.txt"), this);
+			
+			outputString = mapper.writeValueAsString(this);
 		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return jsonOutput;
+		
+		return outputString;
+		
+//		String jsonOutput = null;
+//		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+//		try {
+//			jsonOutput = ow.writeValueAsString(this);
+//		} catch (JsonGenerationException e) {
+//			e.printStackTrace();
+//		} catch (JsonMappingException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return jsonOutput;
 	}
 }

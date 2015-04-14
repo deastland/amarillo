@@ -24,6 +24,7 @@ public class Unit extends Marker {
 	// 17    9
 	//    3
 	//
+	private String  name				= null;		// Name of the ship.
 	private int     facing				= 0;		// Direction the unit is facing (1 through 6)
 	private int     speed				= 0;		// Speed the unit is moving (0 through 32)
 	private int     sizeClass			= 0;		// Size class of the unit (0 through 6...I think?)
@@ -48,6 +49,7 @@ public class Unit extends Marker {
 	 */
 	//TODO: Should I do an "init" or just have these values explicitly set on instantiation?
 	public void init(Map<String, Object> values) {
+		name			= values.get("name")	    == null ? null : (String)values.get("name");
 		turnMode        = values.get("turnmode")    == null ? null : (TurnMode) values.get("turnmode");
 		sizeClass       = values.get("sizeclass")   == null ? 3    : (Integer)values.get("sizeclass");
 	}
@@ -58,6 +60,14 @@ public class Unit extends Marker {
 	 */
 	public void startTurn() {
 		
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public int getFacing() {
@@ -125,9 +135,9 @@ public class Unit extends Marker {
 	 * 
 	 * @return The number of hexes that must be moved before a turn.
 	 */
-	public int getTurnHexes() {
-		return TurnModeUtil.getTurnMode(this.turnMode, this.speed);
-	}
+//	public int getTurnHexes() {
+//		return TurnModeUtil.getTurnMode(this.turnMode, this.speed);
+//	}
 
 	/// PLAYER ///
 	public Player getOwner() {
@@ -187,9 +197,9 @@ public class Unit extends Marker {
 	 * @return True if the turn was possible, false otherwise.
 	 */
 	public boolean turnLeft() {
-		if (turnCount < getTurnHexes()) {
-			return false;
-		}
+//		if (turnCount < getTurnHexes()) {
+//			return false;
+//		}
 
 		// Change the facing of the ship one to the left.
 		setFacing(MapUtils.getTrueBearing(21, getFacing()));
@@ -208,9 +218,9 @@ public class Unit extends Marker {
 	 * @return True if the turn was possible, false otherwise.
 	 */
 	public boolean turnRight() {
-		if (turnCount < getTurnHexes()) {
-			return false;
-		}
+//		if (turnCount < getTurnHexes()) {
+//			return false;
+//		}
 
 		// Change the facing of the ship one to the right.
 		setFacing(MapUtils.getTrueBearing(5, getFacing()));

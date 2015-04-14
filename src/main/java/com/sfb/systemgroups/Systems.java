@@ -19,13 +19,13 @@ public interface Systems {
 	 * Get the total number of SSD boxes for this system group.
 	 * @return The number of SSD boxes in this group before any damage.
 	 */
-	public int getOriginalTotalBoxes();
+	public int fetchOriginalTotalBoxes();
 	
 	/**
 	 * Get the total number of remaining SSD boxes for this system group.
 	 * @return The number of remaining, undamaged SSD boxes in this group.
 	 */
-	public int getTotalBoxes();
+	public int fetchRemainingTotalBoxes();
 	
 	/**
 	 * Perform end-of-turn housekeeping duties, if any, so the ship will be ready for the
@@ -37,5 +37,5 @@ public interface Systems {
 	 * Return the unit on which this system is installed.
 	 * @return The owning unit of this system.
 	 */
-	public Unit getOwningUnit();
+	public Unit fetchOwningUnit();
 }

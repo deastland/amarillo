@@ -1,12 +1,15 @@
 package com.sfb;
 
-import com.sfb.objects.Marker;
+import java.io.IOException;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.ObjectWriter;
+
 import com.sfb.objects.Ship;
-import com.sfb.properties.FiringArc;
-import com.sfb.properties.ShieldFacing;
 import com.sfb.sampleships.SampleShips;
 import com.sfb.utilities.DAC;
-import com.sfb.utilities.MapUtils;
 
 public class Application {
 
@@ -70,7 +73,29 @@ public class Application {
 		Ship newShip = new Ship();
 		newShip.init(SampleShips.getFedCa());
 		
-		System.out.println(new Ship());
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		try {
+			String myShip = ow.writeValueAsString(newShip);
+			
+			System.out.println(myShip);
+		} catch (JsonGenerationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+		
+		//		try {
+//			System.out.println(new Ship());
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 }
