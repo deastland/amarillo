@@ -23,7 +23,11 @@ public class ControlSpaces implements Systems {
 	private int availableAuxcon;
 	private int availableSecurity;
 	
-	private Unit owningUnit;
+	private Unit owningUnit = null;
+	
+	public ControlSpaces() {
+		
+	}
 	
 	public ControlSpaces(Unit owner) {
 		this.owningUnit = owner;

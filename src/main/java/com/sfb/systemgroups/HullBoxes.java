@@ -16,7 +16,11 @@ public class HullBoxes implements Systems {
 	private int availableChull;
 	private int availableCargo;
 	
-	private Unit owningUnit;
+	private Unit owningUnit = null;
+	
+	public HullBoxes() {
+		
+	}
 	
 	public HullBoxes(Unit owner) {
 		this.owningUnit = owner;

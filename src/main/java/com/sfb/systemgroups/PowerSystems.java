@@ -29,7 +29,11 @@ public class PowerSystems implements Systems {
 	private int reserveWarp = 0;
 	private int reservePower = 0;
 	
-	private Unit owningUnit;
+	private Unit owningUnit = null;
+	
+	public PowerSystems() {
+		
+	}
 	
 	public PowerSystems(Unit owner) {
 		this.owningUnit = owner;

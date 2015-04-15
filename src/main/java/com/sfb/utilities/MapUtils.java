@@ -258,6 +258,148 @@ public class MapUtils {
 		}
 	}
 	
+	// Get the relative shield facing (the actual shield number from the ship's point of view)
+	/**
+	 * Given an absolute (map-based) shield facing and the heading of the unit,
+	 * determine the shield facing value relative to the ship.
+	 * @param absoluteShieldfacing Map-based absolute shield facing
+	 * @param unitHeading The heading of the unit (map direction in which it is pointed)
+	 * @return
+	 */
+	public static int getRelativeShieldFacing(int absoluteShieldfacing, int unitHeading) {
+		int returnValue = 0;
+		
+		switch(unitHeading) {
+		case 1:
+			returnValue = absoluteShieldfacing;
+			break;
+		case 5:		
+			switch(absoluteShieldfacing) {
+			case 1:
+				returnValue = 11;
+				break;
+			case 3:
+				returnValue = 1;
+				break;
+			case 5:
+				returnValue = 3;
+				break;
+			case 7:
+				returnValue = 5;
+				break;
+			case 9:
+				returnValue = 7;
+				break;
+			case 11:
+				returnValue = 9;
+				break;
+			default:
+				break;
+			}
+			break;
+		case 9:
+			switch(absoluteShieldfacing) {
+			case 1:
+				returnValue = 9;
+				break;
+			case 3:
+				returnValue = 11;
+				break;
+			case 5:
+				returnValue = 1;
+				break;
+			case 7:
+				returnValue = 3;
+				break;
+			case 9:
+				returnValue = 5;
+				break;
+			case 11:
+				returnValue = 7;
+				break;
+			default:
+				break;
+			}
+			break;
+		case 13:
+			switch(absoluteShieldfacing) {
+			case 1:
+				returnValue = 7;
+				break;
+			case 3:
+				returnValue = 9;
+				break;
+			case 5:
+				returnValue = 11;
+				break;
+			case 7:
+				returnValue = 1;
+				break;
+			case 9:
+				returnValue = 3;
+				break;
+			case 11:
+				returnValue = 5;
+				break;
+			default:
+				break;
+			}
+			break;
+		case 17:
+			switch(absoluteShieldfacing) {
+			case 1:
+				returnValue = 5;
+				break;
+			case 3:
+				returnValue = 7;
+				break;
+			case 5:
+				returnValue = 9;
+				break;
+			case 7:
+				returnValue = 11;
+				break;
+			case 9:
+				returnValue = 1;
+				break;
+			case 11:
+				returnValue = 3;
+				break;
+			default:
+				break;
+			}
+			break;
+		case 21:
+			switch(absoluteShieldfacing) {
+			case 1:
+				returnValue = 3;
+				break;
+			case 3:
+				returnValue = 5;
+				break;
+			case 5:
+				returnValue = 7;
+				break;
+			case 7:
+				returnValue = 9;
+				break;
+			case 9:
+				returnValue = 11;
+				break;
+			case 11:
+				returnValue = 1;
+				break;
+			default:
+				break;
+			}
+			break;
+		default:
+			break;
+		}
+
+		return returnValue;
+	}
+	
 	// Return the top (3 or 11) arc hex with the same x-coord as the target.
 	private static Location getTopArcHex(Location sourceLocation, Location targetLocation) {
 		// If in the 3/5 or 9/11 zone then the range

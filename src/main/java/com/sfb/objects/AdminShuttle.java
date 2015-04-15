@@ -17,6 +17,7 @@ public class AdminShuttle extends Shuttle {
 
 		// Create a phaser 3 (360 arc) and put it with the shuttle weapons.
 		Phaser3 phaser1 = new Phaser3();
+		phaser1.setDesignator("1");
 		phaser1.setArcs(new int[] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24});
 		List<Weapon> weaponList = new ArrayList<>();
 		weaponList.add(phaser1);

@@ -20,7 +20,7 @@ public class Shields implements Systems {
 	private boolean[] shieldActive;										// Indicates what shields are inactive (lowered).
 	private int[]     impulseShieldToggled; 							// The last turn a shield was toggled between active/inactive (raised/lowered).
 	
-	private Unit owningUnit;
+	private Unit owningUnit = null;
 	
 	public Shields() {
 		

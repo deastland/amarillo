@@ -13,7 +13,7 @@ public interface Systems {
 	 * Initialization of the systems data. 
 	 * @param data A mapping containing the system name and an object with the system data.
 	 */
-	public void init(Map<String, Object> data);
+	public void init(Map<String, Object> values);
 	
 	/**
 	 * Get the total number of SSD boxes for this system group.

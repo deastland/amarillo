@@ -12,19 +12,23 @@ import com.sfb.constants.Constants;
 import com.sfb.exceptions.CapacitorException;
 import com.sfb.properties.Faction;
 import com.sfb.properties.ShieldStatus;
+import com.sfb.systemgroups.CloakingDevice;
 import com.sfb.systemgroups.ControlSpaces;
 import com.sfb.systemgroups.Crew;
 import com.sfb.systemgroups.HullBoxes;
-import com.sfb.systemgroups.OperationsSystems;
+import com.sfb.systemgroups.Labs;
 import com.sfb.systemgroups.PowerSystems;
 import com.sfb.systemgroups.ProbeLaunchers;
 import com.sfb.systemgroups.Shields;
 import com.sfb.systemgroups.Shuttles;
+import com.sfb.systemgroups.Transporters;
 import com.sfb.systemgroups.Weapons;
 import com.sfb.systems.Energy;
 import com.sfb.systems.PerformanceData;
 import com.sfb.systems.SpecialFunctions;
 import com.sfb.systems.Tractors;
+import com.sfb.utilities.DiceRoller;
+import com.sfb.utilities.MapUtils;
 import com.sfb.weapons.HeavyWeapon;
 import com.sfb.weapons.Weapon;
 
@@ -41,18 +45,20 @@ public class Ship extends Unit {
 
 	/// All the stuff that goes into a ship ///
 	
-	private Shields           shields           = new Shields(this);			// Shield systems
-	private HullBoxes         hullBoxes         = new HullBoxes(this);			// Hull boxes
-	private PowerSystems      powerSystems      = new PowerSystems(this);		// Power systems (warp, impulse, apr, awr, battery)
-	private ControlSpaces     controlSpaces     = new ControlSpaces(this);		// Control systems (bridge, flag, aux, emer, security)
+	private Shields           shields           = new Shields();				// Shield systems
+	private HullBoxes         hullBoxes         = new HullBoxes();				// Hull boxes
+	private PowerSystems      powerSystems      = new PowerSystems();			// Power systems (warp, impulse, apr, awr, battery)
+	private ControlSpaces     controlSpaces     = new ControlSpaces();			// Control systems (bridge, flag, aux, emer, security)
 	private SpecialFunctions  specialFunctions  = new SpecialFunctions();		// Special functions
-	private OperationsSystems operationsSystems = new OperationsSystems(this);	// Operations Systems (transporter, lab)
+	private Labs              labs				= new Labs(this);				// Labs
+	private Transporters      transporters      = new Transporters(this);		// Transporters
 	private Tractors          tractors          = new Tractors(this);			// Tractor beam systems.
 	private ProbeLaunchers    probes            = new ProbeLaunchers(this);		// Probes
 	private Shuttles          shuttles          = new Shuttles(this);			// Shuttles and shuttle bays.
 	private Weapons           weapons           = new Weapons(this);			// Weapons
 	private PerformanceData	  performanceData	= new PerformanceData();		// Base statistics for the frame.
 	private Crew              crew				= new Crew(this);				// Crew
+	private CloakingDevice    cloak				= null;							// Cloaking Device (null if none installed).
 	
 	private Energy            energyAllocated	= new Energy();					// Where all the ship's energy is allocated
 	
@@ -110,7 +116,8 @@ public class Ship extends Unit {
 		powerSystems.init(values);
 		controlSpaces.init(values);
 		specialFunctions.init(values);
-		operationsSystems.init(values);
+		labs.init(values);
+		transporters.init(values);
 		tractors.init(values);
 		probes.init(values);
 		shuttles.init(values);
@@ -180,7 +187,7 @@ public class Ship extends Unit {
 		}
 		
 		// Weapons
-		for (Weapon weapon : weapons.getWeapons()) {
+		for (Weapon weapon : weapons.fetchAllWeapons()) {
 			// For heavy weapons, apply the arming type and energy
 			if (weapon instanceof HeavyWeapon) {
 				((HeavyWeapon) weapon).applyAllocationEnergy(energyAllocated.getArmingEnergy().get(weapon), energyAllocated.getArmingType().get(weapon));
@@ -202,7 +209,7 @@ public class Ship extends Unit {
 		powerSystems.cleanUp();
 		controlSpaces.cleanUp();
 		specialFunctions.cleanUp();
-		operationsSystems.cleanUp();
+		labs.cleanUp();
 		tractors.cleanUp();
 		probes.cleanUp();
 		shuttles.cleanUp();
@@ -287,6 +294,36 @@ public class Ship extends Unit {
 	}
 	
 	/**
+	 * Discover which of this ship's shields is facing another unit.
+	 * @param otherUnit The other unit being used in the check.
+	 * @return The shield facing (1..12). Odd numbers are shield facings, even 
+	 * numbers are the borders between shields.
+	 */
+	public int getRelativeShieldFacing(Unit otherUnit) {
+		int absFacing = MapUtils.getAbsoluteShieldFacing(this, otherUnit);
+		int relFacing = MapUtils.getRelativeShieldFacing(absFacing, this.getFacing());
+		
+		return relFacing;
+	}
+	
+	/**
+	 * User energy to repair a shield, limited by the ship's DamCon rating.
+	 * @param shieldNumber The shield to repair.
+	 * @param energy The amount of energy to expend.
+	 * @return True if this is a legal request, false otherwise.
+	 */
+	public boolean repairShield(int shieldNumber, int energy) {
+		// Energy spent can not exceed current DamagaeControl rating.
+		if (energy > this.specialFunctions.getDamageControl()) {
+			return false;
+		}
+		
+		// Energy expenditure is good. Repair a number of shield boxes
+		// equal to half the energy spent.
+		return this.shields.repairShield(shieldNumber, energy / 2);
+	}
+	
+	/**
 	 * Checks on the status of the shields: 
 	 * Active) Full shields
 	 * Minimal) 5-point shields
@@ -334,9 +371,14 @@ public class Ship extends Unit {
 		return this.specialFunctions.hasUim();
 	}
 	
+	/// TRANSPORTERS ///
+	public Transporters getTransporters() {
+		return this.transporters;
+	}
+	
 	/// OPERATIONS SYSTEMS ///
-	public OperationsSystems getOperationsSystems() {
-		return this.operationsSystems;
+	public Labs getLabs() {
+		return this.labs;
 	}
 	
 	/// PROBES ///
@@ -366,11 +408,35 @@ public class Ship extends Unit {
 		return this.performanceData;
 	}
 	
+	/// CLOAKING DEVICE ///
+	public CloakingDevice getCloakingDevice() {
+		return this.cloak;
+	}
+	
 	@Override
 	public boolean performHet(int absoluteFacing) {
-		boolean result = false;
 		
-		return result;
+		// Roll for breakdown chance
+		DiceRoller roller = new DiceRoller();
+		int breakdownRoll = roller.rollOneDie();
+		
+		// If there is still a bonus to be had, use it
+		// and decrement the number of bonus HETs remaining.
+		if (performanceData.getBonusHetsRemaining() > 0) {
+			breakdownRoll -= 2;
+			performanceData.useBonusHet();
+		}
+		
+		if (breakdownRoll >= performanceData.getBreakdownChance()) {
+			//TODO: BREAKDOWN CONSEQUENCES!
+
+			
+			return false;
+		}
+		
+		super.performHet(absoluteFacing);
+		
+		return true;
 	}
 
 	/**
@@ -383,9 +449,10 @@ public class Ship extends Unit {
 		totalBoxes += this.controlSpaces.fetchOriginalTotalBoxes();
 		totalBoxes += this.powerSystems.fetchOriginalTotalBoxes();
 		totalBoxes += this.hullBoxes.fetchOriginalTotalBoxes();
-		totalBoxes += this.operationsSystems.fetchOriginalTotalBoxes();
+		totalBoxes += this.labs.fetchOriginalTotalBoxes();
 		totalBoxes += this.tractors.fetchOriginalTotalBoxes();
 		totalBoxes += this.probes.fetchOriginalTotalBoxes();
+		totalBoxes += this.transporters.fetchOriginalTotalBoxes();
 		totalBoxes += this.specialFunctions.getOriginalExcessDamage();
 		totalBoxes += this.shuttles.fetchOriginalTotalBoxes();
 		totalBoxes += this.weapons.fetchOriginalTotalBoxes();
@@ -403,9 +470,10 @@ public class Ship extends Unit {
 		totalBoxes += this.controlSpaces.fetchRemainingTotalBoxes();
 		totalBoxes += this.powerSystems.fetchRemainingTotalBoxes();
 		totalBoxes += this.hullBoxes.fetchRemainingTotalBoxes();
-		totalBoxes += this.operationsSystems.fetchRemainingTotalBoxes();
+		totalBoxes += this.labs.fetchRemainingTotalBoxes();
 		totalBoxes += this.tractors.fetchRemainingTotalBoxes();
 		totalBoxes += this.probes.fetchRemainingTotalBoxes();
+		totalBoxes += this.transporters.fetchRemainingTotalBoxes();
 		totalBoxes += this.specialFunctions.getExcessDamage();
 		totalBoxes += this.shuttles.fetchRemainingTotalBoxes();
 		totalBoxes += this.weapons.fetchRemainingTotalBoxes();

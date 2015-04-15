@@ -7,17 +7,17 @@ public class PerformanceData {
 	// Performance statistics for this spaceframe.
 	
 	// Base values
-	private double  movementCost	= 0;
-	private boolean nimble			= false;	// Nimble ships can do cheap EM
-	private int     breakdownChance	= 0;		// Chance on a d6 that a breakdown will occur when performing an HET maneuver.
-	private int     bonusHets		= 0;		// Number of times this ship get's a -2 to the HET breakdown roll.
+	private double  movementCost		= 0;
+	private boolean nimble				= false;	// Nimble ships can do cheap EM
+	private int     breakdownChance		= 0;		// Chance on a d6 that a breakdown will occur when performing an HET maneuver.
+	private int     bonusHets			= 0;		// Number of times this ship get's a -2 to the HET breakdown roll.
 	
 	// Calculated values
-	private double hetCost			= 0;
-	private double erraticCost		= 0;
+	private double hetCost				= 0;
+	private double erraticCost			= 0;
 
 	// Real-time values
-	private int bonusHetsUsed		= 0;
+	private int bonusHetsRemaining		= 0;		// Number of HETs remaining with the bonus to the breakdown roll
 
 	public PerformanceData() {
 		
@@ -53,7 +53,7 @@ public class PerformanceData {
 		return this.nimble;
 	}
 	
-	public int getBReakdownChance() {
+	public int getBreakdownChance() {
 		return this.breakdownChance;
 	}
 	
@@ -61,16 +61,20 @@ public class PerformanceData {
 		return this.bonusHets;
 	}
 	
-	public double getHetCost() {
-		return this.hetCost;
+	public int getBonusHetsRemaining() {
+		return bonusHetsRemaining;
 	}
 	
-	public int getBonusHetsUsed() {
-		return this.bonusHetsUsed;
+	public void useBonusHet() {
+		this.bonusHetsRemaining--;
+	}
+
+	public double getHetCost() {
+		return this.hetCost;
 	}
 	
 	public double getErraticCost() {
 		return this.erraticCost;
 	}
-	
+
 }

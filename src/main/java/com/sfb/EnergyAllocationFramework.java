@@ -80,7 +80,7 @@ public class EnergyAllocationFramework {
 		this.currentPhaserCapacitorEnergy = weapons.getPhaserCapacitorEnergy();
 		
 		// Transporters
-		this.maxTransporterEnergy = ship.getOperationsSystems().getAvailableTrans() * Constants.TRANS_ENERGY;
+		this.maxTransporterEnergy = ship.getTransporters().getAvailableTrans() * Constants.TRANS_ENERGY;
 		
 		// Torp Energy
 		for (Weapon weapon : weapons.getTorpList()) {

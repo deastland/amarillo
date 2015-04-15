@@ -112,7 +112,7 @@ public class Weapons implements Systems {
 		return bearingWeapons;
 	}
 	
-	public List<Weapon> getWeapons() {
+	public List<Weapon> fetchAllWeapons() {
 		return this.weapons;
 	}
 
@@ -154,6 +154,10 @@ public class Weapons implements Systems {
 		return availablePhaserCapacitor;
 	}
 	
+	public int getAvailablePhasers() {
+		return availablePhasers;
+	}
+
 	public int getAvailableTorps() {
 		return availableTorps;
 	}
@@ -161,7 +165,7 @@ public class Weapons implements Systems {
 	public int getAvailableDrones() {
 		return availableDrones;
 	}
-
+	
 	@Override
 	public Unit fetchOwningUnit() {
 		return this.owningShip;
