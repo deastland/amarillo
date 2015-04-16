@@ -4,13 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.junit.Test;
 
 import com.sfb.properties.TurnMode;
-import com.sfb.sampleships.SampleShips;
+import com.sfb.samples.SampleShips;
 
 public class ShipTest {
 	

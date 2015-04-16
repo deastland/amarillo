@@ -1,7 +1,7 @@
 package com.sfb;
 
 import com.sfb.objects.Ship;
-import com.sfb.sampleships.SampleShips;
+import com.sfb.samples.SampleShips;
 
 public class ShipFactory {
 

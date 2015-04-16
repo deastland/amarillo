@@ -11,7 +11,7 @@ import com.sfb.objects.Seeker;
 import com.sfb.objects.Ship;
 import com.sfb.properties.Faction;
 import com.sfb.properties.Location;
-import com.sfb.sampleships.SampleShips;
+import com.sfb.samples.SampleShips;
 import com.sfb.utilities.MapUtils;
 import com.sfb.weapons.DirectFire;
 import com.sfb.weapons.Weapon;

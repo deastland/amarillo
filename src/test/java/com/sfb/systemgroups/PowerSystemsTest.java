@@ -1,24 +1,34 @@
 package com.sfb.systemgroups;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.sfb.objects.TestObjects;
-import com.sfb.systemgroups.PowerSystems;
+import com.sfb.objects.Ship;
+import com.sfb.samples.SampleShips;
 
 public class PowerSystemsTest {
 
 	@Test
 	public void test() {
 		// Get the test power system (Fed CA)
-		// CA has 15 LWarp, 15RWarp, 4 Impulse, 4 APR, and 4 Batteries
-		PowerSystems testPs = TestObjects.testPowerSystems;
+		// CA has 15 LWarp, 15RWarp, 4 Impulse, 0 APR, and 4 Batteries
+		Ship testShip = new Ship();
+		testShip.init(SampleShips.getFedCa());
+
+		PowerSystems testPs = testShip.getPowerSysetems();
+//		PowerSystems testPs = TestObjects.testPowerSystems;
 		
 		// CA has 4 APR
-		assertEquals(testPs.getAvailableApr(), 4);
+		assertEquals(0, testPs.getAvailableApr());
+		
+		// CA has 4 battery
+		assertEquals(3, testPs.getAvailableBattery());
+		
 		// CA has 38 total power
-		assertEquals(testPs.getTotalAvailablePower(), 38);
+		assertEquals(34, testPs.getTotalAvailablePower());
 		
 		// No CWarp on the ship, this should return false
 		assertFalse(testPs.damageCWarp());
@@ -32,16 +42,10 @@ public class PowerSystemsTest {
 		assertEquals(testPs.getAvailableLWarp(), 12);
 		
 		// Check that total available power is 3 less
-		assertEquals(testPs.getTotalAvailablePower(), 35);
+		assertEquals(31, testPs.getTotalAvailablePower());
 		
-		// Damage APR 4 times
-		assertTrue(testPs.damageApr());
-		assertTrue(testPs.damageApr());
-		assertTrue(testPs.damageApr());
-		assertTrue(testPs.damageApr());
-
-		// Try to damage a 5th APR.
-		// Should faile because there are only 4
+		// Try to damage an 5th APR.
+		// Should faile because there are none
 		assertFalse(testPs.damageApr());
 	}
 	
@@ -49,23 +53,21 @@ public class PowerSystemsTest {
 	public void testBatteries() {
 		// Get the test power system (Fed CA)
 		// CA has 15 LWarp, 15RWarp, 4 Impulse, 4 APR, and 4 Batteries
-		PowerSystems testPs = TestObjects.testPowerSystems;
+		Ship testShip = new Ship();
+		testShip.init(SampleShips.getFedCa());
+
+		PowerSystems testPs = testShip.getPowerSysetems();
 
 		// Put 3 power into battery
 		assertTrue(testPs.chargeBattery(3));
 		// Check battery power
 		assertEquals(testPs.getBatteryPower(), 3);
-		// Put 1 more power into battery
-		assertTrue(testPs.chargeBattery(1));
-		// Check battery power
-		assertEquals(testPs.getBatteryPower(), 4);
 		// Put 1 more power into battery (fail because no more room in batteries)
-		assertFalse(testPs.chargeBattery(1));
 		
 		// Use 3 battery power
 		assertTrue(testPs.useBattery(3));
-		// Remaining battery power should be 1
-		assertEquals(testPs.getBatteryPower(), 1);
+		// Remaining battery power should be 0
+		assertEquals(0, testPs.getBatteryPower());
 
 	}
 

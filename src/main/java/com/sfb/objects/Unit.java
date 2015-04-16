@@ -135,9 +135,9 @@ public class Unit extends Marker {
 	 * 
 	 * @return The number of hexes that must be moved before a turn.
 	 */
-//	public int getTurnHexes() {
-//		return TurnModeUtil.getTurnMode(this.turnMode, this.speed);
-//	}
+	public int getTurnHexes() {
+		return TurnModeUtil.getTurnMode(this.turnMode, this.speed);
+	}
 
 	/// PLAYER ///
 	public Player getOwner() {
@@ -197,9 +197,9 @@ public class Unit extends Marker {
 	 * @return True if the turn was possible, false otherwise.
 	 */
 	public boolean turnLeft() {
-//		if (turnCount < getTurnHexes()) {
-//			return false;
-//		}
+		if (turnCount < getTurnHexes()) {
+			return false;
+		}
 
 		// Change the facing of the ship one to the left.
 		setFacing(MapUtils.getTrueBearing(21, getFacing()));
@@ -218,9 +218,9 @@ public class Unit extends Marker {
 	 * @return True if the turn was possible, false otherwise.
 	 */
 	public boolean turnRight() {
-//		if (turnCount < getTurnHexes()) {
-//			return false;
-//		}
+		if (turnCount < getTurnHexes()) {
+			return false;
+		}
 
 		// Change the facing of the ship one to the right.
 		setFacing(MapUtils.getTrueBearing(5, getFacing()));

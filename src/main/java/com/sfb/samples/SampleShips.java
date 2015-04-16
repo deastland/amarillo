@@ -1,4 +1,4 @@
-package com.sfb.sampleships;
+package com.sfb.samples;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class SampleShips {
 		shipSpecs.put("hull", "CA");
 		shipSpecs.put("name", "USS Lexington");
 		shipSpecs.put("serviceyear", new Integer(130));
-		shipSpecs.put("bpv", new Integer(140));
+		shipSpecs.put("bpv", new Integer(125));
 		shipSpecs.put("turnmode", TurnMode.D);
 		shipSpecs.put("sizeclass", new Integer(3));
 
@@ -158,7 +158,7 @@ public class SampleShips {
 		shipSpecs.put("hull", "D7");
 		shipSpecs.put("name", "IKV Saber");
 		shipSpecs.put("serviceyear", new Integer(120));
-		shipSpecs.put("bpv", new Integer(135));
+		shipSpecs.put("bpv", new Integer(121));
 		shipSpecs.put("turnmode", TurnMode.B);
 		shipSpecs.put("sizeclass", new Integer(3));
 

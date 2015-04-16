@@ -8,7 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
 import com.sfb.objects.Ship;
-import com.sfb.sampleships.SampleShips;
+import com.sfb.samples.SampleShips;
 import com.sfb.utilities.DAC;
 
 public class Application {

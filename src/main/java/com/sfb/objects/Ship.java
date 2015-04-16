@@ -511,6 +511,19 @@ public class Ship extends Unit {
 		return false;
 	}
 	
+	public boolean movesThisImpulse(int impulse) {
+
+		// Get the list of speeds that move this impulse.
+		int[] whoMoves = Constants.IMPULSE_CHART[impulse];
+		for (int i=0; i < whoMoves.length; i++) {
+			if (whoMoves[i] == getSpeed()) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	/**
 	 * Another unit attempts to tractor this ship.
 	 * 

@@ -204,4 +204,16 @@ public class EnergyAllocationFramework {
 		this.damageControlEnergy = damageControlEnergy;
 	}
 	
+	public double getLifeSupportCost() {
+		return this.lifeSupportCost;
+	}
+
+	public double getShieldActivationCost() {
+		return shieldActivationCost;
+	}
+
+	public int getFireControlCost() {
+		return fireControlCost;
+	}
+
 }
