@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	var turnCounter = 1;
 	// System names
-	var systems = ["sys1", "sys2", "sys3", "sys4", "sys5", "sys6", "sys7"];
+	var systems = ["sys1", "sys2", "sys3", "sys4", "sys5", "sys6", "sys7", "sys8", "sys9", "sys10", "sys11", "sys12"];
 	
 		
 	$("#ssdDiv").hide();
@@ -44,6 +44,31 @@ $(document).ready(function() {
 		$("#system4").css( {opacity: 1});
 	}).mouseout(function() {
 		$("#system4").css( {opacity: 0.3});
+	});
+
+	// Photon Torpedo "light up"
+	$(".sys9").mouseover(function() {
+		$("#system5").css( {opacity: 1});
+	}).mouseout(function() {
+		$("#system5").css( {opacity: 0.3});
+	});
+
+	$(".sys10").mouseover(function() {
+		$("#system5").css( {opacity: 1});
+	}).mouseout(function() {
+		$("#system5").css( {opacity: 0.3});
+	});
+
+	$(".sys11").mouseover(function() {
+		$("#system5").css( {opacity: 1});
+	}).mouseout(function() {
+		$("#system5").css( {opacity: 0.3});
+	});
+
+	$(".sys12").mouseover(function() {
+		$("#system5").css( {opacity: 1});
+	}).mouseout(function() {
+		$("#system5").css( {opacity: 0.3});
 	});
 
 	$("thead").css("font-weight", "bold");
