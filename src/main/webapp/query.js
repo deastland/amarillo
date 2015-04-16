@@ -2,6 +2,8 @@ $(document).ready(function() {
 	var turnCounter = 1;
 	// System names
 	var systems = ["sys1", "sys2", "sys3", "sys4", "sys5", "sys6", "sys7"];
+	
+		
 	$("#ssdDiv").hide();
 
 	// When clicking the button, create another row of input data fields
