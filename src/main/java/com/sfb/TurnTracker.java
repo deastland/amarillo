@@ -11,9 +11,9 @@ import com.sfb.constants.Constants;
  */
 public class TurnTracker {
 
-	private int impulse = 0;				// Total impulse count for the game thus far.
+	private static int impulse = 0;				// Total impulse count for the game thus far.
 	
-	public TurnTracker() {
+	public static void reset() {
 		impulse = 0;
 	}
 	
@@ -21,14 +21,14 @@ public class TurnTracker {
 	 * Fetch the global impulse count.
 	 * @return The number of impulses since the start of the game.
 	 */
-	public int getImpulse() {
+	public static int getImpulse() {
 		return impulse;
 	}
 	
 	/**
 	 * Increment the impulse counter.
 	 */
-	public void nextImpulse() {
+	public static void nextImpulse() {
 		impulse++;
 	}
 	
@@ -36,7 +36,7 @@ public class TurnTracker {
 	 * Get the turn number.
 	 * @return The number of turns since the start of the game.
 	 */
-	public int getTurn() {
+	public static int getTurn() {
 		return (int)((impulse - 1)/ Constants.IMPULSES_PER_TURN);
 				
 	}
@@ -45,7 +45,7 @@ public class TurnTracker {
 	 * Fetch the current impulse within the current turn.
 	 * @return The turn-centric impulse.
 	 */
-	public int getLocalImpulse() {
+	public static int getLocalImpulse() {
 		
 		int localImpulse = 0;
 		

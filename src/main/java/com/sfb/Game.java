@@ -11,7 +11,6 @@ public class Game {
 	private List<Player> players     	= new ArrayList<>();	// The players
 	private List<Unit>   units			= new ArrayList<>();	// The ships on the board.
 	private List<Seeker> seekers		= new ArrayList<>();	// The seekers on the board.
-	private TurnTracker  turnTracker	= new TurnTracker();	// Time tracker for everything.
 	private boolean      inProgress		= true;					// When true, the game continues to run.
 	
 	
@@ -19,6 +18,7 @@ public class Game {
 	public static void main(String[] args) {
 		
 		Game thisGame = new Game();
+		TurnTracker.reset();
 		
 		// GET THE PLAYERS
 		thisGame.loadPlayerList();
@@ -54,7 +54,7 @@ public class Game {
 			for (int i=0; i < 32; i++) {
 
 				// A. Advance the impulse tracker. If it passes 32 - jump to 5
-				thisGame.turnTracker.nextImpulse();
+				TurnTracker.nextImpulse();
 				
 				// B. Send impulse count to players. and request ship actions
 				
@@ -126,14 +126,6 @@ public class Game {
 
 	public void setSeekers(List<Seeker> seekers) {
 		this.seekers = seekers;
-	}
-
-	public TurnTracker getTurnTracker() {
-		return turnTracker;
-	}
-
-	public void setTurnTracker(TurnTracker turnTracker) {
-		this.turnTracker = turnTracker;
 	}
 
 	public List<Unit> getUnits() {

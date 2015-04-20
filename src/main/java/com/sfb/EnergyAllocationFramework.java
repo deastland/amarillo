@@ -215,5 +215,13 @@ public class EnergyAllocationFramework {
 	public int getFireControlCost() {
 		return fireControlCost;
 	}
+	
+	public double getMaxTransporterEnergy() {
+		return this.maxTransporterEnergy;
+	}
+	
+	public double getCurrentPhaserCapacitorEnergy() {
+		return this.currentPhaserCapacitorEnergy;
+	}
 
 }
