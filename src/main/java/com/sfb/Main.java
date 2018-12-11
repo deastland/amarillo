@@ -49,6 +49,9 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
+		
+		System.out.println("Starting main...");
+		
 		Player player1 = new Player();
 		player1.setName("Knosset");
 		player1.setFaction(Faction.Federation);
@@ -86,14 +89,15 @@ public class Main {
 		inArc = klnD7.fetchAllBearingWeapons(fedCa);
 		for (Weapon weapon : inArc) {
 			if (weapon instanceof DirectFire) {
-				System.out.println(weapon.getName());
+				System.out.print("Firing " + weapon.getName() + ": ");
 				try {
 					int damage = ((DirectFire) weapon).fire(MapUtils.getRange(klnD7, fedCa));
-					System.out.println("Firing " + weapon.getName() + " doing " + damage + " damage.");
+					System.out.println("doing " + damage + " damage.");
 					
 				} catch (WeaponUnarmedException | TargetOutOfRangeException | CapacitorException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+//					e.printStackTrace();
+					System.out.println(e.getMessage());
 				}
 			}
 			
