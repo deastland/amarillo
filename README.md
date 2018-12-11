@@ -1,4 +1,4 @@
-# amarillo
+# SFB Emulator
 ADB Utilities
 
 Utility to do all back-end calculations for SFB.
