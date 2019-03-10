@@ -67,7 +67,7 @@ public class SampleShips {
 		shipSpecs.put("scanner", new int[] {0,0,1,3,5,9});
 		shipSpecs.put("sensor", new int[] {6,6,5,3,1,0});
 		shipSpecs.put("excess", new Integer(6));
-		shipSpecs.put("controlmod", new Integer(1));			// Multiplier for control channels
+		shipSpecs.put("controlmod", new Double(0.5));			// Multiplier for control channels
 		
 		// Operations
 		shipSpecs.put("trans", new Integer(3));
@@ -197,7 +197,7 @@ public class SampleShips {
 		shipSpecs.put("scanner", new int[] {0,0,1,3,5,9});
 		shipSpecs.put("sensor", new int[] {6,6,5,3,1,0});
 		shipSpecs.put("excess", new Integer(5));
-		shipSpecs.put("controlmod", new Integer(1));			// Multiplier for control channels
+		shipSpecs.put("controlmod", new Double(1));			// Multiplier for control channels
 		
 		// Operations Systems
 		shipSpecs.put("trans", new Integer(5));
@@ -340,7 +340,7 @@ public class SampleShips {
 		shipSpecs.put("scanner", new int[] {0,1,3,9});
 		shipSpecs.put("sensor", new int[] {6,5,3,0});
 		shipSpecs.put("excess", new Integer(4));
-		shipSpecs.put("controlmod", new Integer(1));			// Multiplier for control channels
+		shipSpecs.put("controlmod", new Double(1));			// Multiplier for control channels
 		
 		// Operations Systems
 		shipSpecs.put("trans", new Integer(2));

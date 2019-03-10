@@ -26,7 +26,7 @@ public class SpecialFunctions {
 	int availableDerfacs			= 0;					// Number of DERFACS systems remaining.
 	
 	// Control Channels
-	int controlModifier				= 1;					// Multiplier for seeker control. Some ships have 2 x sensor rating.
+	double controlModifier			= 1;					// Multiplier for seeker control. Some ships have 2 x sensor rating, others 1/2.
 	int controlChannels				= 0;					// Number of total control channels
 	int controlUsed					= 0;					// Amount of seeker control currently occupied.
 	List<Seeker> controlledSeekers	= new ArrayList<>();	// List of seekers controlled by this ship.
@@ -56,8 +56,8 @@ public class SpecialFunctions {
 		availableExcessDamage = excessDamage = values.get("excess") == null ? 0 : (Integer)values.get("excess");
 		
 		// Control channels is (sensor rating) * (control modifier)
-		controlModifier = values.get("controlmod") == null ? 1 : (Integer)values.get("controlmod");
-		controlChannels = availableSensor * controlModifier;
+		controlModifier = values.get("controlmod") == null ? 1 : (Double)values.get("controlmod");
+		controlChannels = (int)(availableSensor * controlModifier);
 
 	}
 	
@@ -103,7 +103,7 @@ public class SpecialFunctions {
 	}
 	
 	public int getControlLimit() {
-		return availableSensor * controlModifier;
+		return (int)(availableSensor * controlModifier);
 	}
 	
 	
@@ -129,7 +129,7 @@ public class SpecialFunctions {
 		availableSensor++;
 
 		// Adjust the number of control channels
-		controlChannels = availableSensor * controlModifier;
+		controlChannels = (int)(availableSensor * controlModifier);
 		if (controlChannels < controlUsed) {
 			//TODO: Release a controlled seeker that now has no control
 		}

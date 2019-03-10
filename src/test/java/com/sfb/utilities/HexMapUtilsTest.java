@@ -1,5 +1,7 @@
 package com.sfb.utilities;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import com.sfb.properties.Location;
@@ -11,7 +13,9 @@ public class HexMapUtilsTest {
 		int facing = 5;
 		int shipBearing = 13;
 		
-		System.out.println(MapUtils.getTrueBearing(shipBearing, facing));
+//		System.out.println("True Bearing: " + MapUtils.getTrueBearing(shipBearing, facing));
+		
+		assertEquals(MapUtils.getTrueBearing(shipBearing, facing), 17);
 	}
 	
 	@Test
@@ -22,7 +26,11 @@ public class HexMapUtilsTest {
 		
 		Location destinationLocation = MapUtils.getAdjacentHex(sourceLocation, MapUtils.getTrueBearing(relativeBearing, facing));
 		
-		System.out.println(destinationLocation);
+//		System.out.println(destinationLocation);
+		
+		// Vefity that the adjacent hex at relative bearing 21 is <27|14>
+		assertEquals(destinationLocation.getX(), 27);
+		assertEquals(destinationLocation.getY(), 14);
 	}
 	
 	@Test

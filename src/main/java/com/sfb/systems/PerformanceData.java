@@ -34,7 +34,7 @@ public class PerformanceData {
 		hetCost = movementCost * 5;
 
 		// Calculate cost of EM
-		if (!nimble) {
+		if (nimble) {
 			erraticCost = movementCost * 3;
 		} else {
 			erraticCost = movementCost * 6;

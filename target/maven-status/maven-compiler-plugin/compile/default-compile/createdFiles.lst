@@ -37,6 +37,7 @@ com\sfb\systemgroups\Shuttles.class
 com\sfb\weapons\VariableDamageWeapon.class
 com\sfb\restservices\RestService$MyService.class
 com\sfb\properties\WeaponArmingType.class
+com\sfb\utilities\MovementUtil.class
 com\sfb\systemgroups\PowerSystems.class
 com\sfb\UnitFactory.class
 com\sfb\constants\Constants.class

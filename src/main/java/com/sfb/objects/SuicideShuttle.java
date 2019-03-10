@@ -2,16 +2,22 @@ package com.sfb.objects;
 
 public class SuicideShuttle extends Shuttle implements Seeker {
 
+	Unit target;						// The target of the suicide shuttle
+	private int     warheadDamage;		// The damage dealt if the weapon hits its target.
+	
+	public SuicideShuttle(int warhead) {
+		super();
+		this.warheadDamage = warhead;
+	}
+	
 	@Override
 	public void setTarget(Unit target) {
-		// TODO Auto-generated method stub
-		
+		this.target = target;
 	}
 
 	@Override
 	public Unit getTarget() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.target;
 	}
 
 	@Override
@@ -64,14 +70,12 @@ public class SuicideShuttle extends Shuttle implements Seeker {
 
 	@Override
 	public int getWarheadDamage() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.warheadDamage;
 	}
 
 	@Override
 	public void setWarheadDamage(int warheadDamage) {
-		// TODO Auto-generated method stub
-		
+		this.warheadDamage = warheadDamage;
 	}
 
 	@Override
