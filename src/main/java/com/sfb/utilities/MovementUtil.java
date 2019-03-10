@@ -50,7 +50,7 @@ public class MovementUtil {
 		nextStartImpulse = 32;
 		log.info("Speed from impulse " + startingImpulse + " to impulse " + nextStartImpulse + " is: " + speed);
 		int localHexesMoved = hexesMoved(startingImpulse, nextStartImpulse, speed);
-		log.info("HEXED MOVED: " + localHexesMoved);
+		log.info("HEXES MOVED: " + localHexesMoved);
 		totalHexesMoved += localHexesMoved;
 		
 		
